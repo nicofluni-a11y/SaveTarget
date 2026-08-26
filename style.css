@@ -474,6 +474,7 @@ h2 span {
    ========================================== */
 
 .three-pots-section {
+    padding: 100px 7%;
     background: #e9ddcd;
 }
 
@@ -486,34 +487,73 @@ h2 span {
     color: #75685d;
 }
 
-.three-pots-grid {
+.pot-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-.pot-card {
+.pot {
     background: #fffaf4;
-    padding: 35px;
+    padding: 30px;
     border-radius: 14px;
     box-shadow: 0 10px 30px rgba(76, 57, 42, 0.06);
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.pot-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
 }
 
 .pot-number {
     color: #7f7468;
-    font-weight: 700;
     font-size: 13px;
+    font-weight: 700;
 }
 
-.pot-card h3 {
+.pot-label {
+    color: #9b8d80;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.pot h3 {
     font-size: 28px;
-    margin: 15px 0 10px;
+    margin-bottom: 10px;
 }
 
-.pot-card p {
+.pot p {
     color: #75685d;
     line-height: 1.7;
 }
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 750px) {
+
+    .three-pots-section {
+        padding: 70px 5%;
+    }
+
+    .pot-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pot {
+        min-height: auto;
+    }
+
+}
+
 
 
 /* ==========================================
