@@ -116,11 +116,10 @@ h2 span {
     gap: 70px;
     align-items: start;
 }
+
 #savings {
     background: #e9ddcd;
 }
-
-
 
 .section-intro {
     max-width: 650px;
@@ -468,6 +467,49 @@ h2 span {
     border: 2px solid #968b7d;
 }
 
+
+/* ==========================================
+   TIPS SECTION
+========================================== */
+
+#tips {
+    background: #dfe8df;
+}
+
+#tips .eyebrow {
+    color: #647565;
+}
+
+#tips .section-intro > p:last-child {
+    color: #617064;
+}
+
+#tips .challenge {
+    background: #f4f7f2;
+    box-shadow: 0 10px 30px rgba(55, 75, 58, 0.08);
+}
+
+#tips .challenge > span {
+    color: #647565;
+}
+
+#tips .challenge p {
+    color: #617064;
+}
+
+#tips .challenge h3 {
+    color: #35463a;
+}
+
+#tips h2 span {
+    color: #647565;
+}
+
+
+/* ==========================================
+   MODAL
+========================================== */
+
 .modal {
     position: fixed;
     inset: 0;
@@ -518,6 +560,11 @@ h2 span {
     color: #695b50;
 }
 
+
+/* ==========================================
+   FOOTER
+========================================== */
+
 footer {
     padding: 40px 7%;
     background: #29221d;
@@ -531,6 +578,11 @@ footer {
 footer strong {
     color: #fffaf4;
 }
+
+
+/* ==========================================
+   MOBILE
+========================================== */
 
 @media (max-width: 750px) {
 
@@ -580,4 +632,5 @@ footer strong {
     footer {
         flex-direction: column;
     }
+
 }
