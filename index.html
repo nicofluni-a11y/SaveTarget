@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -15,6 +16,7 @@
         rel="stylesheet"
         href="style.css"
     >
+
 </head>
 
 
@@ -33,6 +35,10 @@
 
             <a href="#calculator">
                 Calculator
+            </a>
+
+            <a href="#savings">
+                My Savings
             </a>
 
             <a href="#how">
@@ -112,6 +118,8 @@
         <div class="calculator-card">
 
 
+            <!-- GOAL -->
+
             <div class="input-group">
 
                 <label for="goal">
@@ -127,6 +135,8 @@
             </div>
 
 
+
+            <!-- TARGET -->
 
             <div class="input-group">
 
@@ -145,10 +155,12 @@
 
 
 
+            <!-- SAVED -->
+
             <div class="input-group">
 
                 <label for="saved">
-                    How much more have you saved?
+                    How much have you already saved?
                 </label>
 
                 <input
@@ -161,6 +173,8 @@
             </div>
 
 
+
+            <!-- DATE -->
 
             <div class="input-group">
 
@@ -200,6 +214,8 @@
 
 
 
+            <!-- CALCULATE -->
+
             <button
                 id="calculate"
                 class="calculate-button"
@@ -208,6 +224,8 @@
             </button>
 
 
+
+            <!-- RESULTS -->
 
             <div
                 class="results"
@@ -260,6 +278,144 @@
 
 
 
+    <!-- MY SAVINGS -->
+
+    <section
+        class="calculator-section"
+        id="savings"
+    >
+
+        <div class="section-intro">
+
+            <p class="eyebrow">
+                MY SAVINGS
+            </p>
+
+            <h2>
+                Keep track of your
+                <span>progress.</span>
+            </h2>
+
+            <p>
+                Add money whenever you save and watch
+                your progress towards your goal grow.
+            </p>
+
+        </div>
+
+
+
+        <div class="calculator-card">
+
+            <div class="input-group">
+
+                <label for="add-savings">
+                    How much have you saved?
+                </label>
+
+                <input
+                    type="number"
+                    id="add-savings"
+                    placeholder="e.g. 50"
+                    min="0"
+                    step="0.01"
+                >
+
+            </div>
+
+
+            <button
+                id="add-savings-button"
+                class="calculate-button"
+            >
+                Add savings
+            </button>
+
+
+            <div
+                id="savings-message"
+                style="margin-top: 15px;"
+            ></div>
+
+
+            <div
+                class="results"
+                id="savings-summary"
+            >
+
+                <div class="result">
+
+                    <span>
+                        Saved so far
+                    </span>
+
+                    <strong id="tracked-saved">
+                        €0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="result">
+
+                    <span>
+                        Remaining
+                    </span>
+
+                    <strong id="tracked-remaining">
+                        €0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="result">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <strong id="tracked-progress">
+                        0%
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div id="tracked-progress-container">
+
+                <div class="progress-header">
+
+                    <span>
+                        Savings progress
+                    </span>
+
+                    <strong id="tracked-progress-text">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        id="tracked-progress-fill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
     <!-- HOW IT WORKS -->
 
     <section
@@ -283,6 +439,7 @@
 
 
         <div class="steps">
+
 
             <div class="step">
 
@@ -363,20 +520,89 @@
                 <span>more rewarding.</span>
             </h2>
 
-            <p id="challenge-progress">
-                Challenges completed: 0 / 30
-            </p>
-
         </div>
 
 
 
-        <div
-            class="challenge-grid"
-            id="challenge-grid"
-        >
+        <div class="challenge-grid">
 
-            <!-- Challenges are inserted by JavaScript -->
+
+            <div class="challenge">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    No-spend Friday
+                </h3>
+
+                <p>
+                    Try going one full day without
+                    spending money on anything you
+                    don't need.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('nospend')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
+
+
+
+            <div class="challenge">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Round it up
+                </h3>
+
+                <p>
+                    Round your purchases up to the
+                    nearest euro and save the difference.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('roundup')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
+
+
+
+            <div class="challenge">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Save an extra €5
+                </h3>
+
+                <p>
+                    Add an extra €5 to your usual
+                    weekly savings.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('five')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
 
         </div>
 
