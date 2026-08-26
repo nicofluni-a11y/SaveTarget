@@ -1000,9 +1000,53 @@ function updateSavingsTracker() {
 const savedGoalOnLoad =
     localStorage.getItem("saveTargetGoal");
 
-if (savedGoalOnLoad) {
+if (!savedGoalOnLoad) {
+
+    localStorage.removeItem("saveTargetTrackedSaved");
+
+    const trackedSaved =
+        document.getElementById("tracked-saved");
+
+    const trackedRemaining =
+        document.getElementById("tracked-remaining");
+
+    const trackedProgress =
+        document.getElementById("tracked-progress");
+
+    const trackedProgressText =
+        document.getElementById("tracked-progress-text");
+
+    const trackedProgressFill =
+        document.getElementById("tracked-progress-fill");
+
+
+    if (trackedSaved) {
+        trackedSaved.textContent = "€0.00";
+    }
+
+    if (trackedRemaining) {
+        trackedRemaining.textContent = "€0.00";
+    }
+
+    if (trackedProgress) {
+        trackedProgress.textContent = "0%";
+    }
+
+    if (trackedProgressText) {
+        trackedProgressText.textContent = "0%";
+    }
+
+    if (trackedProgressFill) {
+        trackedProgressFill.style.width = "0%";
+        
+    }
+
+} else {
+
     updateSavingsTracker();
+
 }
+
 
 
 
