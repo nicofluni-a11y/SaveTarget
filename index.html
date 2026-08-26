@@ -23,9 +23,7 @@
 <body>
 
 
-    <!-- =========================
-         NAVIGATION
-    ========================== -->
+    <!-- NAVIGATION -->
 
     <header class="navbar">
 
@@ -53,9 +51,7 @@
 
 
 
-    <!-- =========================
-         HERO
-    ========================== -->
+    <!-- HERO -->
 
     <section class="hero">
 
@@ -88,9 +84,7 @@
 
 
 
-    <!-- =========================
-         CALCULATOR
-    ========================== -->
+    <!-- CALCULATOR -->
 
     <section
         class="calculator-section"
@@ -184,20 +178,39 @@
                     When do you want to reach your goal?
                 </label>
 
-                <input
-                    type="text"
-                    id="date"
-                    placeholder="DD/MM/YYYY"
-                    maxlength="10"
-                    inputmode="numeric"
-                    autocomplete="off"
-                >
+                <div class="date-wrapper">
+
+                    <input
+                        type="text"
+                        id="date"
+                        placeholder="DD/MM/YYYY"
+                        maxlength="10"
+                        inputmode="numeric"
+                        autocomplete="off"
+                    >
+
+                    <button
+                        type="button"
+                        id="calendar-button"
+                        aria-label="Choose date"
+                    >
+                        📅
+                    </button>
+
+                    <input
+                        type="date"
+                        id="hidden-date"
+                        aria-hidden="true"
+                        tabindex="-1"
+                    >
+
+                </div>
 
             </div>
 
 
 
-            <!-- CALCULATE BUTTON -->
+            <!-- CALCULATE -->
 
             <button
                 id="calculate"
@@ -261,9 +274,7 @@
 
 
 
-    <!-- =========================
-         HOW IT WORKS
-    ========================== -->
+    <!-- HOW IT WORKS -->
 
     <section
         class="how-section"
@@ -349,9 +360,7 @@
 
 
 
-    <!-- =========================
-         CHALLENGES
-    ========================== -->
+    <!-- CHALLENGES -->
 
     <section
         class="challenges-section"
@@ -375,8 +384,6 @@
 
         <div class="challenge-grid">
 
-
-            <!-- CHALLENGE 1 -->
 
             <div class="challenge">
 
@@ -405,8 +412,6 @@
 
 
 
-            <!-- CHALLENGE 2 -->
-
             <div class="challenge">
 
                 <span>
@@ -432,8 +437,6 @@
             </div>
 
 
-
-            <!-- CHALLENGE 3 -->
 
             <div class="challenge">
 
@@ -465,9 +468,7 @@
 
 
 
-    <!-- =========================
-         CHALLENGE MODAL
-    ========================== -->
+    <!-- CHALLENGE MODAL -->
 
     <div
         class="modal"
@@ -484,21 +485,17 @@
                 ×
             </button>
 
-
             <span id="modal-number">
                 01
             </span>
-
 
             <h2 id="modal-title">
                 Challenge
             </h2>
 
-
             <p id="modal-description">
                 Challenge description
             </p>
-
 
             <button
                 id="complete-challenge"
@@ -513,9 +510,7 @@
 
 
 
-    <!-- =========================
-         FOOTER
-    ========================== -->
+    <!-- FOOTER -->
 
     <footer>
 
@@ -531,8 +526,6 @@
     </footer>
 
 
-
-    <!-- JAVASCRIPT -->
 
     <script src="script.js"></script>
 
