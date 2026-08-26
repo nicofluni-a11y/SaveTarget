@@ -1347,33 +1347,10 @@ if (completeButton) {
                 );
 
 
-            cards.forEach(function (card) {
+            displayActiveChallenges();
 
-                const button =
-                    card.querySelector(
-                        ".challenge-button"
-                    );
+            checkChallengesComplete();
 
-
-                if (
-                    button &&
-                    button
-                        .getAttribute("onclick")
-                        .includes(
-                            currentChallenge
-                        )
-                ) {
-
-                    button.textContent =
-                        "✓ Completed";
-
-                    card.classList.add(
-                        "completed"
-                    );
-
-                }
-
-            });
 
         }
     );
@@ -1490,6 +1467,151 @@ function getRandomChallenges() {
     return selected;
 }
 
+
+// ==========================================
+// DISPLAY ACTIVE CHALLENGES
+// ==========================================
+
+function displayActiveChallenges() {
+
+    const challengeGrid =
+        document.querySelector(".challenge-grid");
+
+    if (!challengeGrid) return;
+
+
+    const activeChallenges =
+        getRandomChallenges();
+
+
+    challengeGrid.innerHTML = "";
+
+
+    activeChallenges.forEach(function (challengeName) {
+
+        const challenge =
+            challenges[challengeName];
+
+        if (!challenge) return;
+
+
+        const completed =
+            localStorage.getItem(
+                "challenge-" + challengeName
+            ) === "completed";
+
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            "challenge";
+
+
+        if (completed) {
+            card.classList.add("completed");
+        }
+
+
+        card.innerHTML = `
+
+            <span>
+                ${challenge.number}
+            </span>
+
+            <h3>
+                ${challenge.title}
+            </h3>
+
+            <p>
+                ${challenge.description}
+            </p>
+
+            <button
+                class="challenge-button"
+                onclick="openChallenge('${challengeName}')"
+            >
+                ${completed ? "✓ Completed" : "View challenge →"}
+            </button>
+
+        `;
+
+
+        challengeGrid.appendChild(card);
+
+    });
+
+}
+
+
+// ==========================================
+// CHECK IF ALL 3 ARE COMPLETE
+// ==========================================
+
+function checkChallengesComplete() {
+
+    const activeChallenges =
+        getRandomChallenges();
+
+
+    const allComplete =
+        activeChallenges.every(function (challengeName) {
+
+            return (
+                localStorage.getItem(
+                    "challenge-" + challengeName
+                ) === "completed"
+            );
+
+        });
+
+
+    if (!allComplete) return;
+
+
+    // Remove the completed challenge records
+    activeChallenges.forEach(function (challengeName) {
+
+        localStorage.removeItem(
+            "challenge-" + challengeName
+        );
+
+    });
+
+
+    // Choose 3 completely new challenges
+    const challengeNames =
+        Object.keys(challenges);
+
+
+    const newChallenges =
+        challengeNames
+            .filter(function (name) {
+
+                return !activeChallenges.includes(name);
+
+            })
+            .sort(
+                () => Math.random() - 0.5
+            )
+            .slice(0, 3);
+
+
+    localStorage.setItem(
+        "saveTargetActiveChallenges",
+        JSON.stringify(newChallenges)
+    );
+
+
+    // Display the new challenges
+    displayActiveChallenges();
+
+}
+
+
+// Display the first 3 challenges when page loads
+
+displayActiveChallenges();
 
 
 // ==========================================
