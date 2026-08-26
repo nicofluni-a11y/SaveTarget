@@ -47,8 +47,6 @@ if (dateInput) {
 }
 
 
-// Calendar button
-
 if (calendarButton && hiddenDate) {
 
     calendarButton.addEventListener("click", function () {
@@ -234,8 +232,6 @@ if (calculateButton) {
         }
 
 
-        // Calculations
-
         const remaining =
             target - saved;
 
@@ -258,8 +254,6 @@ if (calculateButton) {
             Math.min(progress, 100);
 
 
-        // Readable date
-
         const completionDate =
             targetDate.toLocaleDateString(
                 "en-GB",
@@ -270,8 +264,6 @@ if (calculateButton) {
                 }
             );
 
-
-        // Main results
 
         document.getElementById(
             "weekly-result"
@@ -291,7 +283,9 @@ if (calculateButton) {
             progressPercentage.toFixed(1) + "%";
 
 
-        // Extra results
+        // ==========================================
+        // EXTRA RESULTS
+        // ==========================================
 
         let extraResults =
             document.getElementById("extra-results");
@@ -358,7 +352,9 @@ if (calculateButton) {
             daysRemaining + " days";
 
 
-        // Plan details
+        // ==========================================
+        // PLAN DETAILS
+        // ==========================================
 
         let planDetails =
             document.getElementById("plan-details");
@@ -419,7 +415,9 @@ if (calculateButton) {
             completionDate;
 
 
-        // Progress bar
+        // ==========================================
+        // PROGRESS BAR
+        // ==========================================
 
         let progressContainer =
             document.getElementById(
@@ -479,7 +477,9 @@ if (calculateButton) {
             progressPercentage + "%";
 
 
-        // Milestones
+        // ==========================================
+        // MILESTONES
+        // ==========================================
 
         let milestones =
             document.getElementById("milestones");
@@ -607,37 +607,12 @@ if (calculateButton) {
         }
 
 
-        const milestoneElements =
-            document.querySelectorAll(".milestone");
+        updateMilestones(progressPercentage);
 
 
-        milestoneElements.forEach(function (milestone) {
-
-            const milestoneValue =
-                Number(
-                    milestone.getAttribute(
-                        "data-milestone"
-                    )
-                );
-
-
-            if (
-                progressPercentage >=
-                milestoneValue
-            ) {
-
-                milestone.classList.add("achieved");
-
-            } else {
-
-                milestone.classList.remove("achieved");
-
-            }
-
-        });
-
-
-        // Goal message
+        // ==========================================
+        // GOAL MESSAGE
+        // ==========================================
 
         let goalMessage =
             document.getElementById("goal-message");
@@ -690,10 +665,339 @@ if (calculateButton) {
             goalMessage.classList.remove("complete");
         }
 
+
+        // ==========================================
+        // SAVE CURRENT GOAL DATA
+        // ==========================================
+
+        localStorage.setItem(
+            "saveTargetGoal",
+            JSON.stringify({
+                goal: goal,
+                target: target,
+                saved: saved,
+                date: dateString
+            })
+        );
+
+
+        // Reset tracked savings to calculator amount
+        localStorage.setItem(
+            "saveTargetTrackedSaved",
+            saved.toString()
+        );
+
+
+        updateSavingsTracker();
+
     });
 
 }
 
+
+// ==========================================
+// MILESTONE FUNCTION
+// ==========================================
+
+function updateMilestones(progressPercentage) {
+
+    const milestoneElements =
+        document.querySelectorAll(".milestone");
+
+
+    milestoneElements.forEach(function (milestone) {
+
+        const milestoneValue =
+            Number(
+                milestone.getAttribute(
+                    "data-milestone"
+                )
+            );
+
+
+        if (
+            progressPercentage >=
+            milestoneValue
+        ) {
+
+            milestone.classList.add("achieved");
+
+        } else {
+
+            milestone.classList.remove("achieved");
+
+        }
+
+    });
+
+}
+
+
+// ==========================================
+// SAVINGS TRACKER
+// ==========================================
+
+const addSavingsButton =
+    document.getElementById(
+        "add-savings-button"
+    );
+
+
+if (addSavingsButton) {
+
+    addSavingsButton.addEventListener(
+        "click",
+        function () {
+
+            const amountInput =
+                document.getElementById(
+                    "add-savings"
+                );
+
+            const amount =
+                Number(amountInput.value);
+
+
+            const savedGoal =
+                localStorage.getItem(
+                    "saveTargetGoal"
+                );
+
+
+            if (!savedGoal) {
+
+                alert(
+                    "Please calculate your savings plan first."
+                );
+
+                return;
+            }
+
+
+            if (
+                !amount ||
+                amount <= 0
+            ) {
+
+                alert(
+                    "Please enter an amount greater than €0."
+                );
+
+                return;
+            }
+
+
+            const goalData =
+                JSON.parse(savedGoal);
+
+
+            let currentSaved =
+                Number(
+                    localStorage.getItem(
+                        "saveTargetTrackedSaved"
+                    )
+                );
+
+
+            if (
+                isNaN(currentSaved)
+            ) {
+
+                currentSaved =
+                    Number(goalData.saved);
+
+            }
+
+
+            const newSaved =
+                currentSaved + amount;
+
+
+            if (
+                newSaved > Number(goalData.target)
+            ) {
+
+                alert(
+                    "That would take you over your savings goal."
+                );
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "saveTargetTrackedSaved",
+                newSaved.toString()
+            );
+
+
+            amountInput.value = "";
+
+
+            const message =
+                document.getElementById(
+                    "savings-message"
+                );
+
+
+            message.innerHTML =
+                "✓ €" +
+                amount.toFixed(2) +
+                " added to your savings!";
+
+
+            updateSavingsTracker();
+
+
+            setTimeout(function () {
+
+                message.innerHTML = "";
+
+            }, 3000);
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// UPDATE SAVINGS TRACKER
+// ==========================================
+
+function updateSavingsTracker() {
+
+    const savedGoal =
+        localStorage.getItem(
+            "saveTargetGoal"
+        );
+
+
+    if (!savedGoal) return;
+
+
+    const goalData =
+        JSON.parse(savedGoal);
+
+
+    let currentSaved =
+        Number(
+            localStorage.getItem(
+                "saveTargetTrackedSaved"
+            )
+        );
+
+
+    if (
+        isNaN(currentSaved)
+    ) {
+
+        currentSaved =
+            Number(goalData.saved);
+
+    }
+
+
+    const target =
+        Number(goalData.target);
+
+
+    const remaining =
+        Math.max(
+            target - currentSaved,
+            0
+        );
+
+
+    const progress =
+        target > 0
+            ? (currentSaved / target) * 100
+            : 0;
+
+
+    const percentage =
+        Math.min(progress, 100);
+
+
+    const trackedSaved =
+        document.getElementById(
+            "tracked-saved"
+        );
+
+
+    const trackedRemaining =
+        document.getElementById(
+            "tracked-remaining"
+        );
+
+
+    const trackedProgress =
+        document.getElementById(
+            "tracked-progress"
+        );
+
+
+    const trackedProgressText =
+        document.getElementById(
+            "tracked-progress-text"
+        );
+
+
+    const trackedProgressFill =
+        document.getElementById(
+            "tracked-progress-fill"
+        );
+
+
+    if (trackedSaved) {
+
+        trackedSaved.textContent =
+            "€" +
+            currentSaved.toFixed(2);
+
+    }
+
+
+    if (trackedRemaining) {
+
+        trackedRemaining.textContent =
+            "€" +
+            remaining.toFixed(2);
+
+    }
+
+
+    if (trackedProgress) {
+
+        trackedProgress.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressText) {
+
+        trackedProgressText.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressFill) {
+
+        trackedProgressFill.style.width =
+            percentage + "%";
+
+    }
+
+}
+
+
+// Load saved tracker when page opens
+
+updateSavingsTracker();
 
 
 // ==========================================
@@ -741,25 +1045,36 @@ const challenges = {
 
 
 const modal =
-    document.getElementById("challenge-modal");
+    document.getElementById(
+        "challenge-modal"
+    );
 
 const modalNumber =
-    document.getElementById("modal-number");
+    document.getElementById(
+        "modal-number"
+    );
 
 const modalTitle =
-    document.getElementById("modal-title");
+    document.getElementById(
+        "modal-title"
+    );
 
 const modalDescription =
-    document.getElementById("modal-description");
+    document.getElementById(
+        "modal-description"
+    );
 
 const completeButton =
-    document.getElementById("complete-challenge");
+    document.getElementById(
+        "complete-challenge"
+    );
 
 let currentChallenge = null;
 
 
-
-// Open challenge
+// ==========================================
+// OPEN CHALLENGE
+// ==========================================
 
 function openChallenge(challengeName) {
 
@@ -788,11 +1103,14 @@ function openChallenge(challengeName) {
 
     const completed =
         localStorage.getItem(
-            "challenge-" + challengeName
+            "challenge-" +
+            challengeName
         );
 
 
-    if (completed === "completed") {
+    if (
+        completed === "completed"
+    ) {
 
         completeButton.textContent =
             "✓ Challenge completed!";
@@ -806,22 +1124,26 @@ function openChallenge(challengeName) {
 
 
     modal.classList.add("active");
+
 }
 
 
-
-// Close challenge
+// ==========================================
+// CLOSE CHALLENGE
+// ==========================================
 
 function closeChallenge() {
 
     modal.classList.remove("active");
 
     currentChallenge = null;
+
 }
 
 
-
-// Complete challenge
+// ==========================================
+// COMPLETE CHALLENGE
+// ==========================================
 
 if (completeButton) {
 
@@ -883,8 +1205,9 @@ if (completeButton) {
 }
 
 
-
-// Load completed challenges
+// ==========================================
+// LOAD COMPLETED CHALLENGES
+// ==========================================
 
 function loadCompletedChallenges() {
 
@@ -906,7 +1229,9 @@ function loadCompletedChallenges() {
 
 
         const onclickText =
-            button.getAttribute("onclick");
+            button.getAttribute(
+                "onclick"
+            );
 
 
         Object.keys(challenges).forEach(
@@ -953,8 +1278,9 @@ function loadCompletedChallenges() {
 loadCompletedChallenges();
 
 
-
-// Close when clicking outside
+// ==========================================
+// CLOSE MODAL OUTSIDE
+// ==========================================
 
 if (modal) {
 
@@ -976,14 +1302,17 @@ if (modal) {
 }
 
 
-
-// Escape key
+// ==========================================
+// ESCAPE KEY
+// ==========================================
 
 document.addEventListener(
     "keydown",
     function (event) {
 
-        if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
 
             closeChallenge();
 
