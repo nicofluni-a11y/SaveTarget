@@ -14,21 +14,21 @@ if (calculateButton) {
 
     calculateButton.addEventListener("click", function () {
 
-        // Get the user's information
-        const goal = document.getElementById("goal").value;
+        // Get user information
+        const goal = document.getElementById("goal").value.trim();
         const target = Number(document.getElementById("target").value);
         const saved = Number(document.getElementById("saved").value);
         const date = document.getElementById("date").value;
 
 
-        // Check that the user entered everything
+        // Check required information
         if (!goal || !target || !date) {
             alert("Please enter your goal, target amount and target date.");
             return;
         }
 
 
-        // Check that the numbers make sense
+        // Check numbers
         if (target <= 0) {
             alert("Your target must be greater than €0.");
             return;
@@ -45,54 +45,81 @@ if (calculateButton) {
         }
 
 
-        // Calculate remaining amount
-        const remaining = target - saved;
+        // ==========================================
+        // CALCULATE DATES
+        // ==========================================
 
-
-        // Calculate how many days are left
         const today = new Date();
-        const targetDate = new Date(date);
+
+        today.setHours(0, 0, 0, 0);
+
+        const targetDate = new Date(date + "T00:00:00");
 
         const difference =
             targetDate.getTime() - today.getTime();
 
         const daysRemaining =
-            Math.ceil(difference / (1000 * 60 * 60 * 24));
+            Math.ceil(
+                difference / (1000 * 60 * 60 * 24)
+            );
 
 
-        // Make sure the date is in the future
+        // Make sure date is in the future
         if (daysRemaining <= 0) {
             alert("Please choose a future target date.");
             return;
         }
 
 
-        // Calculate weeks remaining
-        const weeksRemaining = daysRemaining / 7;
+        // ==========================================
+        // SAVINGS CALCULATIONS
+        // ==========================================
+
+        const remaining =
+            target - saved;
 
 
-        // Calculate weekly saving
+        const weeksRemaining =
+            daysRemaining / 7;
+
+
         const weeklySaving =
             remaining / weeksRemaining;
 
 
-        // Calculate monthly saving
         const monthlySaving =
             weeklySaving * 52 / 12;
 
 
-        // Calculate percentage complete
+        const dailySaving =
+            remaining / daysRemaining;
+
+
         const progress =
             (saved / target) * 100;
 
 
-        // Prevent percentage going above 100
         const progressPercentage =
             Math.min(progress, 100);
 
 
         // ==========================================
-        // DISPLAY RESULTS
+        // FORMAT COMPLETION DATE
+        // ==========================================
+
+        const completionDate =
+            targetDate.toLocaleDateString(
+                "en-GB",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+
+        // ==========================================
+        // DISPLAY MAIN RESULTS
         // ==========================================
 
         document.getElementById("weekly-result").textContent =
@@ -108,21 +135,21 @@ if (calculateButton) {
 
 
         // ==========================================
-        // ADD EXTRA RESULTS
+        // CREATE EXTRA RESULTS
         // ==========================================
 
         let extraResults =
             document.getElementById("extra-results");
 
 
-        // Create the extra results section
-        // if it doesn't already exist
         if (!extraResults) {
 
             extraResults =
                 document.createElement("div");
 
-            extraResults.id = "extra-results";
+            extraResults.id =
+                "extra-results";
+
 
             extraResults.innerHTML = `
 
@@ -158,10 +185,12 @@ if (calculateButton) {
             document
                 .getElementById("results")
                 .after(extraResults);
+
         }
 
 
-        // Add the values
+        // Update extra results
+
         document.getElementById("goal-result").textContent =
             goal;
 
@@ -172,6 +201,64 @@ if (calculateButton) {
 
         document.getElementById("days-result").textContent =
             daysRemaining + " days";
+
+
+        // ==========================================
+        // DAILY TARGET + COMPLETION DATE
+        // ==========================================
+
+        let planDetails =
+            document.getElementById("plan-details");
+
+
+        if (!planDetails) {
+
+            planDetails =
+                document.createElement("div");
+
+            planDetails.id =
+                "plan-details";
+
+
+            planDetails.innerHTML = `
+
+                <div class="plan-main">
+
+                    <span>Daily saving target</span>
+
+                    <strong id="daily-result">
+                        €0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="plan-date">
+
+                    <span>Goal date</span>
+
+                    <strong id="date-result">
+                        -
+                    </strong>
+
+                </div>
+
+            `;
+
+
+            document
+                .getElementById("extra-results")
+                .after(planDetails);
+
+        }
+
+
+        document.getElementById("daily-result").textContent =
+            "€" + dailySaving.toFixed(2);
+
+
+        document.getElementById("date-result").textContent =
+            completionDate;
 
 
         // ==========================================
@@ -189,6 +276,7 @@ if (calculateButton) {
 
             progressContainer.id =
                 "progress-container";
+
 
             progressContainer.innerHTML = `
 
@@ -216,17 +304,18 @@ if (calculateButton) {
 
 
             document
-                .getElementById("extra-results")
+                .getElementById("plan-details")
                 .after(progressContainer);
+
         }
 
 
-        // Update progress text
+        // Update progress
+
         document.getElementById("progress-text").textContent =
             progressPercentage.toFixed(1) + "%";
 
 
-        // Update progress bar
         document.getElementById("progress-fill").style.width =
             progressPercentage + "%";
 
@@ -355,65 +444,62 @@ function closeChallenge() {
 // COMPLETE CHALLENGE
 // ==========================================
 
-completeButton.addEventListener(
-    "click",
-    function () {
+if (completeButton) {
 
-        if (!currentChallenge) {
-            return;
-        }
+    completeButton.addEventListener(
+        "click",
+        function () {
 
-
-        localStorage.setItem(
-
-            "challenge-" +
-            currentChallenge,
-
-            "completed"
-
-        );
-
-
-        completeButton.textContent =
-            "✓ Challenge completed!";
-
-
-        const cards =
-            document.querySelectorAll(".challenge");
-
-
-        cards.forEach(function (card) {
-
-            const button =
-                card.querySelector(
-                    ".challenge-button"
-                );
-
-
-            if (
-
-                button &&
-
-                button
-                    .getAttribute("onclick")
-                    .includes(currentChallenge)
-
-            ) {
-
-                button.textContent =
-                    "✓ Completed";
-
-
-                card.classList.add(
-                    "completed"
-                );
-
+            if (!currentChallenge) {
+                return;
             }
 
-        });
 
-    }
-);
+            localStorage.setItem(
+                "challenge-" + currentChallenge,
+                "completed"
+            );
+
+
+            completeButton.textContent =
+                "✓ Challenge completed!";
+
+
+            const cards =
+                document.querySelectorAll(".challenge");
+
+
+            cards.forEach(function (card) {
+
+                const button =
+                    card.querySelector(
+                        ".challenge-button"
+                    );
+
+
+                if (
+                    button &&
+                    button
+                        .getAttribute("onclick")
+                        .includes(currentChallenge)
+                ) {
+
+                    button.textContent =
+                        "✓ Completed";
+
+
+                    card.classList.add(
+                        "completed"
+                    );
+
+                }
+
+            });
+
+        }
+    );
+
+}
 
 
 // ==========================================
@@ -447,13 +533,10 @@ function loadCompletedChallenges() {
             .forEach(function (challengeName) {
 
                 if (
-
                     onclickText &&
-
                     onclickText.includes(
                         challengeName
                     )
-
                 ) {
 
                     const completed =
