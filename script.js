@@ -134,11 +134,12 @@ function getValidDate(dateString) {
 
 
 // ==========================================
-// CHANGE "MY SAVINGS" TO "ADDITIONAL SAVINGS"
+// ADDITIONAL SAVINGS LABELS
 // ==========================================
 
 const savingsSection =
     document.getElementById("savings");
+
 
 if (savingsSection) {
 
@@ -156,7 +157,8 @@ if (savingsSection) {
 
 
     if (eyebrow) {
-        eyebrow.textContent = "ADDITIONAL SAVINGS";
+        eyebrow.textContent =
+            "ADDITIONAL SAVINGS";
     }
 
 
@@ -196,10 +198,14 @@ if (calculateButton) {
             document.getElementById("goal").value.trim();
 
         const target =
-            Number(document.getElementById("target").value);
+            Number(
+                document.getElementById("target").value
+            );
 
         const saved =
-            Number(document.getElementById("saved").value) || 0;
+            Number(
+                document.getElementById("saved").value
+            ) || 0;
 
         const dateString =
             document.getElementById("date").value.trim();
@@ -287,9 +293,7 @@ if (calculateButton) {
         }
 
 
-        // ==========================================
-        // SAVE CURRENT CALCULATOR DATA
-        // ==========================================
+        // Save current calculator data.
 
         currentGoalData = {
 
@@ -303,16 +307,15 @@ if (calculateButton) {
         };
 
 
-        // Reset additional savings whenever a new
-        // calculator plan is created.
+        // Reset additional savings
+        // whenever a new plan is created.
 
         additionalSavings = 0;
 
 
-        // Clear the Additional Savings tracker.
-
         const amountInput =
             document.getElementById("add-savings");
+
 
         if (amountInput) {
             amountInput.value = "";
@@ -320,7 +323,6 @@ if (calculateButton) {
 
 
         updateCalculator();
-
 
         updateSavingsTracker();
 
@@ -426,22 +428,41 @@ function updateCalculator() {
     // MAIN RESULTS
     // ==========================================
 
-    document.getElementById(
-        "weekly-result"
-    ).textContent =
-        "€" + weeklySaving.toFixed(2);
+    const weeklyResult =
+        document.getElementById("weekly-result");
+
+    const monthlyResult =
+        document.getElementById("monthly-result");
+
+    const progressResult =
+        document.getElementById("progress-result");
 
 
-    document.getElementById(
-        "monthly-result"
-    ).textContent =
-        "€" + monthlySaving.toFixed(2);
+    if (weeklyResult) {
+
+        weeklyResult.textContent =
+            "€" +
+            weeklySaving.toFixed(2);
+
+    }
 
 
-    document.getElementById(
-        "progress-result"
-    ).textContent =
-        progressPercentage.toFixed(1) + "%";
+    if (monthlyResult) {
+
+        monthlyResult.textContent =
+            "€" +
+            monthlySaving.toFixed(2);
+
+    }
+
+
+    if (progressResult) {
+
+        progressResult.textContent =
+            progressPercentage.toFixed(1) +
+            "%";
+
+    }
 
 
     // ==========================================
@@ -464,7 +485,9 @@ function updateCalculator() {
 
             <div class="extra-result">
 
-                <span>Goal</span>
+                <span>
+                    Goal
+                </span>
 
                 <strong id="goal-result"></strong>
 
@@ -473,7 +496,9 @@ function updateCalculator() {
 
             <div class="extra-result">
 
-                <span>Remaining</span>
+                <span>
+                    Remaining
+                </span>
 
                 <strong id="remaining-result"></strong>
 
@@ -482,7 +507,9 @@ function updateCalculator() {
 
             <div class="extra-result">
 
-                <span>Days left</span>
+                <span>
+                    Days left
+                </span>
 
                 <strong id="days-result"></strong>
 
@@ -490,29 +517,49 @@ function updateCalculator() {
 
         `;
 
-        document
-            .getElementById("results")
-            .after(extraResults);
+
+        const results =
+            document.getElementById("results");
+
+
+        if (results) {
+            results.after(extraResults);
+        }
 
     }
 
 
-    document.getElementById(
-        "goal-result"
-    ).textContent =
-        goal;
+    const goalResult =
+        document.getElementById("goal-result");
+
+    const remainingResult =
+        document.getElementById("remaining-result");
+
+    const daysResult =
+        document.getElementById("days-result");
 
 
-    document.getElementById(
-        "remaining-result"
-    ).textContent =
-        "€" + remaining.toFixed(2);
+    if (goalResult) {
+        goalResult.textContent = goal;
+    }
 
 
-    document.getElementById(
-        "days-result"
-    ).textContent =
-        daysRemaining + " days";
+    if (remainingResult) {
+
+        remainingResult.textContent =
+            "€" +
+            remaining.toFixed(2);
+
+    }
+
+
+    if (daysResult) {
+
+        daysResult.textContent =
+            daysRemaining +
+            " days";
+
+    }
 
 
     // ==========================================
@@ -560,23 +607,40 @@ function updateCalculator() {
 
         `;
 
-        document
-            .getElementById("extra-results")
-            .after(planDetails);
+
+        const extra =
+            document.getElementById("extra-results");
+
+
+        if (extra) {
+            extra.after(planDetails);
+        }
 
     }
 
 
-    document.getElementById(
-        "daily-result"
-    ).textContent =
-        "€" + dailySaving.toFixed(2);
+    const dailyResult =
+        document.getElementById("daily-result");
+
+    const dateResult =
+        document.getElementById("date-result");
 
 
-    document.getElementById(
-        "date-result"
-    ).textContent =
-        completionDate;
+    if (dailyResult) {
+
+        dailyResult.textContent =
+            "€" +
+            dailySaving.toFixed(2);
+
+    }
+
+
+    if (dateResult) {
+
+        dateResult.textContent =
+            completionDate;
+
+    }
 
 
     // ==========================================
@@ -623,23 +687,43 @@ function updateCalculator() {
 
         `;
 
-        document
-            .getElementById("plan-details")
-            .after(progressContainer);
+
+        const plan =
+            document.getElementById(
+                "plan-details"
+            );
+
+
+        if (plan) {
+            plan.after(progressContainer);
+        }
 
     }
 
 
-    document.getElementById(
-        "progress-text"
-    ).textContent =
-        progressPercentage.toFixed(1) + "%";
+    const progressText =
+        document.getElementById("progress-text");
+
+    const progressFill =
+        document.getElementById("progress-fill");
 
 
-    document.getElementById(
-        "progress-fill"
-    ).style.width =
-        progressPercentage + "%";
+    if (progressText) {
+
+        progressText.textContent =
+            progressPercentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (progressFill) {
+
+        progressFill.style.width =
+            progressPercentage +
+            "%";
+
+    }
 
 
     // ==========================================
@@ -766,9 +850,16 @@ function updateCalculator() {
 
         `;
 
-        document
-            .getElementById("progress-container")
-            .after(milestones);
+
+        const progress =
+            document.getElementById(
+                "progress-container"
+            );
+
+
+        if (progress) {
+            progress.after(milestones);
+        }
 
     }
 
@@ -781,7 +872,9 @@ function updateCalculator() {
     // ==========================================
 
     let goalMessage =
-        document.getElementById("goal-message");
+        document.getElementById(
+            "goal-message"
+        );
 
 
     if (!goalMessage) {
@@ -792,9 +885,16 @@ function updateCalculator() {
         goalMessage.id =
             "goal-message";
 
-        document
-            .getElementById("milestones")
-            .after(goalMessage);
+
+        const milestoneElement =
+            document.getElementById(
+                "milestones"
+            );
+
+
+        if (milestoneElement) {
+            milestoneElement.after(goalMessage);
+        }
 
     }
 
@@ -843,7 +943,9 @@ function updateCalculator() {
 function updateMilestones(progressPercentage) {
 
     const milestoneElements =
-        document.querySelectorAll(".milestone");
+        document.querySelectorAll(
+            ".milestone"
+        );
 
 
     milestoneElements.forEach(function (milestone) {
@@ -861,11 +963,15 @@ function updateMilestones(progressPercentage) {
             milestoneValue
         ) {
 
-            milestone.classList.add("achieved");
+            milestone.classList.add(
+                "achieved"
+            );
 
         } else {
 
-            milestone.classList.remove("achieved");
+            milestone.classList.remove(
+                "achieved"
+            );
 
         }
 
@@ -896,7 +1002,9 @@ if (addSavingsButton) {
                 );
 
             const amount =
-                Number(amountInput.value);
+                Number(
+                    amountInput.value
+                );
 
 
             if (!currentGoalData) {
@@ -923,11 +1031,15 @@ if (addSavingsButton) {
 
 
             const target =
-                Number(currentGoalData.target);
+                Number(
+                    currentGoalData.target
+                );
 
 
             const originalSaved =
-                Number(currentGoalData.saved);
+                Number(
+                    currentGoalData.saved
+                );
 
 
             const currentTotal =
@@ -950,22 +1062,13 @@ if (addSavingsButton) {
             }
 
 
-            // Add the amount to Additional Savings.
-
             additionalSavings += amount;
 
-
-            // Clear input.
 
             amountInput.value = "";
 
 
-            // Update calculator immediately.
-
             updateCalculator();
-
-
-            // Update Additional Savings section.
 
             updateSavingsTracker();
 
@@ -1010,17 +1113,25 @@ function updateSavingsTracker() {
 
 
     const target =
-        Number(currentGoalData.target);
+        Number(
+            currentGoalData.target
+        );
+
 
     const originalSaved =
-        Number(currentGoalData.saved);
+        Number(
+            currentGoalData.saved
+        );
+
 
     const daysRemaining =
-        Number(currentGoalData.daysRemaining);
+        Number(
+            currentGoalData.daysRemaining
+        );
 
 
     // ==========================================
-    // CALCULATE ORIGINAL WEEKLY/MONTHLY
+    // ORIGINAL PLAN
     // ==========================================
 
     const originalRemaining =
@@ -1035,227 +1146,95 @@ function updateSavingsTracker() {
 
 
     const originalWeekly =
-        originalRemaining / weeksRemaining;
+        originalRemaining /
+        weeksRemaining;
 
 
     const originalMonthly =
-        originalWeekly * 52 / 12;
+        originalWeekly *
+        52 /
+        12;
 
 
     // ==========================================
-    // CALCULATE NEW WEEKLY/MONTHLY
+    // NEW PLAN
     // ==========================================
 
     const totalSaved =
         Math.min(
-            originalSaved + additionalSavings,
+            originalSaved +
+            additionalSavings,
             target
         );
 
 
     const newRemaining =
         Math.max(
-            target - totalSaved,
+            target -
+            totalSaved,
             0
         );
 
 
     const newWeekly =
-        newRemaining / weeksRemaining;
+        newRemaining /
+        weeksRemaining;
 
 
     const newMonthly =
-        newWeekly * 52 / 12;
+        newWeekly *
+        52 /
+        12;
 
 
     // ==========================================
-    // CALCULATE REDUCTION
+    // REDUCTION
     // ==========================================
 
     const weeklyReduction =
         Math.max(
-            originalWeekly - newWeekly,
+            originalWeekly -
+            newWeekly,
             0
         );
 
 
     const monthlyReduction =
         Math.max(
-            originalMonthly - newMonthly,
+            originalMonthly -
+            newMonthly,
             0
         );
 
 
     // ==========================================
-    // REMOVE OLD ADDITIONAL SAVINGS DISPLAY
+    // UPDATE EXISTING HTML
     // ==========================================
 
-    const oldExtraResults =
+    const weeklyReductionElement =
         document.getElementById(
-            "savings-tracker-results"
-        );
-
-    if (oldExtraResults) {
-        oldExtraResults.remove();
-    }
-
-
-    // Remove the old saved/remaining/progress
-    // elements if they exist.
-
-    const trackedSaved =
-        document.getElementById(
-            "tracked-saved"
-        );
-
-    const trackedRemaining =
-        document.getElementById(
-            "tracked-remaining"
-        );
-
-    const trackedProgress =
-        document.getElementById(
-            "tracked-progress"
-        );
-
-    const trackedProgressText =
-        document.getElementById(
-            "tracked-progress-text"
-        );
-
-    const trackedProgressFill =
-        document.getElementById(
-            "tracked-progress-fill"
+            "tracked-weekly-reduction"
         );
 
 
-    if (trackedSaved) {
-        trackedSaved.closest(".extra-result")?.remove();
-    }
-
-    if (trackedRemaining) {
-        trackedRemaining.closest(".extra-result")?.remove();
-    }
-
-    if (trackedProgress) {
-        trackedProgress.closest(".extra-result")?.remove();
-    }
-
-    if (trackedProgressText) {
-        trackedProgressText.closest("#progress-container")?.remove();
-    }
-
-    if (trackedProgressFill) {
-        trackedProgressFill.closest("#progress-container")?.remove();
-    }
-
-
-    // ==========================================
-    // CREATE NEW REDUCTION DISPLAY
-    // ==========================================
-
-    let savingsReduction =
+    const monthlyReductionElement =
         document.getElementById(
-            "savings-reduction"
+            "tracked-monthly-reduction"
         );
 
 
-    if (!savingsReduction) {
+    if (weeklyReductionElement) {
 
-        savingsReduction =
-            document.createElement("div");
-
-        savingsReduction.id =
-            "savings-reduction";
-
-        savingsReduction.innerHTML = `
-
-            <div class="extra-result">
-
-                <span>
-                    Your weekly savings has been reduced by:
-                </span>
-
-                <strong id="weekly-reduction-result">
-                    €0.00
-                </strong>
-
-            </div>
-
-
-            <div class="extra-result">
-
-                <span>
-                    Your monthly savings has been reduced by:
-                </span>
-
-                <strong id="monthly-reduction-result">
-                    €0.00
-                </strong>
-
-            </div>
-
-        `;
-
-
-        savingsReduction.style.display =
-            "grid";
-
-        savingsReduction.style.gridTemplateColumns =
-            "repeat(2, 1fr)";
-
-        savingsReduction.style.gap =
-            "15px";
-
-        savingsReduction.style.marginTop =
-            "15px";
-
-
-        const results =
-            document.getElementById(
-                "results"
-            );
-
-
-        if (results) {
-
-            results.after(
-                savingsReduction
-            );
-
-        }
-
-    }
-
-
-    // ==========================================
-    // UPDATE REDUCTION VALUES
-    // ==========================================
-
-    const weeklyReductionResult =
-        document.getElementById(
-            "weekly-reduction-result"
-        );
-
-
-    const monthlyReductionResult =
-        document.getElementById(
-            "monthly-reduction-result"
-        );
-
-
-    if (weeklyReductionResult) {
-
-        weeklyReductionResult.textContent =
+        weeklyReductionElement.textContent =
             "€" +
             weeklyReduction.toFixed(2);
 
     }
 
 
-    if (monthlyReductionResult) {
+    if (monthlyReductionElement) {
 
-        monthlyReductionResult.textContent =
+        monthlyReductionElement.textContent =
             "€" +
             monthlyReduction.toFixed(2);
 
@@ -1266,12 +1245,6 @@ function updateSavingsTracker() {
 
 // ==========================================
 // RESET EVERYTHING ON PAGE LOAD
-// ==========================================
-//
-// No localStorage is used for the calculator
-// or savings data, so refreshing the page
-// automatically starts everything from zero.
-//
 // ==========================================
 
 function resetSavingsPage() {
@@ -1324,50 +1297,65 @@ function resetSavingsPage() {
     }
 
 
-    // Reset calculator results.
-
     const weeklyResult =
-        document.getElementById("weekly-result");
+        document.getElementById(
+            "weekly-result"
+        );
 
     const monthlyResult =
-        document.getElementById("monthly-result");
+        document.getElementById(
+            "monthly-result"
+        );
 
     const progressResult =
-        document.getElementById("progress-result");
+        document.getElementById(
+            "progress-result"
+        );
 
 
     if (weeklyResult) {
-        weeklyResult.textContent = "€0.00";
+        weeklyResult.textContent =
+            "€0.00";
     }
 
     if (monthlyResult) {
-        monthlyResult.textContent = "€0.00";
+        monthlyResult.textContent =
+            "€0.00";
     }
 
     if (progressResult) {
-        progressResult.textContent = "0%";
+        progressResult.textContent =
+            "0%";
     }
 
 
-    // Remove dynamically generated calculator sections.
+    // Remove dynamically generated
+    // calculator sections.
 
     const extraResults =
-        document.getElementById("extra-results");
+        document.getElementById(
+            "extra-results"
+        );
 
     const planDetails =
-        document.getElementById("plan-details");
+        document.getElementById(
+            "plan-details"
+        );
 
     const progressContainer =
-        document.getElementById("progress-container");
+        document.getElementById(
+            "progress-container"
+        );
 
     const milestones =
-        document.getElementById("milestones");
+        document.getElementById(
+            "milestones"
+        );
 
     const goalMessage =
-        document.getElementById("goal-message");
-
-    const savingsReduction =
-        document.getElementById("savings-reduction");
+        document.getElementById(
+            "goal-message"
+        );
 
 
     if (extraResults) {
@@ -1390,14 +1378,29 @@ function resetSavingsPage() {
         goalMessage.remove();
     }
 
-    if (savingsReduction) {
-        savingsReduction.remove();
+
+    // Reset Additional Savings values.
+
+    const weeklyReduction =
+        document.getElementById(
+            "tracked-weekly-reduction"
+        );
+
+    const monthlyReduction =
+        document.getElementById(
+            "tracked-monthly-reduction"
+        );
+
+
+    if (weeklyReduction) {
+        weeklyReduction.textContent =
+            "€0.00";
     }
 
-
-    // Reset Additional Savings tracker.
-
-    updateSavingsTracker();
+    if (monthlyReduction) {
+        monthlyReduction.textContent =
+            "€0.00";
+    }
 
 }
 
@@ -1624,6 +1627,10 @@ const challenges = {
 };
 
 
+// ==========================================
+// CHALLENGE MODAL
+// ==========================================
+
 const modal =
     document.getElementById(
         "challenge-modal"
@@ -1669,16 +1676,22 @@ function openChallenge(challengeName) {
         challengeName;
 
 
-    modalNumber.textContent =
-        challenge.number;
+    if (modalNumber) {
+        modalNumber.textContent =
+            challenge.number;
+    }
 
 
-    modalTitle.textContent =
-        challenge.title;
+    if (modalTitle) {
+        modalTitle.textContent =
+            challenge.title;
+    }
 
 
-    modalDescription.textContent =
-        challenge.description;
+    if (modalDescription) {
+        modalDescription.textContent =
+            challenge.description;
+    }
 
 
     const completed =
@@ -1688,22 +1701,29 @@ function openChallenge(challengeName) {
         );
 
 
-    if (
-        completed === "completed"
-    ) {
+    if (completeButton) {
 
-        completeButton.textContent =
-            "✓ Challenge completed!";
+        if (
+            completed ===
+            "completed"
+        ) {
 
-    } else {
+            completeButton.textContent =
+                "✓ Challenge completed!";
 
-        completeButton.textContent =
-            "Complete challenge";
+        } else {
+
+            completeButton.textContent =
+                "Complete challenge";
+
+        }
 
     }
 
 
-    modal.classList.add("active");
+    if (modal) {
+        modal.classList.add("active");
+    }
 
 }
 
@@ -1714,7 +1734,9 @@ function openChallenge(challengeName) {
 
 function closeChallenge() {
 
-    modal.classList.remove("active");
+    if (modal) {
+        modal.classList.remove("active");
+    }
 
     currentChallenge = null;
 
@@ -1763,7 +1785,7 @@ function loadCompletedChallenges() {
 
     const cards =
         document.querySelectorAll(
-            ".challenge"
+            "#challenges .challenge"
         );
 
 
@@ -1825,9 +1847,6 @@ function loadCompletedChallenges() {
 }
 
 
-loadCompletedChallenges();
-
-
 // ==========================================
 // RANDOM CHALLENGE BANK
 // ==========================================
@@ -1861,7 +1880,8 @@ function getRandomChallenges() {
         selected.forEach(function (challengeName) {
 
             localStorage.removeItem(
-                "challenge-" + challengeName
+                "challenge-" +
+                challengeName
             );
 
         });
@@ -1887,7 +1907,9 @@ function getRandomChallenges() {
 function displayActiveChallenges() {
 
     const challengeGrid =
-        document.querySelector(".challenge-grid");
+        document.querySelector(
+            "#challenges .challenge-grid"
+        );
 
 
     if (!challengeGrid) return;
@@ -1911,7 +1933,8 @@ function displayActiveChallenges() {
 
         const completed =
             localStorage.getItem(
-                "challenge-" + challengeName
+                "challenge-" +
+                challengeName
             ) === "completed";
 
 
@@ -1924,7 +1947,9 @@ function displayActiveChallenges() {
 
 
         if (completed) {
-            card.classList.add("completed");
+            card.classList.add(
+                "completed"
+            );
         }
 
 
@@ -1946,7 +1971,9 @@ function displayActiveChallenges() {
                 class="challenge-button"
                 onclick="openChallenge('${challengeName}')"
             >
-                ${completed ? "✓ Completed" : "View challenge →"}
+                ${completed
+                    ? "✓ Completed"
+                    : "View challenge →"}
             </button>
 
         `;
@@ -1960,7 +1987,7 @@ function displayActiveChallenges() {
 
 
 // ==========================================
-// CHECK IF ALL 3 ARE COMPLETE
+// CHECK IF ALL 3 CHALLENGES ARE COMPLETE
 // ==========================================
 
 function checkChallengesComplete() {
@@ -1970,27 +1997,34 @@ function checkChallengesComplete() {
 
 
     const allComplete =
-        activeChallenges.every(function (challengeName) {
+        activeChallenges.every(
+            function (challengeName) {
 
-            return (
-                localStorage.getItem(
-                    "challenge-" + challengeName
-                ) === "completed"
-            );
+                return (
+                    localStorage.getItem(
+                        "challenge-" +
+                        challengeName
+                    ) ===
+                    "completed"
+                );
 
-        });
+            }
+        );
 
 
     if (!allComplete) return;
 
 
-    activeChallenges.forEach(function (challengeName) {
+    activeChallenges.forEach(
+        function (challengeName) {
 
-        localStorage.removeItem(
-            "challenge-" + challengeName
-        );
+            localStorage.removeItem(
+                "challenge-" +
+                challengeName
+            );
 
-    });
+        }
+    );
 
 
     const challengeNames =
@@ -2001,7 +2035,9 @@ function checkChallengesComplete() {
         challengeNames
             .filter(function (name) {
 
-                return !activeChallenges.includes(name);
+                return !activeChallenges.includes(
+                    name
+                );
 
             })
             .sort(
@@ -2070,3 +2106,633 @@ document.addEventListener(
 
     }
 );
+
+
+// ==================================================
+// ==================================================
+// SAVING TIPS
+// ==================================================
+// 100 TIP BANK
+// ==================================================
+
+
+const savingTips = [
+
+    {
+        title: "Set a weekly limit",
+        description: "Give yourself a realistic spending limit for the week and try to stay within it."
+    },
+
+    {
+        title: "Wait before buying",
+        description: "Give yourself 24 or 48 hours before making an unnecessary purchase. You may find you don't want it anymore."
+    },
+
+    {
+        title: "Cook at home",
+        description: "Preparing meals at home can help reduce the amount you spend on takeaway food and restaurants."
+    },
+
+    {
+        title: "Cancel unused subscriptions",
+        description: "Check your subscriptions and remove anything you no longer use."
+    },
+
+    {
+        title: "Compare prices",
+        description: "Before buying something, compare different shops and look for a cheaper alternative."
+    },
+
+    {
+        title: "Save unexpected money",
+        description: "If you receive money you weren't expecting, consider putting some or all of it towards your savings goal."
+    },
+
+    {
+        title: "Make a shopping list",
+        description: "Write down what you actually need before shopping and try not to buy things that aren't on your list."
+    },
+
+    {
+        title: "Avoid impulse purchases",
+        description: "Ask yourself whether you really need something before spending money on it."
+    },
+
+    {
+        title: "Use what you already have",
+        description: "Check your cupboards, fridge and freezer before buying more food."
+    },
+
+    {
+        title: "Bring lunch from home",
+        description: "Preparing lunch at home can help you avoid spending money on food during the day."
+    },
+
+    {
+        title: "Make your own coffee",
+        description: "Making coffee at home instead of buying it can save a surprising amount over time."
+    },
+
+    {
+        title: "Use a reusable bottle",
+        description: "Carry a reusable water bottle so you don't need to keep buying drinks."
+    },
+
+    {
+        title: "Plan your meals",
+        description: "Planning meals before shopping can reduce food waste and unnecessary purchases."
+    },
+
+    {
+        title: "Shop with a budget",
+        description: "Decide how much you can spend before going shopping and stick to that amount."
+    },
+
+    {
+        title: "Check your bank account",
+        description: "Regularly checking your balance can help you stay aware of how much you're spending."
+    },
+
+    {
+        title: "Track your spending",
+        description: "Write down your spending for a week to see where your money is going."
+    },
+
+    {
+        title: "Have a no-spend day",
+        description: "Choose one day each week where you don't spend money on anything unnecessary."
+    },
+
+    {
+        title: "Use free entertainment",
+        description: "Look for free activities such as walking, reading, exercising or spending time with friends."
+    },
+
+    {
+        title: "Walk when possible",
+        description: "If a destination is nearby, consider walking instead of paying for transport."
+    },
+
+    {
+        title: "Cycle when possible",
+        description: "Cycling can be a cheaper alternative to driving or using public transport for short journeys."
+    },
+
+    {
+        title: "Reduce food waste",
+        description: "Use food before it expires and freeze items that you won't eat immediately."
+    },
+
+    {
+        title: "Buy store brands",
+        description: "Compare branded products with supermarket alternatives to see whether you can save money."
+    },
+
+    {
+        title: "Buy second-hand",
+        description: "Check second-hand options before buying something brand new."
+    },
+
+    {
+        title: "Sell unused items",
+        description: "Look around your home for things you no longer use and consider selling them."
+    },
+
+    {
+        title: "Unsubscribe from marketing emails",
+        description: "Reducing promotional emails can help you avoid being tempted by unnecessary purchases."
+    },
+
+    {
+        title: "Remove saved card details",
+        description: "Making online purchases slightly less convenient can give you more time to think before buying."
+    },
+
+    {
+        title: "Use a wishlist",
+        description: "Put things you want on a wishlist instead of buying them immediately."
+    },
+
+    {
+        title: "Set a savings goal",
+        description: "Having a specific goal can make it easier to stay motivated and avoid unnecessary spending."
+    },
+
+    {
+        title: "Automate your savings",
+        description: "If possible, automatically move a set amount into savings when you receive your income."
+    },
+
+    {
+        title: "Save first",
+        description: "Consider putting money towards your goal before spending on non-essential purchases."
+    },
+
+    {
+        title: "Review your bills",
+        description: "Go through your regular bills and check whether you can reduce any unnecessary costs."
+    },
+
+    {
+        title: "Switch providers",
+        description: "Compare providers for services such as insurance, internet and utilities when your contracts allow it."
+    },
+
+    {
+        title: "Use loyalty points",
+        description: "Use rewards and loyalty points when they provide genuine value instead of buying extra things to earn points."
+    },
+
+    {
+        title: "Take advantage of discounts",
+        description: "Look for legitimate discounts before making planned purchases."
+    },
+
+    {
+        title: "Don't shop when hungry",
+        description: "Shopping while hungry can make it easier to buy food you didn't plan to purchase."
+    },
+
+    {
+        title: "Use cash for a budget",
+        description: "Using a fixed amount of cash can make it easier to see how much you've actually spent."
+    },
+
+    {
+        title: "Set a monthly spending target",
+        description: "Choose a realistic spending target for the month and review your progress regularly."
+    },
+
+    {
+        title: "Review yesterday's spending",
+        description: "Spend a few minutes checking what you bought yesterday and identify anything you could have avoided."
+    },
+
+    {
+        title: "Avoid unnecessary upgrades",
+        description: "If something you own still works well, consider keeping it instead of upgrading."
+    },
+
+    {
+        title: "Repair before replacing",
+        description: "Check whether an item can be repaired before paying for a replacement."
+    },
+
+    {
+        title: "Borrow instead of buying",
+        description: "For things you'll only use occasionally, consider borrowing them from someone you know."
+    },
+
+    {
+        title: "Share when practical",
+        description: "Sharing certain costs or resources with friends or family can reduce individual expenses."
+    },
+
+    {
+        title: "Use the library",
+        description: "Borrow books and other resources instead of buying things you'll only use once."
+    },
+
+    {
+        title: "Have a homemade night",
+        description: "Choose one night each week to cook at home instead of ordering takeaway."
+    },
+
+    {
+        title: "Pack snacks",
+        description: "Take snacks from home when you're going out to avoid expensive convenience purchases."
+    },
+
+    {
+        title: "Drink water",
+        description: "Choosing tap water instead of buying drinks can reduce small recurring expenses."
+    },
+
+    {
+        title: "Check your subscriptions monthly",
+        description: "Make subscription reviews a monthly habit so unused services don't continue costing you money."
+    },
+
+    {
+        title: "Use a 24-hour rule",
+        description: "Wait at least 24 hours before buying something that isn't essential."
+    },
+
+    {
+        title: "Use a 30-day rule",
+        description: "For expensive non-essential purchases, consider waiting 30 days before deciding."
+    },
+
+    {
+        title: "Set a fun-money budget",
+        description: "Give yourself a specific amount for entertainment so you can enjoy yourself without overspending."
+    },
+
+    {
+        title: "Separate needs from wants",
+        description: "Before spending, ask yourself whether the purchase is something you need or simply something you want."
+    },
+
+    {
+        title: "Avoid browsing shopping apps",
+        description: "If you're trying to save, don't browse shopping apps just for entertainment."
+    },
+
+    {
+        title: "Turn off shopping notifications",
+        description: "Disable unnecessary sale and shopping notifications to reduce temptation."
+    },
+
+    {
+        title: "Don't chase every sale",
+        description: "A discount isn't a saving if you wouldn't have bought the item otherwise."
+    },
+
+    {
+        title: "Use what is on sale wisely",
+        description: "Only buy discounted products when they're things you genuinely need or planned to buy."
+    },
+
+    {
+        title: "Plan your supermarket trip",
+        description: "A clear list and budget can help you avoid wandering around and making unnecessary purchases."
+    },
+
+    {
+        title: "Check your cupboards first",
+        description: "Before buying groceries, see what you already have at home."
+    },
+
+    {
+        title: "Freeze leftovers",
+        description: "Freeze suitable leftovers so they don't go to waste and become another purchase later."
+    },
+
+    {
+        title: "Use public transport",
+        description: "When practical, compare public transport costs with driving and parking costs."
+    },
+
+    {
+        title: "Combine errands",
+        description: "Complete several errands in one trip to save time, fuel and transport costs."
+    },
+
+    {
+        title: "Plan fuel trips",
+        description: "Combining journeys can help reduce unnecessary fuel spending."
+    },
+
+    {
+        title: "Check your insurance",
+        description: "Review your insurance policies periodically and compare available options before renewal."
+    },
+
+    {
+        title: "Review your phone plan",
+        description: "Check whether you're paying for more data or features than you actually use."
+    },
+
+    {
+        title: "Review your internet plan",
+        description: "Compare your current internet plan with your actual usage and available alternatives."
+    },
+
+    {
+        title: "Reduce unnecessary fees",
+        description: "Check your accounts for avoidable fees and look for ways to reduce them."
+    },
+
+    {
+        title: "Use reminders for bills",
+        description: "Set reminders for important payments so you can avoid avoidable late fees."
+    },
+
+    {
+        title: "Keep an emergency buffer",
+        description: "Building a small emergency fund can help prevent unexpected expenses from disrupting your savings plan."
+    },
+
+    {
+        title: "Give every euro a purpose",
+        description: "Knowing what your money is intended for can make it easier to avoid spending it randomly."
+    },
+
+    {
+        title: "Round up your savings",
+        description: "When possible, round up the amount you save so small extra amounts build up over time."
+    },
+
+    {
+        title: "Save small amounts",
+        description: "Don't underestimate small savings. Regular €1, €2 or €5 savings can add up over time."
+    },
+
+    {
+        title: "Save your spare change",
+        description: "Put spare coins or small leftover amounts into your savings instead of spending them."
+    },
+
+    {
+        title: "Challenge yourself",
+        description: "Create a small weekly savings challenge to keep saving interesting and motivating."
+    },
+
+    {
+        title: "Reward progress without spending",
+        description: "Celebrate savings milestones with free activities rather than expensive rewards."
+    },
+
+    {
+        title: "Keep your goal visible",
+        description: "Put a reminder of your savings goal somewhere you'll see it regularly."
+    },
+
+    {
+        title: "Name your savings goal",
+        description: "Giving your savings a name can make the goal feel more personal and motivating."
+    },
+
+    {
+        title: "Visualise your target",
+        description: "Break your target into smaller milestones so your progress feels easier to see."
+    },
+
+    {
+        title: "Celebrate milestones",
+        description: "Recognise when you reach 25%, 50% or 75% of your goal."
+    },
+
+    {
+        title: "Don't give up after one mistake",
+        description: "One unnecessary purchase doesn't ruin your plan. Get back on track with your next decision."
+    },
+
+    {
+        title: "Review your budget weekly",
+        description: "A quick weekly review can help you spot problems before they become bigger."
+    },
+
+    {
+        title: "Review your budget monthly",
+        description: "At the end of each month, compare your planned spending with what actually happened."
+    },
+
+    {
+        title: "Use a spending category system",
+        description: "Separate your spending into categories so you can easily see where your money goes."
+    },
+
+    {
+        title: "Set a grocery budget",
+        description: "Choose a realistic weekly grocery budget and use it as a guide when shopping."
+    },
+
+    {
+        title: "Avoid convenience spending",
+        description: "Planning ahead can help you avoid paying extra for convenience when you're hungry, thirsty or in a rush."
+    },
+
+    {
+        title: "Pack before leaving home",
+        description: "Take water, snacks and anything else you'll need so you don't have to buy them later."
+    },
+
+    {
+        title: "Use free local activities",
+        description: "Look for free events, parks, walks and community activities instead of automatically paying for entertainment."
+    },
+
+    {
+        title: "Have a free weekend",
+        description: "Try spending an entire weekend using things you already have and choosing free activities."
+    },
+
+    {
+        title: "Try a spending freeze",
+        description: "Choose a short period where you only spend money on essential expenses."
+    },
+
+    {
+        title: "Set a clothing budget",
+        description: "Decide how much you can spend on clothes and avoid going over that amount."
+    },
+
+    {
+        title: "Wear what you own",
+        description: "Before buying new clothes, create outfits using items you already have."
+    },
+
+    {
+        title: "Unfollow tempting shops",
+        description: "Unfollow shopping accounts that regularly encourage you to buy things you don't need."
+    },
+
+    {
+        title: "Use price alerts",
+        description: "For planned purchases, use price alerts where available instead of constantly checking for discounts."
+    },
+
+    {
+        title: "Avoid buying duplicates",
+        description: "Check what you already own before buying another item that serves the same purpose."
+    },
+
+    {
+        title: "Borrow special equipment",
+        description: "For rarely used equipment, consider borrowing or renting rather than purchasing it."
+    },
+
+    {
+        title: "Plan expensive purchases",
+        description: "For large purchases, research them in advance instead of making a rushed decision."
+    },
+
+    {
+        title: "Compare total costs",
+        description: "Look beyond the initial price and consider maintenance, accessories and ongoing costs."
+    },
+
+    {
+        title: "Use free trials carefully",
+        description: "If you start a free trial, set a reminder to cancel it if you don't want to continue."
+    },
+
+    {
+        title: "Avoid lifestyle creep",
+        description: "When your income increases, consider directing some of the extra money towards your savings instead of automatically increasing spending."
+    },
+
+    {
+        title: "Increase savings gradually",
+        description: "When you're comfortable with your current savings amount, try increasing it slightly."
+    },
+
+    {
+        title: "Save extra income",
+        description: "Consider putting bonuses, gifts or other unexpected income towards your savings goal."
+    },
+
+    {
+        title: "Use windfalls wisely",
+        description: "When you receive an unexpected financial boost, decide in advance how much you want to save."
+    },
+
+    {
+        title: "Keep saving automatic",
+        description: "Making saving automatic can reduce the temptation to spend the money first."
+    },
+
+    {
+        title: "Focus on one goal",
+        description: "If you're struggling to save, focusing on one clear goal can make your progress easier to manage."
+    },
+
+    {
+        title: "Break large goals down",
+        description: "Divide a large target into smaller milestones to make it feel more achievable."
+    },
+
+    {
+        title: "Check progress regularly",
+        description: "Review your savings progress regularly so you know whether you're on track."
+    },
+
+    {
+        title: "Make saving a habit",
+        description: "Saving consistently is often more effective than relying on occasional large contributions."
+    },
+
+    {
+        title: "Start today",
+        description: "You don't need a huge amount of money to begin. Start with what you can comfortably save."
+    }
+
+];
+
+
+// ==========================================
+// RANDOMLY SELECT 6 TIPS
+// ==========================================
+
+function getRandomTips() {
+
+    const shuffledTips =
+        [...savingTips].sort(
+            () => Math.random() - 0.5
+        );
+
+
+    return shuffledTips.slice(0, 6);
+
+}
+
+
+// ==========================================
+// DISPLAY 6 RANDOM TIPS
+// ==========================================
+
+function displayRandomTips() {
+
+    const tipsGrid =
+        document.querySelector(
+            "#tips .challenge-grid"
+        );
+
+
+    if (!tipsGrid) {
+        return;
+    }
+
+
+    const selectedTips =
+        getRandomTips();
+
+
+    tipsGrid.innerHTML = "";
+
+
+    selectedTips.forEach(function (tip, index) {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "challenge";
+
+
+        card.innerHTML = `
+
+            <span>
+                ${String(index + 1).padStart(2, "0")}
+            </span>
+
+            <h3>
+                ${tip.title}
+            </h3>
+
+            <p>
+                ${tip.description}
+            </p>
+
+        `;
+
+
+        tipsGrid.appendChild(card);
+
+    });
+
+}
+
+
+// ==========================================
+// DISPLAY RANDOM TIPS ON EVERY PAGE LOAD
+// ==========================================
+
+displayRandomTips();
+
+
+// ==========================================
+// END SAVETARGET SCRIPT
+// ==========================================
