@@ -995,14 +995,14 @@ function updateSavingsTracker() {
 }
 
 
-// Load saved tracker when page opens
+// ==========================================
+// LOAD SAVINGS TRACKER WHEN PAGE OPENS
+// ==========================================
 
 const savedGoalOnLoad =
     localStorage.getItem("saveTargetGoal");
 
 if (!savedGoalOnLoad) {
-
-    localStorage.removeItem("saveTargetTrackedSaved");
 
     const trackedSaved =
         document.getElementById("tracked-saved");
@@ -1038,12 +1038,7 @@ if (!savedGoalOnLoad) {
 
     if (trackedProgressFill) {
         trackedProgressFill.style.width = "0%";
-        
     }
-
-} else {
-
-    updateSavingsTracker();
 
 }
 
