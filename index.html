@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
 
     <meta
@@ -16,7 +15,6 @@
         rel="stylesheet"
         href="style.css"
     >
-
 </head>
 
 
@@ -114,8 +112,6 @@
         <div class="calculator-card">
 
 
-            <!-- GOAL -->
-
             <div class="input-group">
 
                 <label for="goal">
@@ -131,8 +127,6 @@
             </div>
 
 
-
-            <!-- TARGET -->
 
             <div class="input-group">
 
@@ -151,8 +145,6 @@
 
 
 
-            <!-- SAVED -->
-
             <div class="input-group">
 
                 <label for="saved">
@@ -169,8 +161,6 @@
             </div>
 
 
-
-            <!-- DATE -->
 
             <div class="input-group">
 
@@ -210,8 +200,6 @@
 
 
 
-            <!-- CALCULATE -->
-
             <button
                 id="calculate"
                 class="calculate-button"
@@ -220,8 +208,6 @@
             </button>
 
 
-
-            <!-- RESULTS -->
 
             <div
                 class="results"
@@ -297,7 +283,6 @@
 
 
         <div class="steps">
-
 
             <div class="step">
 
@@ -378,89 +363,20 @@
                 <span>more rewarding.</span>
             </h2>
 
+            <p id="challenge-progress">
+                Challenges completed: 0 / 30
+            </p>
+
         </div>
 
 
 
-        <div class="challenge-grid">
+        <div
+            class="challenge-grid"
+            id="challenge-grid"
+        >
 
-
-            <div class="challenge">
-
-                <span>
-                    01
-                </span>
-
-                <h3>
-                    No-spend Friday
-                </h3>
-
-                <p>
-                    Try going one full day without
-                    spending money on anything you
-                    don't need.
-                </p>
-
-                <button
-                    class="challenge-button"
-                    onclick="openChallenge('nospend')"
-                >
-                    View challenge →
-                </button>
-
-            </div>
-
-
-
-            <div class="challenge">
-
-                <span>
-                    02
-                </span>
-
-                <h3>
-                    Round it up
-                </h3>
-
-                <p>
-                    Round your purchases up to the
-                    nearest euro and save the difference.
-                </p>
-
-                <button
-                    class="challenge-button"
-                    onclick="openChallenge('roundup')"
-                >
-                    View challenge →
-                </button>
-
-            </div>
-
-
-
-            <div class="challenge">
-
-                <span>
-                    03
-                </span>
-
-                <h3>
-                    Save an extra €5
-                </h3>
-
-                <p>
-                    Add an extra €5 to your usual
-                    weekly savings.
-                </p>
-
-                <button
-                    class="challenge-button"
-                    onclick="openChallenge('five')"
-                >
-                    View challenge →
-                </button>
-
-            </div>
+            <!-- Challenges are inserted by JavaScript -->
 
         </div>
 
