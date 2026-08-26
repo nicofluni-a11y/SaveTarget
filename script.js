@@ -1,17 +1,16 @@
 // ==========================================
 // SAVETARGET
-// Calculator + Challenges + Milestones
 // ==========================================
 
 
 // ==========================================
-// DATE INPUT
+// DATE INPUT + CALENDAR
 // ==========================================
 
 const dateInput = document.getElementById("date");
+const hiddenDate = document.getElementById("hidden-date");
+const calendarButton = document.getElementById("calendar-button");
 
-
-// Automatically add "/" while typing
 
 if (dateInput) {
 
@@ -48,32 +47,54 @@ if (dateInput) {
 }
 
 
+// Calendar button
+
+if (calendarButton && hiddenDate) {
+
+    calendarButton.addEventListener("click", function () {
+
+        if (typeof hiddenDate.showPicker === "function") {
+            hiddenDate.showPicker();
+        } else {
+            hiddenDate.click();
+        }
+
+    });
+
+
+    hiddenDate.addEventListener("change", function () {
+
+        if (!this.value) return;
+
+        const parts = this.value.split("-");
+
+        const year = parts[0];
+        const month = parts[1];
+        const day = parts[2];
+
+        dateInput.value =
+            day + "/" + month + "/" + year;
+
+    });
+
+}
+
+
 // ==========================================
-// VALIDATE DATE
+// DATE VALIDATION
 // ==========================================
 
 function getValidDate(dateString) {
 
-    const parts =
-        dateString.split("/");
-
+    const parts = dateString.split("/");
 
     if (parts.length !== 3) {
         return null;
     }
 
-
-    const day =
-        Number(parts[0]);
-
-    const month =
-        Number(parts[1]);
-
-    const year =
-        Number(parts[2]);
-
-
-    // Basic checks
+    const day = Number(parts[0]);
+    const month = Number(parts[1]);
+    const year = Number(parts[2]);
 
     if (
         !day ||
@@ -85,38 +106,29 @@ function getValidDate(dateString) {
         day < 1 ||
         day > 31
     ) {
-
         return null;
-
     }
 
-
-    // Create date
-
-    const date =
-        new Date(year, month - 1, day);
-
-
-    // Make sure JavaScript didn't
-    // automatically correct an invalid date
+    const date = new Date(
+        year,
+        month - 1,
+        day
+    );
 
     if (
         date.getFullYear() !== year ||
         date.getMonth() !== month - 1 ||
         date.getDate() !== day
     ) {
-
         return null;
-
     }
-
 
     return date;
 }
 
 
 // ==========================================
-// SAVINGS CALCULATOR
+// CALCULATOR
 // ==========================================
 
 const calculateButton =
@@ -125,702 +137,563 @@ const calculateButton =
 
 if (calculateButton) {
 
-    calculateButton.addEventListener(
-        "click",
-        function () {
+    calculateButton.addEventListener("click", function () {
 
-            const goal =
-                document
-                    .getElementById("goal")
-                    .value
-                    .trim();
+        const goal =
+            document.getElementById("goal").value.trim();
 
+        const target =
+            Number(document.getElementById("target").value);
 
-            const target =
-                Number(
-                    document
-                        .getElementById("target")
-                        .value
-                );
+        const saved =
+            Number(document.getElementById("saved").value);
+
+        const dateString =
+            document.getElementById("date").value.trim();
 
 
-            const saved =
-                Number(
-                    document
-                        .getElementById("saved")
-                        .value
-                );
+        if (!goal || !target || !dateString) {
+
+            alert(
+                "Please enter your goal, target amount and target date."
+            );
+
+            return;
+        }
 
 
-            const dateString =
-                document
-                    .getElementById("date")
-                    .value
-                    .trim();
+        if (target <= 0) {
+
+            alert(
+                "Your target must be greater than €0."
+            );
+
+            return;
+        }
 
 
-            // ==========================================
-            // CHECK INPUT
-            // ==========================================
+        if (saved < 0) {
 
-            if (!goal || !target || !dateString) {
+            alert(
+                "Your saved amount cannot be negative."
+            );
 
-                alert(
-                    "Please enter your goal, target amount and target date."
-                );
-
-                return;
-
-            }
+            return;
+        }
 
 
-            if (target <= 0) {
+        if (saved > target) {
 
-                alert(
-                    "Your target must be greater than €0."
-                );
+            alert(
+                "You have already saved more than your target!"
+            );
 
-                return;
-
-            }
-
-
-            if (saved < 0) {
-
-                alert(
-                    "Your saved amount cannot be negative."
-                );
-
-                return;
-
-            }
+            return;
+        }
 
 
-            if (saved > target) {
-
-                alert(
-                    "You have already saved more than your target!"
-                );
-
-                return;
-
-            }
+        const targetDate =
+            getValidDate(dateString);
 
 
-            // ==========================================
-            // VALIDATE DATE
-            // ==========================================
+        if (!targetDate) {
 
-            const targetDate =
-                getValidDate(dateString);
+            alert(
+                "Please enter a valid date in DD/MM/YYYY format."
+            );
 
-
-            if (!targetDate) {
-
-                alert(
-                    "Please enter a valid date in DD/MM/YYYY format."
-                );
-
-                return;
-
-            }
+            return;
+        }
 
 
-            // ==========================================
-            // CALCULATE DAYS
-            // ==========================================
+        const today = new Date();
 
-            const today =
-                new Date();
+        today.setHours(0, 0, 0, 0);
+        targetDate.setHours(0, 0, 0, 0);
 
-            today.setHours(
-                0,
-                0,
-                0,
-                0
+
+        const difference =
+            targetDate.getTime() -
+            today.getTime();
+
+
+        const daysRemaining =
+            Math.ceil(
+                difference /
+                (1000 * 60 * 60 * 24)
             );
 
 
-            targetDate.setHours(
-                0,
-                0,
-                0,
-                0
+        if (daysRemaining <= 0) {
+
+            alert(
+                "Please choose a future target date."
             );
 
+            return;
+        }
 
-            const difference =
-                targetDate.getTime() -
-                today.getTime();
 
+        // Calculations
 
-            const daysRemaining =
-                Math.ceil(
-                    difference /
-                    (1000 * 60 * 60 * 24)
-                );
+        const remaining =
+            target - saved;
 
+        const weeksRemaining =
+            daysRemaining / 7;
 
-            if (daysRemaining <= 0) {
+        const weeklySaving =
+            remaining / weeksRemaining;
 
-                alert(
-                    "Please choose a future target date."
-                );
+        const monthlySaving =
+            weeklySaving * 52 / 12;
 
-                return;
+        const dailySaving =
+            remaining / daysRemaining;
 
-            }
+        const progress =
+            (saved / target) * 100;
 
+        const progressPercentage =
+            Math.min(progress, 100);
 
-            // ==========================================
-            // SAVINGS CALCULATIONS
-            // ==========================================
 
-            const remaining =
-                target - saved;
+        // Readable date
 
-
-            const weeksRemaining =
-                daysRemaining / 7;
-
-
-            const weeklySaving =
-                remaining /
-                weeksRemaining;
-
-
-            const monthlySaving =
-                weeklySaving *
-                52 /
-                12;
-
-
-            const dailySaving =
-                remaining /
-                daysRemaining;
-
-
-            const progress =
-                (saved / target) *
-                100;
-
-
-            const progressPercentage =
-                Math.min(
-                    progress,
-                    100
-                );
-
-
-            // ==========================================
-            // DISPLAY DATE
-            // ==========================================
-
-            const completionDate =
-                targetDate.toLocaleDateString(
-                    "en-GB",
-                    {
-                        day: "numeric",
-                        month: "long",
-                        year: "numeric"
-                    }
-                );
-
-
-            // ==========================================
-            // MAIN RESULTS
-            // ==========================================
-
-            document.getElementById(
-                "weekly-result"
-            ).textContent =
-                "€" +
-                weeklySaving.toFixed(2);
-
-
-            document.getElementById(
-                "monthly-result"
-            ).textContent =
-                "€" +
-                monthlySaving.toFixed(2);
-
-
-            document.getElementById(
-                "progress-result"
-            ).textContent =
-                progressPercentage.toFixed(1) +
-                "%";
-
-
-            // ==========================================
-            // EXTRA RESULTS
-            // ==========================================
-
-            let extraResults =
-                document.getElementById(
-                    "extra-results"
-                );
-
-
-            if (!extraResults) {
-
-                extraResults =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                extraResults.id =
-                    "extra-results";
-
-
-                extraResults.innerHTML = `
-
-                    <div class="extra-result">
-
-                        <span>Goal</span>
-
-                        <strong id="goal-result"></strong>
-
-                    </div>
-
-
-                    <div class="extra-result">
-
-                        <span>Remaining</span>
-
-                        <strong id="remaining-result"></strong>
-
-                    </div>
-
-
-                    <div class="extra-result">
-
-                        <span>Days left</span>
-
-                        <strong id="days-result"></strong>
-
-                    </div>
-
-                `;
-
-
-                document
-                    .getElementById("results")
-                    .after(extraResults);
-
-            }
-
-
-            document.getElementById(
-                "goal-result"
-            ).textContent =
-                goal;
-
-
-            document.getElementById(
-                "remaining-result"
-            ).textContent =
-                "€" +
-                remaining.toFixed(2);
-
-
-            document.getElementById(
-                "days-result"
-            ).textContent =
-                daysRemaining +
-                " days";
-
-
-            // ==========================================
-            // DAILY TARGET + DATE
-            // ==========================================
-
-            let planDetails =
-                document.getElementById(
-                    "plan-details"
-                );
-
-
-            if (!planDetails) {
-
-                planDetails =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                planDetails.id =
-                    "plan-details";
-
-
-                planDetails.innerHTML = `
-
-                    <div class="plan-main">
-
-                        <span>Daily saving target</span>
-
-                        <strong id="daily-result">
-                            €0.00
-                        </strong>
-
-                    </div>
-
-
-                    <div class="plan-date">
-
-                        <span>Goal date</span>
-
-                        <strong id="date-result">
-                            -
-                        </strong>
-
-                    </div>
-
-                `;
-
-
-                document
-                    .getElementById("extra-results")
-                    .after(planDetails);
-
-            }
-
-
-            document.getElementById(
-                "daily-result"
-            ).textContent =
-                "€" +
-                dailySaving.toFixed(2);
-
-
-            document.getElementById(
-                "date-result"
-            ).textContent =
-                completionDate;
-
-
-            // ==========================================
-            // PROGRESS BAR
-            // ==========================================
-
-            let progressContainer =
-                document.getElementById(
-                    "progress-container"
-                );
-
-
-            if (!progressContainer) {
-
-                progressContainer =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                progressContainer.id =
-                    "progress-container";
-
-
-                progressContainer.innerHTML = `
-
-                    <div class="progress-header">
-
-                        <span>Progress</span>
-
-                        <strong id="progress-text">
-                            0%
-                        </strong>
-
-                    </div>
-
-
-                    <div class="progress-bar">
-
-                        <div
-                            id="progress-fill"
-                            class="progress-fill"
-                        ></div>
-
-                    </div>
-
-                `;
-
-
-                document
-                    .getElementById("plan-details")
-                    .after(progressContainer);
-
-            }
-
-
-            document.getElementById(
-                "progress-text"
-            ).textContent =
-                progressPercentage.toFixed(1) +
-                "%";
-
-
-            document.getElementById(
-                "progress-fill"
-            ).style.width =
-                progressPercentage +
-                "%";
-
-
-            // ==========================================
-            // MILESTONES
-            // ==========================================
-
-            let milestones =
-                document.getElementById(
-                    "milestones"
-                );
-
-
-            if (!milestones) {
-
-                milestones =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                milestones.id =
-                    "milestones";
-
-
-                milestones.innerHTML = `
-
-                    <div class="milestones-title">
-
-                        <span>
-                            Savings milestones
-                        </span>
-
-                    </div>
-
-
-                    <div class="milestone-list">
-
-                        <div
-                            class="milestone"
-                            data-milestone="25"
-                        >
-
-                            <div class="milestone-icon">
-                                25%
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    First quarter
-                                </strong>
-
-                                <span>
-                                    You've got started!
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="milestone"
-                            data-milestone="50"
-                        >
-
-                            <div class="milestone-icon">
-                                50%
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Halfway there
-                                </strong>
-
-                                <span>
-                                    You're making serious progress.
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="milestone"
-                            data-milestone="75"
-                        >
-
-                            <div class="milestone-icon">
-                                75%
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Almost there
-                                </strong>
-
-                                <span>
-                                    Keep going!
-                                </span>
-
-                            </div>
-
-                        </div>
-
-
-                        <div
-                            class="milestone"
-                            data-milestone="100"
-                        >
-
-                            <div class="milestone-icon">
-                                100%
-                            </div>
-
-                            <div>
-
-                                <strong>
-                                    Goal reached!
-                                </strong>
-
-                                <span>
-                                    You did it! 🎉
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-
-                document
-                    .getElementById("progress-container")
-                    .after(milestones);
-
-            }
-
-
-            // Update milestone states
-
-            const milestoneElements =
-                document.querySelectorAll(
-                    ".milestone"
-                );
-
-
-            milestoneElements.forEach(
-                function (milestone) {
-
-                    const milestoneValue =
-                        Number(
-                            milestone.getAttribute(
-                                "data-milestone"
-                            )
-                        );
-
-
-                    if (
-                        progressPercentage >=
-                        milestoneValue
-                    ) {
-
-                        milestone.classList.add(
-                            "achieved"
-                        );
-
-                    } else {
-
-                        milestone.classList.remove(
-                            "achieved"
-                        );
-
-                    }
-
+        const completionDate =
+            targetDate.toLocaleDateString(
+                "en-GB",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
                 }
             );
 
 
-            // ==========================================
-            // GOAL MESSAGE
-            // ==========================================
+        // Main results
 
-            let goalMessage =
-                document.getElementById(
-                    "goal-message"
-                );
+        document.getElementById(
+            "weekly-result"
+        ).textContent =
+            "€" + weeklySaving.toFixed(2);
 
 
-            if (!goalMessage) {
-
-                goalMessage =
-                    document.createElement(
-                        "div"
-                    );
+        document.getElementById(
+            "monthly-result"
+        ).textContent =
+            "€" + monthlySaving.toFixed(2);
 
 
-                goalMessage.id =
-                    "goal-message";
+        document.getElementById(
+            "progress-result"
+        ).textContent =
+            progressPercentage.toFixed(1) + "%";
 
 
-                document
-                    .getElementById("milestones")
-                    .after(goalMessage);
+        // Extra results
 
-            }
+        let extraResults =
+            document.getElementById("extra-results");
 
 
-            if (progressPercentage >= 100) {
+        if (!extraResults) {
 
-                goalMessage.innerHTML = `
+            extraResults =
+                document.createElement("div");
 
-                    <strong>
-                        🎉 Goal reached!
-                    </strong>
+            extraResults.id =
+                "extra-results";
+
+            extraResults.innerHTML = `
+
+                <div class="extra-result">
+
+                    <span>Goal</span>
+
+                    <strong id="goal-result"></strong>
+
+                </div>
+
+
+                <div class="extra-result">
+
+                    <span>Remaining</span>
+
+                    <strong id="remaining-result"></strong>
+
+                </div>
+
+
+                <div class="extra-result">
+
+                    <span>Days left</span>
+
+                    <strong id="days-result"></strong>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("results")
+                .after(extraResults);
+        }
+
+
+        document.getElementById(
+            "goal-result"
+        ).textContent = goal;
+
+
+        document.getElementById(
+            "remaining-result"
+        ).textContent =
+            "€" + remaining.toFixed(2);
+
+
+        document.getElementById(
+            "days-result"
+        ).textContent =
+            daysRemaining + " days";
+
+
+        // Plan details
+
+        let planDetails =
+            document.getElementById("plan-details");
+
+
+        if (!planDetails) {
+
+            planDetails =
+                document.createElement("div");
+
+            planDetails.id =
+                "plan-details";
+
+            planDetails.innerHTML = `
+
+                <div class="plan-main">
 
                     <span>
-                        You've saved enough for your ${goal}.
+                        Daily saving target
                     </span>
 
-                `;
+                    <strong id="daily-result">
+                        €0.00
+                    </strong>
 
-                goalMessage.classList.add(
-                    "complete"
+                </div>
+
+
+                <div class="plan-date">
+
+                    <span>
+                        Goal date
+                    </span>
+
+                    <strong id="date-result">
+                        -
+                    </strong>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("extra-results")
+                .after(planDetails);
+        }
+
+
+        document.getElementById(
+            "daily-result"
+        ).textContent =
+            "€" + dailySaving.toFixed(2);
+
+
+        document.getElementById(
+            "date-result"
+        ).textContent =
+            completionDate;
+
+
+        // Progress bar
+
+        let progressContainer =
+            document.getElementById(
+                "progress-container"
+            );
+
+
+        if (!progressContainer) {
+
+            progressContainer =
+                document.createElement("div");
+
+            progressContainer.id =
+                "progress-container";
+
+            progressContainer.innerHTML = `
+
+                <div class="progress-header">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <strong id="progress-text">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        id="progress-fill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("plan-details")
+                .after(progressContainer);
+        }
+
+
+        document.getElementById(
+            "progress-text"
+        ).textContent =
+            progressPercentage.toFixed(1) + "%";
+
+
+        document.getElementById(
+            "progress-fill"
+        ).style.width =
+            progressPercentage + "%";
+
+
+        // Milestones
+
+        let milestones =
+            document.getElementById("milestones");
+
+
+        if (!milestones) {
+
+            milestones =
+                document.createElement("div");
+
+            milestones.id =
+                "milestones";
+
+            milestones.innerHTML = `
+
+                <div class="milestones-title">
+                    Savings milestones
+                </div>
+
+
+                <div class="milestone-list">
+
+                    <div
+                        class="milestone"
+                        data-milestone="25"
+                    >
+
+                        <div class="milestone-icon">
+                            25%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                First quarter
+                            </strong>
+
+                            <span>
+                                You've got started!
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="50"
+                    >
+
+                        <div class="milestone-icon">
+                            50%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Halfway there
+                            </strong>
+
+                            <span>
+                                You're making serious progress.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="75"
+                    >
+
+                        <div class="milestone-icon">
+                            75%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Almost there
+                            </strong>
+
+                            <span>
+                                Keep going!
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="100"
+                    >
+
+                        <div class="milestone-icon">
+                            100%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Goal reached!
+                            </strong>
+
+                            <span>
+                                You did it! 🎉
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("progress-container")
+                .after(milestones);
+        }
+
+
+        const milestoneElements =
+            document.querySelectorAll(".milestone");
+
+
+        milestoneElements.forEach(function (milestone) {
+
+            const milestoneValue =
+                Number(
+                    milestone.getAttribute(
+                        "data-milestone"
+                    )
                 );
+
+
+            if (
+                progressPercentage >=
+                milestoneValue
+            ) {
+
+                milestone.classList.add("achieved");
 
             } else {
 
-                goalMessage.innerHTML = `
-
-                    <strong>
-                        Keep going!
-                    </strong>
-
-                    <span>
-                        You're ${progressPercentage.toFixed(1)}% of the way to your ${goal}.
-                    </span>
-
-                `;
-
-                goalMessage.classList.remove(
-                    "complete"
-                );
+                milestone.classList.remove("achieved");
 
             }
 
+        });
+
+
+        // Goal message
+
+        let goalMessage =
+            document.getElementById("goal-message");
+
+
+        if (!goalMessage) {
+
+            goalMessage =
+                document.createElement("div");
+
+            goalMessage.id =
+                "goal-message";
+
+            document
+                .getElementById("milestones")
+                .after(goalMessage);
         }
-    );
+
+
+        if (progressPercentage >= 100) {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    🎉 Goal reached!
+                </strong>
+
+                <span>
+                    You've saved enough for your ${goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.add("complete");
+
+        } else {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    Keep going!
+                </strong>
+
+                <span>
+                    You're ${progressPercentage.toFixed(1)}% of the way to your ${goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.remove("complete");
+        }
+
+    });
 
 }
+
 
 
 // ==========================================
@@ -868,41 +741,25 @@ const challenges = {
 
 
 const modal =
-    document.getElementById(
-        "challenge-modal"
-    );
-
+    document.getElementById("challenge-modal");
 
 const modalNumber =
-    document.getElementById(
-        "modal-number"
-    );
-
+    document.getElementById("modal-number");
 
 const modalTitle =
-    document.getElementById(
-        "modal-title"
-    );
-
+    document.getElementById("modal-title");
 
 const modalDescription =
-    document.getElementById(
-        "modal-description"
-    );
-
+    document.getElementById("modal-description");
 
 const completeButton =
-    document.getElementById(
-        "complete-challenge"
-    );
-
+    document.getElementById("complete-challenge");
 
 let currentChallenge = null;
 
 
-// ==========================================
-// OPEN CHALLENGE
-// ==========================================
+
+// Open challenge
 
 function openChallenge(challengeName) {
 
@@ -910,9 +767,7 @@ function openChallenge(challengeName) {
         challenges[challengeName];
 
 
-    if (!challenge) {
-        return;
-    }
+    if (!challenge) return;
 
 
     currentChallenge =
@@ -931,36 +786,42 @@ function openChallenge(challengeName) {
         challenge.description;
 
 
-    completeButton.textContent =
-        "Complete challenge";
+    const completed =
+        localStorage.getItem(
+            "challenge-" + challengeName
+        );
 
 
-    modal.classList.add(
-        "active"
-    );
+    if (completed === "completed") {
 
+        completeButton.textContent =
+            "✓ Challenge completed!";
+
+    } else {
+
+        completeButton.textContent =
+            "Complete challenge";
+
+    }
+
+
+    modal.classList.add("active");
 }
 
 
-// ==========================================
-// CLOSE CHALLENGE
-// ==========================================
+
+// Close challenge
 
 function closeChallenge() {
 
-    modal.classList.remove(
-        "active"
-    );
-
+    modal.classList.remove("active");
 
     currentChallenge = null;
-
 }
 
 
-// ==========================================
-// COMPLETE CHALLENGE
-// ==========================================
+
+// Complete challenge
 
 if (completeButton) {
 
@@ -968,9 +829,7 @@ if (completeButton) {
         "click",
         function () {
 
-            if (!currentChallenge) {
-                return;
-            }
+            if (!currentChallenge) return;
 
 
             localStorage.setItem(
@@ -990,36 +849,33 @@ if (completeButton) {
                 );
 
 
-            cards.forEach(
-                function (card) {
+            cards.forEach(function (card) {
 
-                    const button =
-                        card.querySelector(
-                            ".challenge-button"
-                        );
-
-
-                    if (
-                        button &&
-                        button
-                            .getAttribute("onclick")
-                            .includes(
-                                currentChallenge
-                            )
-                    ) {
-
-                        button.textContent =
-                            "✓ Completed";
+                const button =
+                    card.querySelector(
+                        ".challenge-button"
+                    );
 
 
-                        card.classList.add(
-                            "completed"
-                        );
+                if (
+                    button &&
+                    button
+                        .getAttribute("onclick")
+                        .includes(
+                            currentChallenge
+                        )
+                ) {
 
-                    }
+                    button.textContent =
+                        "✓ Completed";
+
+                    card.classList.add(
+                        "completed"
+                    );
 
                 }
-            );
+
+            });
 
         }
     );
@@ -1027,9 +883,8 @@ if (completeButton) {
 }
 
 
-// ==========================================
-// LOAD COMPLETED CHALLENGES
-// ==========================================
+
+// Load completed challenges
 
 function loadCompletedChallenges() {
 
@@ -1039,66 +894,58 @@ function loadCompletedChallenges() {
         );
 
 
-    cards.forEach(
-        function (card) {
+    cards.forEach(function (card) {
 
-            const button =
-                card.querySelector(
-                    ".challenge-button"
-                );
-
-
-            if (!button) {
-                return;
-            }
+        const button =
+            card.querySelector(
+                ".challenge-button"
+            );
 
 
-            const onclickText =
-                button.getAttribute(
-                    "onclick"
-                );
+        if (!button) return;
 
 
-            Object.keys(challenges)
-                .forEach(
-                    function (challengeName) {
-
-                        if (
-                            onclickText &&
-                            onclickText.includes(
-                                challengeName
-                            )
-                        ) {
-
-                            const completed =
-                                localStorage.getItem(
-                                    "challenge-" +
-                                    challengeName
-                                );
+        const onclickText =
+            button.getAttribute("onclick");
 
 
-                            if (
-                                completed ===
-                                "completed"
-                            ) {
+        Object.keys(challenges).forEach(
+            function (challengeName) {
 
-                                button.textContent =
-                                    "✓ Completed";
+                if (
+                    onclickText &&
+                    onclickText.includes(
+                        challengeName
+                    )
+                ) {
+
+                    const completed =
+                        localStorage.getItem(
+                            "challenge-" +
+                            challengeName
+                        );
 
 
-                                card.classList.add(
-                                    "completed"
-                                );
+                    if (
+                        completed ===
+                        "completed"
+                    ) {
 
-                            }
+                        button.textContent =
+                            "✓ Completed";
 
-                        }
+                        card.classList.add(
+                            "completed"
+                        );
 
                     }
-                );
 
-        }
-    );
+                }
+
+            }
+        );
+
+    });
 
 }
 
@@ -1106,9 +953,8 @@ function loadCompletedChallenges() {
 loadCompletedChallenges();
 
 
-// ==========================================
-// CLOSE MODAL OUTSIDE
-// ==========================================
+
+// Close when clicking outside
 
 if (modal) {
 
@@ -1130,9 +976,8 @@ if (modal) {
 }
 
 
-// ==========================================
-// ESCAPE KEY
-// ==========================================
+
+// Escape key
 
 document.addEventListener(
     "keydown",
