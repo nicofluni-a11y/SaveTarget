@@ -38,7 +38,7 @@
             </a>
 
             <a href="#savings">
-                My Savings
+                Additional Savings
             </a>
 
             <a href="#how">
@@ -278,7 +278,7 @@
 
 
 
-    <!-- MY SAVINGS -->
+    <!-- ADDITIONAL SAVINGS -->
 
     <section
         class="calculator-section"
@@ -288,17 +288,18 @@
         <div class="section-intro">
 
             <p class="eyebrow">
-                MY SAVINGS
+                ADDITIONAL SAVINGS
             </p>
 
             <h2>
-                Keep track of your
-                <span>progress.</span>
+                Saved some extra?
+                <span>Add it here.</span>
             </h2>
 
             <p>
-                Add money whenever you save and watch
-                your progress towards your goal grow.
+                Add money you've saved separately and we'll
+                automatically reduce the amount you need to
+                save each week.
             </p>
 
         </div>
@@ -310,13 +311,13 @@
             <div class="input-group">
 
                 <label for="add-savings">
-                    How much have you saved?
+                    How much would you like to add?
                 </label>
 
                 <input
                     type="number"
                     id="add-savings"
-                    placeholder="e.g. 50"
+                    placeholder="e.g. 100"
                     min="0"
                     step="0.01"
                 >
@@ -338,75 +339,21 @@
             ></div>
 
 
+            <!-- ADDITIONAL SAVINGS IMPACT -->
+
             <div
-                class="results"
-                id="savings-summary"
+                id="additional-savings-result"
+                class="additional-savings-result"
+                style="display: none;"
             >
 
-                <div class="result">
+                <span>
+                    Your weekly savings has been reduced by:
+                </span>
 
-                    <span>
-                        Saved so far
-                    </span>
-
-                    <strong id="tracked-saved">
-                        €0.00
-                    </strong>
-
-                </div>
-
-
-                <div class="result">
-
-                    <span>
-                        Remaining
-                    </span>
-
-                    <strong id="tracked-remaining">
-                        €0.00
-                    </strong>
-
-                </div>
-
-
-                <div class="result">
-
-                    <span>
-                        Progress
-                    </span>
-
-                    <strong id="tracked-progress">
-                        0%
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-            <div id="tracked-progress-container">
-
-                <div class="progress-header">
-
-                    <span>
-                        Savings progress
-                    </span>
-
-                    <strong id="tracked-progress-text">
-                        0%
-                    </strong>
-
-                </div>
-
-
-                <div class="progress-bar">
-
-                    <div
-                        id="tracked-progress-fill"
-                        class="progress-fill"
-                    ></div>
-
-                </div>
+                <strong id="weekly-reduction">
+                    €0.00
+                </strong>
 
             </div>
 
