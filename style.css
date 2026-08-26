@@ -15,6 +15,7 @@ body {
     line-height: 1.5;
 }
 
+
 /* =========================
    NAVIGATION
 ========================= */
@@ -258,7 +259,7 @@ h3 {
 
 
 /* =========================
-   DAILY TARGET + DATE
+   DAILY TARGET + GOAL DATE
 ========================= */
 
 #plan-details {
@@ -337,6 +338,135 @@ h3 {
     border-radius: 100px;
     background: #718067;
     transition: width 0.8s ease;
+}
+
+
+/* =========================
+   SAVINGS MILESTONES
+========================= */
+
+#milestones {
+    margin-top: 15px;
+    padding: 30px;
+    border-radius: 18px;
+    background: #f5f3ed;
+    border: 1px solid #d0d0c8;
+}
+
+.milestones-title {
+    margin-bottom: 20px;
+}
+
+.milestones-title span {
+    color: #62625e;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.milestone-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.milestone {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 16px;
+    border-radius: 14px;
+    background: #dedfd7;
+    opacity: 0.55;
+    transition: 0.3s ease;
+}
+
+.milestone-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 48px;
+    height: 48px;
+
+    border-radius: 50%;
+
+    background: #c3c4bc;
+    color: #62625e;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    transition: 0.3s ease;
+}
+
+.milestone strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 15px;
+}
+
+.milestone span {
+    color: #62625e;
+    font-size: 12px;
+}
+
+
+/* COMPLETED MILESTONE */
+
+.milestone.achieved {
+    opacity: 1;
+    background: #e7eadf;
+}
+
+.milestone.achieved .milestone-icon {
+    background: #718067;
+    color: white;
+}
+
+.milestone.achieved strong::before {
+    content: "✓ ";
+    color: #718067;
+}
+
+
+/* =========================
+   GOAL MESSAGE
+========================= */
+
+#goal-message {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    margin-top: 15px;
+    padding: 22px 25px;
+
+    border-radius: 18px;
+
+    background: #dedfd7;
+}
+
+#goal-message strong {
+    font-size: 16px;
+}
+
+#goal-message span {
+    color: #62625e;
+    font-size: 14px;
+}
+
+#goal-message.complete {
+    background: #718067;
+    color: white;
+}
+
+#goal-message.complete span {
+    color: #e7eadf;
 }
 
 
@@ -604,6 +734,15 @@ footer {
     .steps,
     .challenge-grid {
         grid-template-columns: 1fr;
+    }
+
+    .milestone-list {
+        grid-template-columns: 1fr;
+    }
+
+    #goal-message {
+        align-items: flex-start;
+        flex-direction: column;
     }
 
     .hero {
