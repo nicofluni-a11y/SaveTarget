@@ -868,9 +868,7 @@ if (addSavingsButton) {
 function updateSavingsTracker() {
 
     const savedGoal =
-        localStorage.getItem(
-            "saveTargetGoal"
-        );
+        localStorage.getItem("saveTargetGoal");
 
 
     if (!savedGoal) return;
@@ -888,9 +886,7 @@ function updateSavingsTracker() {
         );
 
 
-    if (
-        isNaN(currentSaved)
-    ) {
+    if (isNaN(currentSaved)) {
 
         currentSaved =
             Number(goalData.saved);
@@ -919,41 +915,30 @@ function updateSavingsTracker() {
         Math.min(progress, 100);
 
 
-    const trackedSaved =
-        document.getElementById(
-            "tracked-saved"
-        );
+    // ==========================================
+    // UPDATE MY SAVINGS
+    // ==========================================
 
+    const trackedSaved =
+        document.getElementById("tracked-saved");
 
     const trackedRemaining =
-        document.getElementById(
-            "tracked-remaining"
-        );
-
+        document.getElementById("tracked-remaining");
 
     const trackedProgress =
-        document.getElementById(
-            "tracked-progress"
-        );
-
+        document.getElementById("tracked-progress");
 
     const trackedProgressText =
-        document.getElementById(
-            "tracked-progress-text"
-        );
-
+        document.getElementById("tracked-progress-text");
 
     const trackedProgressFill =
-        document.getElementById(
-            "tracked-progress-fill"
-        );
+        document.getElementById("tracked-progress-fill");
 
 
     if (trackedSaved) {
 
         trackedSaved.textContent =
-            "€" +
-            currentSaved.toFixed(2);
+            "€" + currentSaved.toFixed(2);
 
     }
 
@@ -961,8 +946,7 @@ function updateSavingsTracker() {
     if (trackedRemaining) {
 
         trackedRemaining.textContent =
-            "€" +
-            remaining.toFixed(2);
+            "€" + remaining.toFixed(2);
 
     }
 
@@ -970,8 +954,7 @@ function updateSavingsTracker() {
     if (trackedProgress) {
 
         trackedProgress.textContent =
-            percentage.toFixed(1) +
-            "%";
+            percentage.toFixed(1) + "%";
 
     }
 
@@ -979,8 +962,7 @@ function updateSavingsTracker() {
     if (trackedProgressText) {
 
         trackedProgressText.textContent =
-            percentage.toFixed(1) +
-            "%";
+            percentage.toFixed(1) + "%";
 
     }
 
@@ -989,6 +971,82 @@ function updateSavingsTracker() {
 
         trackedProgressFill.style.width =
             percentage + "%";
+
+    }
+
+
+    // ==========================================
+    // UPDATE WEEKLY + MONTHLY SAVING
+    // ==========================================
+
+    const targetDate =
+        getValidDate(goalData.date);
+
+
+    if (targetDate) {
+
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+        targetDate.setHours(0, 0, 0, 0);
+
+
+        const difference =
+            targetDate.getTime() -
+            today.getTime();
+
+
+        const daysRemaining =
+            Math.ceil(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        if (daysRemaining > 0) {
+
+            const weeksRemaining =
+                daysRemaining / 7;
+
+
+            const weeklySaving =
+                remaining / weeksRemaining;
+
+
+            const monthlySaving =
+                weeklySaving * 52 / 12;
+
+
+            const weeklyResult =
+                document.getElementById(
+                    "weekly-result"
+                );
+
+
+            const monthlyResult =
+                document.getElementById(
+                    "monthly-result"
+                );
+
+
+            if (weeklyResult) {
+
+                weeklyResult.textContent =
+                    "€" +
+                    weeklySaving.toFixed(2);
+
+            }
+
+
+            if (monthlyResult) {
+
+                monthlyResult.textContent =
+                    "€" +
+                    monthlySaving.toFixed(2);
+
+            }
+
+        }
 
     }
 
