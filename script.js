@@ -126,6 +126,28 @@ function getValidDate(dateString) {
 
 
 // ==========================================
+// RENAME CALCULATOR SAVINGS LABEL
+// ==========================================
+
+const savedInput =
+    document.getElementById("saved");
+
+if (savedInput) {
+
+    const savedLabel =
+        document.querySelector('label[for="saved"]');
+
+    if (savedLabel) {
+
+        savedLabel.textContent =
+            "Additional Savings";
+
+    }
+
+}
+
+
+// ==========================================
 // CALCULATOR
 // ==========================================
 
@@ -143,8 +165,8 @@ if (calculateButton) {
         const target =
             Number(document.getElementById("target").value);
 
-        const saved =
-            Number(document.getElementById("saved").value);
+        const additionalSavings =
+            Number(document.getElementById("saved").value) || 0;
 
         const dateString =
             document.getElementById("date").value.trim();
@@ -170,20 +192,20 @@ if (calculateButton) {
         }
 
 
-        if (saved < 0) {
+        if (additionalSavings < 0) {
 
             alert(
-                "Your saved amount cannot be negative."
+                "Your additional savings cannot be negative."
             );
 
             return;
         }
 
 
-        if (saved > target) {
+        if (additionalSavings > target) {
 
             alert(
-                "You have already saved more than your target!"
+                "Your additional savings cannot be more than your target!"
             );
 
             return;
@@ -232,8 +254,15 @@ if (calculateButton) {
         }
 
 
+        // ==========================================
+        // CALCULATE USING ADDITIONAL SAVINGS
+        // ==========================================
+
         const remaining =
-            target - saved;
+            Math.max(
+                target - additionalSavings,
+                0
+            );
 
         const weeksRemaining =
             daysRemaining / 7;
@@ -248,7 +277,7 @@ if (calculateButton) {
             remaining / daysRemaining;
 
         const progress =
-            (saved / target) * 100;
+            (additionalSavings / target) * 100;
 
         const progressPercentage =
             Math.min(progress, 100);
@@ -675,18 +704,22 @@ if (calculateButton) {
             JSON.stringify({
                 goal: goal,
                 target: target,
-                saved: saved,
+                additionalSavings: additionalSavings,
                 date: dateString
             })
         );
 
 
-        // Reset tracked savings to calculator amount
-        localStorage.setItem(
-            "saveTargetTrackedSaved",
-            saved.toString()
-        );
-
+        // ==========================================
+        // DO NOT RESET MY SAVINGS HERE
+        // ==========================================
+        //
+        // Additional Savings belongs only to the
+        // calculator.
+        //
+        // My Savings is tracked separately.
+        //
+        // ==========================================
 
         updateSavingsTracker();
 
@@ -803,8 +836,7 @@ if (addSavingsButton) {
                 isNaN(currentSaved)
             ) {
 
-                currentSaved =
-                    Number(goalData.saved);
+                currentSaved = 0;
 
             }
 
@@ -892,8 +924,7 @@ function updateSavingsTracker() {
         isNaN(currentSaved)
     ) {
 
-        currentSaved =
-            Number(goalData.saved);
+        currentSaved = 0;
 
     }
 
@@ -1041,8 +1072,6 @@ if (!savedGoalOnLoad) {
     }
 
 }
-
-
 
 
 // ==========================================
@@ -1492,31 +1521,31 @@ function getRandomChallenges() {
         );
 
     if (
-    !selected ||
-    selected.length !== 3
-) {
+        !selected ||
+        selected.length !== 3
+    ) {
 
-    selected =
-        challengeNames
-            .sort(
-                () => Math.random() - 0.5
-            )
-            .slice(0, 3);
+        selected =
+            challengeNames
+                .sort(
+                    () => Math.random() - 0.5
+                )
+                .slice(0, 3);
 
-    // Reset completion status for the new challenges
-    selected.forEach(function (challengeName) {
+        // Reset completion status for the new challenges
+        selected.forEach(function (challengeName) {
 
-        localStorage.removeItem(
-            "challenge-" + challengeName
+            localStorage.removeItem(
+                "challenge-" + challengeName
+            );
+
+        });
+
+        localStorage.setItem(
+            "saveTargetActiveChallenges",
+            JSON.stringify(selected)
         );
-
-    });
-
-    localStorage.setItem(
-        "saveTargetActiveChallenges",
-        JSON.stringify(selected)
-    );
-}
+    }
 
 
     return selected;
