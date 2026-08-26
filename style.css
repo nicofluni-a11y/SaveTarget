@@ -106,7 +106,8 @@ h2 span {
 
 .calculator-section,
 .how-section,
-.challenges-section {
+.challenges-section,
+.three-pots-section {
     padding: 100px 7%;
 }
 
@@ -469,46 +470,68 @@ h2 span {
 
 
 /* ==========================================
-   TIPS SECTION
-========================================== */
+   THREE POTS
+   ========================================== */
+
+.three-pots-section {
+    background: #e9ddcd;
+}
+
+.three-pots-section .section-intro {
+    max-width: 650px;
+    margin-bottom: 45px;
+}
+
+.three-pots-section .section-intro > p:last-child {
+    color: #75685d;
+}
+
+.three-pots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.pot-card {
+    background: #fffaf4;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(76, 57, 42, 0.06);
+}
+
+.pot-number {
+    color: #7f7468;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.pot-card h3 {
+    font-size: 28px;
+    margin: 15px 0 10px;
+}
+
+.pot-card p {
+    color: #75685d;
+    line-height: 1.7;
+}
+
+
+/* ==========================================
+   TIPS
+   ========================================== */
 
 #tips {
-    background: #e2d2c0;
-}
-
-#tips .eyebrow {
-    color: #7f7468;
-}
-
-#tips .section-intro > p:last-child {
-    color: #75685d;
+    background: #d8c6b2;
 }
 
 #tips .challenge {
     background: #fffaf4;
-    box-shadow: 0 10px 30px rgba(76, 57, 42, 0.06);
-}
-
-#tips .challenge > span {
-    color: #7f7468;
-}
-
-#tips .challenge p {
-    color: #75685d;
-}
-
-#tips .challenge h3 {
-    color: #352b24;
-}
-
-#tips h2 span {
-    color: #7f7468;
 }
 
 
 /* ==========================================
    MODAL
-========================================== */
+   ========================================== */
 
 .modal {
     position: fixed;
@@ -563,7 +586,7 @@ h2 span {
 
 /* ==========================================
    FOOTER
-========================================== */
+   ========================================== */
 
 footer {
     padding: 40px 7%;
@@ -582,7 +605,7 @@ footer strong {
 
 /* ==========================================
    MOBILE
-========================================== */
+   ========================================== */
 
 @media (max-width: 750px) {
 
@@ -597,7 +620,8 @@ footer strong {
     .hero,
     .calculator-section,
     .how-section,
-    .challenges-section {
+    .challenges-section,
+    .three-pots-section {
         padding: 70px 5%;
     }
 
@@ -621,7 +645,8 @@ footer strong {
     #extra-results,
     .steps,
     .challenge-grid,
-    .milestone-list {
+    .milestone-list,
+    .three-pots-grid {
         grid-template-columns: 1fr;
     }
 
