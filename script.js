@@ -4,14 +4,6 @@
 
 
 // ==========================================
-// CURRENT SESSION DATA
-// ==========================================
-
-let currentGoalData = null;
-let additionalSavings = 0;
-
-
-// ==========================================
 // DATE INPUT + CALENDAR
 // ==========================================
 
@@ -134,53 +126,6 @@ function getValidDate(dateString) {
 
 
 // ==========================================
-// CHANGE "MY SAVINGS" TO "ADDITIONAL SAVINGS"
-// ==========================================
-
-const savingsSection =
-    document.getElementById("savings");
-
-if (savingsSection) {
-
-    const eyebrow =
-        savingsSection.querySelector(".eyebrow");
-
-    const heading =
-        savingsSection.querySelector("h2");
-
-    const description =
-        savingsSection.querySelector(".section-intro p:last-child");
-
-    const savingsLabel =
-        document.querySelector('label[for="add-savings"]');
-
-
-    if (eyebrow) {
-        eyebrow.textContent = "ADDITIONAL SAVINGS";
-    }
-
-
-    if (heading) {
-        heading.innerHTML =
-            "Add to your <span>savings.</span>";
-    }
-
-
-    if (description) {
-        description.textContent =
-            "Add extra money whenever you save and reduce the amount you need to save each week.";
-    }
-
-
-    if (savingsLabel) {
-        savingsLabel.textContent =
-            "How much would you like to add?";
-    }
-
-}
-
-
-// ==========================================
 // CALCULATOR
 // ==========================================
 
@@ -199,7 +144,7 @@ if (calculateButton) {
             Number(document.getElementById("target").value);
 
         const saved =
-            Number(document.getElementById("saved").value) || 0;
+            Number(document.getElementById("saved").value);
 
         const dateString =
             document.getElementById("date").value.trim();
@@ -288,550 +233,501 @@ if (calculateButton) {
 
 
         // ==========================================
-        // SAVE CURRENT CALCULATOR DATA
+        // RESET ADDITIONAL SAVINGS FOR NEW CALCULATION
         // ==========================================
 
-        currentGoalData = {
+        let additionalSavings = 0;
 
-            goal: goal,
-            target: target,
-            saved: saved,
-            date: dateString,
-            targetDate: targetDate,
-            daysRemaining: daysRemaining
-
-        };
+        localStorage.setItem(
+            "saveTargetAdditionalSavings",
+            "0"
+        );
 
 
-        // Reset additional savings whenever a new
-        // calculator plan is created.
-
-        additionalSavings = 0;
-
-
-        // Clear the Additional Savings tracker.
-
-        const amountInput =
+        const additionalSavingsInput =
             document.getElementById("add-savings");
 
-        if (amountInput) {
-            amountInput.value = "";
+        if (additionalSavingsInput) {
+            additionalSavingsInput.value = "";
         }
 
 
-        updateCalculator();
+        const additionalSavingsResult =
+            document.getElementById(
+                "additional-savings-result"
+            );
+
+        if (additionalSavingsResult) {
+            additionalSavingsResult.style.display = "none";
+        }
 
 
-        updateSavingsTracker();
+        // ==========================================
+        // CALCULATE USING TOTAL SAVED
+        // ==========================================
+
+        const totalSaved =
+            saved + additionalSavings;
+
+
+        const remaining =
+            Math.max(
+                target - totalSaved,
+                0
+            );
+
+
+        const weeksRemaining =
+            daysRemaining / 7;
+
+        const weeklySaving =
+            remaining / weeksRemaining;
+
+        const monthlySaving =
+            weeklySaving * 52 / 12;
+
+        const dailySaving =
+            remaining / daysRemaining;
+
+        const progress =
+            target > 0
+                ? (totalSaved / target) * 100
+                : 0;
+
+        const progressPercentage =
+            Math.min(progress, 100);
+
+
+        const completionDate =
+            targetDate.toLocaleDateString(
+                "en-GB",
+                {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric"
+                }
+            );
+
+
+        document.getElementById(
+            "weekly-result"
+        ).textContent =
+            "€" + weeklySaving.toFixed(2);
+
+
+        document.getElementById(
+            "monthly-result"
+        ).textContent =
+            "€" + monthlySaving.toFixed(2);
+
+
+        document.getElementById(
+            "progress-result"
+        ).textContent =
+            progressPercentage.toFixed(1) + "%";
+
+
+        // ==========================================
+        // EXTRA RESULTS
+        // ==========================================
+
+        let extraResults =
+            document.getElementById("extra-results");
+
+
+        if (!extraResults) {
+
+            extraResults =
+                document.createElement("div");
+
+            extraResults.id =
+                "extra-results";
+
+            extraResults.innerHTML = `
+
+                <div class="extra-result">
+
+                    <span>Goal</span>
+
+                    <strong id="goal-result"></strong>
+
+                </div>
+
+
+                <div class="extra-result">
+
+                    <span>Remaining</span>
+
+                    <strong id="remaining-result"></strong>
+
+                </div>
+
+
+                <div class="extra-result">
+
+                    <span>Days left</span>
+
+                    <strong id="days-result"></strong>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("results")
+                .after(extraResults);
+        }
+
+
+        document.getElementById(
+            "goal-result"
+        ).textContent = goal;
+
+
+        document.getElementById(
+            "remaining-result"
+        ).textContent =
+            "€" + remaining.toFixed(2);
+
+
+        document.getElementById(
+            "days-result"
+        ).textContent =
+            daysRemaining + " days";
+
+
+        // ==========================================
+        // PLAN DETAILS
+        // ==========================================
+
+        let planDetails =
+            document.getElementById("plan-details");
+
+
+        if (!planDetails) {
+
+            planDetails =
+                document.createElement("div");
+
+            planDetails.id =
+                "plan-details";
+
+            planDetails.innerHTML = `
+
+                <div class="plan-main">
+
+                    <span>
+                        Daily saving target
+                    </span>
+
+                    <strong id="daily-result">
+                        €0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="plan-date">
+
+                    <span>
+                        Goal date
+                    </span>
+
+                    <strong id="date-result">
+                        -
+                    </strong>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("extra-results")
+                .after(planDetails);
+        }
+
+
+        document.getElementById(
+            "daily-result"
+        ).textContent =
+            "€" + dailySaving.toFixed(2);
+
+
+        document.getElementById(
+            "date-result"
+        ).textContent =
+            completionDate;
+
+
+        // ==========================================
+        // PROGRESS BAR
+        // ==========================================
+
+        let progressContainer =
+            document.getElementById(
+                "progress-container"
+            );
+
+
+        if (!progressContainer) {
+
+            progressContainer =
+                document.createElement("div");
+
+            progressContainer.id =
+                "progress-container";
+
+            progressContainer.innerHTML = `
+
+                <div class="progress-header">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <strong id="progress-text">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        id="progress-fill"
+                        class="progress-fill"
+                    ></div>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("plan-details")
+                .after(progressContainer);
+        }
+
+
+        document.getElementById(
+            "progress-text"
+        ).textContent =
+            progressPercentage.toFixed(1) + "%";
+
+
+        document.getElementById(
+            "progress-fill"
+        ).style.width =
+            progressPercentage + "%";
+
+
+        // ==========================================
+        // MILESTONES
+        // ==========================================
+
+        let milestones =
+            document.getElementById("milestones");
+
+
+        if (!milestones) {
+
+            milestones =
+                document.createElement("div");
+
+            milestones.id =
+                "milestones";
+
+            milestones.innerHTML = `
+
+                <div class="milestones-title">
+                    Savings milestones
+                </div>
+
+
+                <div class="milestone-list">
+
+                    <div
+                        class="milestone"
+                        data-milestone="25"
+                    >
+
+                        <div class="milestone-icon">
+                            25%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                First quarter
+                            </strong>
+
+                            <span>
+                                You've got started!
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="50"
+                    >
+
+                        <div class="milestone-icon">
+                            50%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Halfway there
+                            </strong>
+
+                            <span>
+                                You're making serious progress.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="75"
+                    >
+
+                        <div class="milestone-icon">
+                            75%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Almost there
+                            </strong>
+
+                            <span>
+                                Keep going!
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div
+                        class="milestone"
+                        data-milestone="100"
+                    >
+
+                        <div class="milestone-icon">
+                            100%
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Goal reached!
+                            </strong>
+
+                            <span>
+                                You did it! 🎉
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+            document
+                .getElementById("progress-container")
+                .after(milestones);
+        }
+
+
+        updateMilestones(progressPercentage);
+
+
+        // ==========================================
+        // GOAL MESSAGE
+        // ==========================================
+
+        let goalMessage =
+            document.getElementById("goal-message");
+
+
+        if (!goalMessage) {
+
+            goalMessage =
+                document.createElement("div");
+
+            goalMessage.id =
+                "goal-message";
+
+            document
+                .getElementById("milestones")
+                .after(goalMessage);
+        }
+
+
+        if (progressPercentage >= 100) {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    🎉 Goal reached!
+                </strong>
+
+                <span>
+                    You've saved enough for your ${goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.add("complete");
+
+        } else {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    Keep going!
+                </strong>
+
+                <span>
+                    You're ${progressPercentage.toFixed(1)}% of the way to your ${goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.remove("complete");
+        }
+
+
+        // ==========================================
+        // SAVE CURRENT GOAL DATA
+        // ==========================================
+
+        localStorage.setItem(
+            "saveTargetGoal",
+            JSON.stringify({
+                goal: goal,
+                target: target,
+                saved: saved,
+                date: dateString
+            })
+        );
+
+
+        updateCalculatorFromAdditionalSavings();
 
     });
-
-}
-
-
-// ==========================================
-// UPDATE CALCULATOR
-// ==========================================
-
-function updateCalculator() {
-
-    if (!currentGoalData) return;
-
-
-    const goal =
-        currentGoalData.goal;
-
-    const target =
-        Number(currentGoalData.target);
-
-    const originalSaved =
-        Number(currentGoalData.saved);
-
-    const daysRemaining =
-        Number(currentGoalData.daysRemaining);
-
-
-    // ==========================================
-    // TOTAL SAVED
-    // ==========================================
-
-    const totalSaved =
-        Math.min(
-            originalSaved + additionalSavings,
-            target
-        );
-
-
-    // ==========================================
-    // REMAINING
-    // ==========================================
-
-    const remaining =
-        Math.max(
-            target - totalSaved,
-            0
-        );
-
-
-    // ==========================================
-    // SAVINGS CALCULATIONS
-    // ==========================================
-
-    const weeksRemaining =
-        daysRemaining / 7;
-
-
-    const weeklySaving =
-        remaining / weeksRemaining;
-
-
-    const monthlySaving =
-        weeklySaving * 52 / 12;
-
-
-    const dailySaving =
-        remaining / daysRemaining;
-
-
-    // ==========================================
-    // PROGRESS
-    // ==========================================
-
-    const progress =
-        target > 0
-            ? (totalSaved / target) * 100
-            : 0;
-
-
-    const progressPercentage =
-        Math.min(progress, 100);
-
-
-    const targetDate =
-        currentGoalData.targetDate;
-
-
-    const completionDate =
-        targetDate.toLocaleDateString(
-            "en-GB",
-            {
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
-
-
-    // ==========================================
-    // MAIN RESULTS
-    // ==========================================
-
-    document.getElementById(
-        "weekly-result"
-    ).textContent =
-        "€" + weeklySaving.toFixed(2);
-
-
-    document.getElementById(
-        "monthly-result"
-    ).textContent =
-        "€" + monthlySaving.toFixed(2);
-
-
-    document.getElementById(
-        "progress-result"
-    ).textContent =
-        progressPercentage.toFixed(1) + "%";
-
-
-    // ==========================================
-    // EXTRA RESULTS
-    // ==========================================
-
-    let extraResults =
-        document.getElementById("extra-results");
-
-
-    if (!extraResults) {
-
-        extraResults =
-            document.createElement("div");
-
-        extraResults.id =
-            "extra-results";
-
-        extraResults.innerHTML = `
-
-            <div class="extra-result">
-
-                <span>Goal</span>
-
-                <strong id="goal-result"></strong>
-
-            </div>
-
-
-            <div class="extra-result">
-
-                <span>Remaining</span>
-
-                <strong id="remaining-result"></strong>
-
-            </div>
-
-
-            <div class="extra-result">
-
-                <span>Days left</span>
-
-                <strong id="days-result"></strong>
-
-            </div>
-
-        `;
-
-        document
-            .getElementById("results")
-            .after(extraResults);
-
-    }
-
-
-    document.getElementById(
-        "goal-result"
-    ).textContent =
-        goal;
-
-
-    document.getElementById(
-        "remaining-result"
-    ).textContent =
-        "€" + remaining.toFixed(2);
-
-
-    document.getElementById(
-        "days-result"
-    ).textContent =
-        daysRemaining + " days";
-
-
-    // ==========================================
-    // PLAN DETAILS
-    // ==========================================
-
-    let planDetails =
-        document.getElementById("plan-details");
-
-
-    if (!planDetails) {
-
-        planDetails =
-            document.createElement("div");
-
-        planDetails.id =
-            "plan-details";
-
-        planDetails.innerHTML = `
-
-            <div class="plan-main">
-
-                <span>
-                    Daily saving target
-                </span>
-
-                <strong id="daily-result">
-                    €0.00
-                </strong>
-
-            </div>
-
-
-            <div class="plan-date">
-
-                <span>
-                    Goal date
-                </span>
-
-                <strong id="date-result">
-                    -
-                </strong>
-
-            </div>
-
-        `;
-
-        document
-            .getElementById("extra-results")
-            .after(planDetails);
-
-    }
-
-
-    document.getElementById(
-        "daily-result"
-    ).textContent =
-        "€" + dailySaving.toFixed(2);
-
-
-    document.getElementById(
-        "date-result"
-    ).textContent =
-        completionDate;
-
-
-    // ==========================================
-    // PROGRESS BAR
-    // ==========================================
-
-    let progressContainer =
-        document.getElementById(
-            "progress-container"
-        );
-
-
-    if (!progressContainer) {
-
-        progressContainer =
-            document.createElement("div");
-
-        progressContainer.id =
-            "progress-container";
-
-        progressContainer.innerHTML = `
-
-            <div class="progress-header">
-
-                <span>
-                    Progress
-                </span>
-
-                <strong id="progress-text">
-                    0%
-                </strong>
-
-            </div>
-
-
-            <div class="progress-bar">
-
-                <div
-                    id="progress-fill"
-                    class="progress-fill"
-                ></div>
-
-            </div>
-
-        `;
-
-        document
-            .getElementById("plan-details")
-            .after(progressContainer);
-
-    }
-
-
-    document.getElementById(
-        "progress-text"
-    ).textContent =
-        progressPercentage.toFixed(1) + "%";
-
-
-    document.getElementById(
-        "progress-fill"
-    ).style.width =
-        progressPercentage + "%";
-
-
-    // ==========================================
-    // MILESTONES
-    // ==========================================
-
-    let milestones =
-        document.getElementById("milestones");
-
-
-    if (!milestones) {
-
-        milestones =
-            document.createElement("div");
-
-        milestones.id =
-            "milestones";
-
-        milestones.innerHTML = `
-
-            <div class="milestones-title">
-                Savings milestones
-            </div>
-
-
-            <div class="milestone-list">
-
-                <div
-                    class="milestone"
-                    data-milestone="25"
-                >
-
-                    <div class="milestone-icon">
-                        25%
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            First quarter
-                        </strong>
-
-                        <span>
-                            You've got started!
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="milestone"
-                    data-milestone="50"
-                >
-
-                    <div class="milestone-icon">
-                        50%
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Halfway there
-                        </strong>
-
-                        <span>
-                            You're making serious progress.
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="milestone"
-                    data-milestone="75"
-                >
-
-                    <div class="milestone-icon">
-                        75%
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Almost there
-                        </strong>
-
-                        <span>
-                            Keep going!
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div
-                    class="milestone"
-                    data-milestone="100"
-                >
-
-                    <div class="milestone-icon">
-                        100%
-                    </div>
-
-                    <div>
-
-                        <strong>
-                            Goal reached!
-                        </strong>
-
-                        <span>
-                            You did it! 🎉
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-        document
-            .getElementById("progress-container")
-            .after(milestones);
-
-    }
-
-
-    updateMilestones(progressPercentage);
-
-
-    // ==========================================
-    // GOAL MESSAGE
-    // ==========================================
-
-    let goalMessage =
-        document.getElementById("goal-message");
-
-
-    if (!goalMessage) {
-
-        goalMessage =
-            document.createElement("div");
-
-        goalMessage.id =
-            "goal-message";
-
-        document
-            .getElementById("milestones")
-            .after(goalMessage);
-
-    }
-
-
-    if (progressPercentage >= 100) {
-
-        goalMessage.innerHTML = `
-
-            <strong>
-                🎉 Goal reached!
-            </strong>
-
-            <span>
-                You've saved enough for your ${goal}.
-            </span>
-
-        `;
-
-        goalMessage.classList.add("complete");
-
-    } else {
-
-        goalMessage.innerHTML = `
-
-            <strong>
-                Keep going!
-            </strong>
-
-            <span>
-                You're ${progressPercentage.toFixed(1)}% of the way to your ${goal}.
-            </span>
-
-        `;
-
-        goalMessage.classList.remove("complete");
-
-    }
 
 }
 
@@ -899,7 +795,13 @@ if (addSavingsButton) {
                 Number(amountInput.value);
 
 
-            if (!currentGoalData) {
+            const savedGoal =
+                localStorage.getItem(
+                    "saveTargetGoal"
+                );
+
+
+            if (!savedGoal) {
 
                 alert(
                     "Please calculate your savings plan first."
@@ -922,25 +824,45 @@ if (addSavingsButton) {
             }
 
 
-            const target =
-                Number(currentGoalData.target);
+            const goalData =
+                JSON.parse(savedGoal);
 
+
+            const target =
+                Number(goalData.target);
 
             const originalSaved =
-                Number(currentGoalData.saved);
+                Number(goalData.saved);
 
 
-            const currentTotal =
-                originalSaved +
-                additionalSavings;
+            let currentAdditional =
+                Number(
+                    localStorage.getItem(
+                        "saveTargetAdditionalSavings"
+                    )
+                );
 
 
-            const newTotal =
-                currentTotal +
-                amount;
+            if (
+                isNaN(currentAdditional)
+            ) {
+
+                currentAdditional = 0;
+
+            }
 
 
-            if (newTotal > target) {
+            const newAdditional =
+                currentAdditional + amount;
+
+
+            const totalSaved =
+                originalSaved + newAdditional;
+
+
+            if (
+                totalSaved > target
+            ) {
 
                 alert(
                     "That would take you over your savings goal."
@@ -950,24 +872,74 @@ if (addSavingsButton) {
             }
 
 
-            // Add the amount to Additional Savings.
+            // ==========================================
+            // CALCULATE WEEKLY REDUCTION
+            // ==========================================
 
-            additionalSavings += amount;
+            const dateString =
+                goalData.date;
+
+            const targetDate =
+                getValidDate(dateString);
 
 
-            // Clear input.
+            if (!targetDate) {
+
+                alert(
+                    "Please calculate your savings plan again."
+                );
+
+                return;
+            }
+
+
+            const today = new Date();
+
+            today.setHours(0, 0, 0, 0);
+            targetDate.setHours(0, 0, 0, 0);
+
+
+            const difference =
+                targetDate.getTime() -
+                today.getTime();
+
+
+            const daysRemaining =
+                Math.ceil(
+                    difference /
+                    (1000 * 60 * 60 * 24)
+                );
+
+
+            if (daysRemaining <= 0) {
+
+                alert(
+                    "Your target date has passed. Please calculate a new plan."
+                );
+
+                return;
+            }
+
+
+            const weeksRemaining =
+                daysRemaining / 7;
+
+
+            const weeklyReduction =
+                newAdditional / weeksRemaining;
+
+
+            // ==========================================
+            // SAVE ADDITIONAL SAVINGS
+            // ==========================================
+
+            localStorage.setItem(
+                "saveTargetAdditionalSavings",
+                newAdditional.toString()
+            );
+
 
             amountInput.value = "";
-
-
-            // Update calculator immediately.
-
-            updateCalculator();
-
-
-            // Update Additional Savings section.
-
-            updateSavingsTracker();
 
 
             const message =
@@ -976,21 +948,59 @@ if (addSavingsButton) {
                 );
 
 
-            if (message) {
-
-                message.innerHTML =
-                    "✓ €" +
-                    amount.toFixed(2) +
-                    " added to your additional savings!";
+            message.innerHTML =
+                "✓ €" +
+                amount.toFixed(2) +
+                " added!";
 
 
-                setTimeout(function () {
+            // ==========================================
+            // DISPLAY WEEKLY REDUCTION
+            // ==========================================
 
-                    message.innerHTML = "";
+            const additionalSavingsResult =
+                document.getElementById(
+                    "additional-savings-result"
+                );
 
-                }, 3000);
+            const weeklyReduction =
+                document.getElementById(
+                    "weekly-reduction"
+                );
+
+
+            if (additionalSavingsResult) {
+
+                additionalSavingsResult.style.display =
+                    "block";
 
             }
+
+
+            if (weeklyReduction) {
+
+                weeklyReduction.textContent =
+                    "€" +
+                    weeklyReductionAmount(
+                        newAdditional,
+                        weeksRemaining
+                    ).toFixed(2);
+
+            }
+
+
+            // ==========================================
+            // UPDATE CALCULATOR
+            // ==========================================
+
+            updateCalculatorFromAdditionalSavings();
+
+
+            setTimeout(function () {
+
+                message.innerHTML = "";
+
+            }, 3000);
 
         }
     );
@@ -999,80 +1009,102 @@ if (addSavingsButton) {
 
 
 // ==========================================
-// UPDATE ADDITIONAL SAVINGS TRACKER
+// WEEKLY REDUCTION CALCULATION
 // ==========================================
 
-function updateSavingsTracker() {
+function weeklyReductionAmount(
+    additionalSavings,
+    weeksRemaining
+) {
 
-    const trackedSaved =
-        document.getElementById(
-            "tracked-saved"
-        );
+    if (
+        !weeksRemaining ||
+        weeksRemaining <= 0
+    ) {
 
+        return 0;
 
-    const trackedRemaining =
-        document.getElementById(
-            "tracked-remaining"
-        );
-
-
-    const trackedProgress =
-        document.getElementById(
-            "tracked-progress"
-        );
-
-
-    const trackedProgressText =
-        document.getElementById(
-            "tracked-progress-text"
-        );
-
-
-    const trackedProgressFill =
-        document.getElementById(
-            "tracked-progress-fill"
-        );
-
-
-    if (!currentGoalData) {
-
-        if (trackedSaved) {
-            trackedSaved.textContent = "€0.00";
-        }
-
-        if (trackedRemaining) {
-            trackedRemaining.textContent = "€0.00";
-        }
-
-        if (trackedProgress) {
-            trackedProgress.textContent = "0%";
-        }
-
-        if (trackedProgressText) {
-            trackedProgressText.textContent = "0%";
-        }
-
-        if (trackedProgressFill) {
-            trackedProgressFill.style.width = "0%";
-        }
-
-        return;
     }
 
 
-    const target =
-        Number(currentGoalData.target);
+    return additionalSavings / weeksRemaining;
 
+}
+
+
+// ==========================================
+// UPDATE CALCULATOR USING ADDITIONAL SAVINGS
+// ==========================================
+
+function updateCalculatorFromAdditionalSavings() {
+
+    const savedGoal =
+        localStorage.getItem(
+            "saveTargetGoal"
+        );
+
+
+    if (!savedGoal) return;
+
+
+    const goalData =
+        JSON.parse(savedGoal);
+
+
+    const target =
+        Number(goalData.target);
 
     const originalSaved =
-        Number(currentGoalData.saved);
+        Number(goalData.saved);
+
+
+    let additionalSavings =
+        Number(
+            localStorage.getItem(
+                "saveTargetAdditionalSavings"
+            )
+        );
+
+
+    if (
+        isNaN(additionalSavings)
+    ) {
+
+        additionalSavings = 0;
+
+    }
 
 
     const totalSaved =
-        Math.min(
-            originalSaved + additionalSavings,
-            target
+        originalSaved + additionalSavings;
+
+
+    const targetDate =
+        getValidDate(goalData.date);
+
+
+    if (!targetDate) return;
+
+
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+
+
+    const difference =
+        targetDate.getTime() -
+        today.getTime();
+
+
+    const daysRemaining =
+        Math.ceil(
+            difference /
+            (1000 * 60 * 60 * 24)
         );
+
+
+    if (daysRemaining <= 0) return;
 
 
     const remaining =
@@ -1082,194 +1114,345 @@ function updateSavingsTracker() {
         );
 
 
+    const weeksRemaining =
+        daysRemaining / 7;
+
+
+    const weeklySaving =
+        remaining / weeksRemaining;
+
+
+    const monthlySaving =
+        weeklySaving * 52 / 12;
+
+
+    const dailySaving =
+        remaining / daysRemaining;
+
+
     const progress =
         target > 0
             ? (totalSaved / target) * 100
             : 0;
 
 
-    const percentage =
+    const progressPercentage =
         Math.min(progress, 100);
 
 
-    if (trackedSaved) {
+    // ==========================================
+    // UPDATE MAIN RESULTS
+    // ==========================================
 
-        trackedSaved.textContent =
+    const weeklyResult =
+        document.getElementById(
+            "weekly-result"
+        );
+
+    const monthlyResult =
+        document.getElementById(
+            "monthly-result"
+        );
+
+    const progressResult =
+        document.getElementById(
+            "progress-result"
+        );
+
+
+    if (weeklyResult) {
+
+        weeklyResult.textContent =
             "€" +
-            totalSaved.toFixed(2);
+            weeklySaving.toFixed(2);
 
     }
 
 
-    if (trackedRemaining) {
+    if (monthlyResult) {
 
-        trackedRemaining.textContent =
+        monthlyResult.textContent =
+            "€" +
+            monthlySaving.toFixed(2);
+
+    }
+
+
+    if (progressResult) {
+
+        progressResult.textContent =
+            progressPercentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    // ==========================================
+    // UPDATE REMAINING
+    // ==========================================
+
+    const remainingResult =
+        document.getElementById(
+            "remaining-result"
+        );
+
+
+    if (remainingResult) {
+
+        remainingResult.textContent =
             "€" +
             remaining.toFixed(2);
 
     }
 
 
-    if (trackedProgress) {
+    // ==========================================
+    // UPDATE DAILY TARGET
+    // ==========================================
 
-        trackedProgress.textContent =
-            percentage.toFixed(1) +
+    const dailyResult =
+        document.getElementById(
+            "daily-result"
+        );
+
+
+    if (dailyResult) {
+
+        dailyResult.textContent =
+            "€" +
+            dailySaving.toFixed(2);
+
+    }
+
+
+    // ==========================================
+    // UPDATE PROGRESS BAR
+    // ==========================================
+
+    const progressText =
+        document.getElementById(
+            "progress-text"
+        );
+
+    const progressFill =
+        document.getElementById(
+            "progress-fill"
+        );
+
+
+    if (progressText) {
+
+        progressText.textContent =
+            progressPercentage.toFixed(1) +
             "%";
 
     }
 
 
-    if (trackedProgressText) {
+    if (progressFill) {
 
-        trackedProgressText.textContent =
-            percentage.toFixed(1) +
-            "%";
-
-    }
-
-
-    if (trackedProgressFill) {
-
-        trackedProgressFill.style.width =
-            percentage + "%";
+        progressFill.style.width =
+            progressPercentage + "%";
 
     }
 
-}
+
+    // ==========================================
+    // UPDATE MILESTONES
+    // ==========================================
+
+    updateMilestones(
+        progressPercentage
+    );
 
 
-// ==========================================
-// RESET EVERYTHING ON PAGE LOAD
-// ==========================================
-//
-// No localStorage is used for the calculator
-// or savings data, so refreshing the page
-// automatically starts everything from zero.
-//
-// ==========================================
-
-function resetSavingsPage() {
-
-    currentGoalData = null;
-    additionalSavings = 0;
-
-
-    const goalInput =
-        document.getElementById("goal");
-
-    const targetInput =
-        document.getElementById("target");
-
-    const savedInput =
-        document.getElementById("saved");
-
-    const dateInputElement =
-        document.getElementById("date");
-
-    const hiddenDateInput =
-        document.getElementById("hidden-date");
-
-    const additionalInput =
-        document.getElementById("add-savings");
-
-
-    if (goalInput) {
-        goalInput.value = "";
-    }
-
-    if (targetInput) {
-        targetInput.value = "";
-    }
-
-    if (savedInput) {
-        savedInput.value = "";
-    }
-
-    if (dateInputElement) {
-        dateInputElement.value = "";
-    }
-
-    if (hiddenDateInput) {
-        hiddenDateInput.value = "";
-    }
-
-    if (additionalInput) {
-        additionalInput.value = "";
-    }
-
-
-    // Reset calculator results.
-
-    const weeklyResult =
-        document.getElementById("weekly-result");
-
-    const monthlyResult =
-        document.getElementById("monthly-result");
-
-    const progressResult =
-        document.getElementById("progress-result");
-
-
-    if (weeklyResult) {
-        weeklyResult.textContent = "€0.00";
-    }
-
-    if (monthlyResult) {
-        monthlyResult.textContent = "€0.00";
-    }
-
-    if (progressResult) {
-        progressResult.textContent = "0%";
-    }
-
-
-    // Remove dynamically generated calculator sections.
-
-    const extraResults =
-        document.getElementById("extra-results");
-
-    const planDetails =
-        document.getElementById("plan-details");
-
-    const progressContainer =
-        document.getElementById("progress-container");
-
-    const milestones =
-        document.getElementById("milestones");
+    // ==========================================
+    // UPDATE GOAL MESSAGE
+    // ==========================================
 
     const goalMessage =
-        document.getElementById("goal-message");
+        document.getElementById(
+            "goal-message"
+        );
 
-
-    if (extraResults) {
-        extraResults.remove();
-    }
-
-    if (planDetails) {
-        planDetails.remove();
-    }
-
-    if (progressContainer) {
-        progressContainer.remove();
-    }
-
-    if (milestones) {
-        milestones.remove();
-    }
 
     if (goalMessage) {
-        goalMessage.remove();
+
+        if (progressPercentage >= 100) {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    🎉 Goal reached!
+                </strong>
+
+                <span>
+                    You've saved enough for your ${goalData.goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.add(
+                "complete"
+            );
+
+        } else {
+
+            goalMessage.innerHTML = `
+
+                <strong>
+                    Keep going!
+                </strong>
+
+                <span>
+                    You're ${progressPercentage.toFixed(1)}% of the way to your ${goalData.goal}.
+                </span>
+
+            `;
+
+            goalMessage.classList.remove(
+                "complete"
+            );
+
+        }
+
     }
 
 
-    // Reset Additional Savings tracker.
+    // ==========================================
+    // UPDATE ADDITIONAL SAVINGS BOX
+    // ==========================================
 
-    updateSavingsTracker();
+    const additionalSavingsResult =
+        document.getElementById(
+            "additional-savings-result"
+        );
+
+    const weeklyReduction =
+        document.getElementById(
+            "weekly-reduction"
+        );
+
+
+    if (
+        additionalSavings > 0 &&
+        additionalSavingsResult
+    ) {
+
+        additionalSavingsResult.style.display =
+            "block";
+
+
+        if (weeklyReduction) {
+
+            weeklyReduction.textContent =
+                "€" +
+                weeklyReductionAmount(
+                    additionalSavings,
+                    weeksRemaining
+                ).toFixed(2);
+
+        }
+
+    }
 
 }
 
 
-resetSavingsPage();
+// ==========================================
+// PAGE LOAD
+// RESET CALCULATOR + ADDITIONAL SAVINGS
+// ==========================================
+
+// Remove calculator data whenever the page reloads.
+
+localStorage.removeItem(
+    "saveTargetGoal"
+);
+
+localStorage.removeItem(
+    "saveTargetAdditionalSavings"
+);
+
+
+// Reset calculator inputs.
+
+const calculatorGoal =
+    document.getElementById("goal");
+
+const calculatorTarget =
+    document.getElementById("target");
+
+const calculatorSaved =
+    document.getElementById("saved");
+
+const calculatorDate =
+    document.getElementById("date");
+
+
+if (calculatorGoal) {
+    calculatorGoal.value = "";
+}
+
+if (calculatorTarget) {
+    calculatorTarget.value = "";
+}
+
+if (calculatorSaved) {
+    calculatorSaved.value = "";
+}
+
+if (calculatorDate) {
+    calculatorDate.value = "";
+}
+
+
+// Reset additional savings.
+
+const additionalSavingsInputOnLoad =
+    document.getElementById("add-savings");
+
+if (additionalSavingsInputOnLoad) {
+    additionalSavingsInputOnLoad.value = "";
+}
+
+
+const additionalSavingsResultOnLoad =
+    document.getElementById(
+        "additional-savings-result"
+    );
+
+if (additionalSavingsResultOnLoad) {
+
+    additionalSavingsResultOnLoad.style.display =
+        "none";
+
+}
+
+
+// Reset calculator result values.
+
+const weeklyResultOnLoad =
+    document.getElementById("weekly-result");
+
+const monthlyResultOnLoad =
+    document.getElementById("monthly-result");
+
+const progressResultOnLoad =
+    document.getElementById("progress-result");
+
+
+if (weeklyResultOnLoad) {
+    weeklyResultOnLoad.textContent = "€0.00";
+}
+
+if (monthlyResultOnLoad) {
+    monthlyResultOnLoad.textContent = "€0.00";
+}
+
+if (progressResultOnLoad) {
+    progressResultOnLoad.textContent = "0%";
+}
 
 
 // ==========================================
@@ -1489,6 +1672,7 @@ const challenges = {
     }
 
 };
+
 
 
 const modal =
@@ -1711,7 +1895,6 @@ function getRandomChallenges() {
             )
         );
 
-
     if (
         !selected ||
         selected.length !== 3
@@ -1724,7 +1907,6 @@ function getRandomChallenges() {
                 )
                 .slice(0, 3);
 
-
         selected.forEach(function (challengeName) {
 
             localStorage.removeItem(
@@ -1733,17 +1915,14 @@ function getRandomChallenges() {
 
         });
 
-
         localStorage.setItem(
             "saveTargetActiveChallenges",
             JSON.stringify(selected)
         );
-
     }
 
 
     return selected;
-
 }
 
 
@@ -1755,7 +1934,6 @@ function displayActiveChallenges() {
 
     const challengeGrid =
         document.querySelector(".challenge-grid");
-
 
     if (!challengeGrid) return;
 
@@ -1772,7 +1950,6 @@ function displayActiveChallenges() {
         const challenge =
             challenges[challengeName];
 
-
         if (!challenge) return;
 
 
@@ -1784,7 +1961,6 @@ function displayActiveChallenges() {
 
         const card =
             document.createElement("div");
-
 
         card.className =
             "challenge";
@@ -1888,9 +2064,7 @@ function checkChallengesComplete() {
 }
 
 
-// ==========================================
-// DISPLAY INITIAL CHALLENGES
-// ==========================================
+// Display the first 3 challenges when page loads
 
 displayActiveChallenges();
 
