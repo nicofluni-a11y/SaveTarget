@@ -1,449 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>SaveTarget</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
-    <!-- NAVIGATION -->
+
+    <!-- =========================
+         NAVIGATION
+    ========================== -->
 
     <header class="navbar">
 
-        <a href="#" class="logo">SaveTarget</a>
+        <a href="#" class="logo">
+            SaveTarget
+        </a>
 
         <nav>
-            <a href="#calculator">Calculator</a>
-            <a href="#how-it-works">How it works</a>
-            <a href="#challenges">Challenges</a>
+
+            <a href="#calculator">
+                Calculator
+            </a>
+
+            <a href="#how">
+                How it works
+            </a>
+
+            <a href="#challenges">
+                Challenges
+            </a>
+
         </nav>
 
     </header>
 
 
-    <main>
 
-        <!-- HERO -->
+    <!-- =========================
+         HERO
+    ========================== -->
 
-        <section class="hero">
+    <section class="hero">
 
-            <div class="hero-content">
+        <div class="hero-content">
 
-                <p class="eyebrow">SMARTER SAVING</p>
+            <p class="eyebrow">
+                SMARTER SAVING
+            </p>
 
-                <h1>
-                    Make your money
-                    <span>work towards a goal.</span>
-                </h1>
+            <h1>
+                Make your money
+                <span>work towards something.</span>
+            </h1>
 
-                <p class="hero-text">
-                    Set a savings target, create a plan,
-                    and make your goals feel achievable.
-                </p>
+            <p class="hero-text">
+                Set a savings goal, create a realistic plan
+                and stay motivated along the way.
+            </p>
 
-                <a href="#calculator" class="button">
-                    Start saving →
-                </a>
+            <a
+                href="#calculator"
+                class="button"
+            >
+                Start saving
+            </a>
 
-            </div>
+        </div>
 
-        </section>
+    </section>
 
 
-        <!-- CALCULATOR -->
 
-        <section id="calculator" class="calculator-section">
+    <!-- =========================
+         CALCULATOR
+    ========================== -->
 
-            <div class="section-intro">
+    <section
+        class="calculator-section"
+        id="calculator"
+    >
 
-                <p class="eyebrow">SAVINGS CALCULATOR</p>
+        <div class="section-intro">
 
-                <h2>
-                    Turn your goal into
-                    <span>a plan.</span>
-                </h2>
+            <p class="eyebrow">
+                SAVINGS CALCULATOR
+            </p>
 
-                <p>
-                    Tell us what you're saving for and we'll
-                    work out what you need to save.
-                </p>
+            <h2>
+                What are you
+                <span>saving for?</span>
+            </h2>
 
-            </div>
+            <p>
+                Tell us your goal and we'll work out
+                how much you need to save.
+            </p>
 
+        </div>
 
-            <div class="calculator-card">
 
 
-                <!-- GOAL -->
+        <div class="calculator-card">
 
-                <div class="input-group">
 
-                    <label for="goal">
-                        What are you saving for?
-                    </label>
+            <!-- GOAL -->
 
-                    <input
-                        type="text"
-                        id="goal"
-                        placeholder="e.g. Holiday, car, laptop"
-                    >
+            <div class="input-group">
 
-                </div>
+                <label for="goal">
+                    What are you saving for?
+                </label>
 
-
-                <!-- TARGET -->
-
-                <div class="input-group">
-
-                    <label for="target">
-                        How much do you need?
-                    </label>
-
-                    <input
-                        type="number"
-                        id="target"
-                        placeholder="e.g. 5000"
-                    >
-
-                </div>
-
-
-                <!-- CURRENT SAVINGS -->
-
-                <div class="input-group">
-
-                    <label for="saved">
-                        How much have you saved already?
-                    </label>
-
-                    <input
-                        type="number"
-                        id="saved"
-                        placeholder="e.g. 500"
-                    >
-
-                </div>
-
-
-                <!-- DATE -->
-
-                <div class="input-group">
-
-                    <label for="date">
-                        When do you want to reach your goal?
-                    </label>
-
-                    <input
-                        type="date"
-                        id="date"
-                    >
-
-                </div>
-
-
-                <button
-                    id="calculate"
-                    class="calculate-button"
-                >
-                    Calculate my plan
-                </button>
-
-
-                <!-- RESULTS -->
-
-                <div id="results" class="results">
-
-                    <div class="result">
-
-                        <span>Weekly</span>
-
-                        <strong id="weekly-result">
-                            €0
-                        </strong>
-
-                    </div>
-
-
-                    <div class="result">
-
-                        <span>Monthly</span>
-
-                        <strong id="monthly-result">
-                            €0
-                        </strong>
-
-                    </div>
-
-
-                    <div class="result">
-
-                        <span>Progress</span>
-
-                        <strong id="progress-result">
-                            0%
-                        </strong>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- HOW IT WORKS -->
-
-        <section id="how-it-works" class="how-section">
-
-            <div class="section-intro">
-
-                <p class="eyebrow">
-                    HOW IT WORKS
-                </p>
-
-                <h2>
-                    Saving becomes
-                    <span>simple.</span>
-                </h2>
-
-            </div>
-
-
-            <div class="steps">
-
-                <div class="step">
-
-                    <span>01</span>
-
-                    <h3>
-                        Choose a goal
-                    </h3>
-
-                    <p>
-                        Decide exactly what you want
-                        to save for.
-                    </p>
-
-                </div>
-
-
-                <div class="step">
-
-                    <span>02</span>
-
-                    <h3>
-                        Set a deadline
-                    </h3>
-
-                    <p>
-                        Choose when you want to reach
-                        your target.
-                    </p>
-
-                </div>
-
-
-                <div class="step">
-
-                    <span>03</span>
-
-                    <h3>
-                        Follow your plan
-                    </h3>
-
-                    <p>
-                        Save consistently and watch
-                        your progress grow.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CHALLENGES -->
-
-        <section
-            id="challenges"
-            class="challenges-section"
-        >
-
-            <div class="section-intro">
-
-                <p class="eyebrow">
-                    SAVING CHALLENGES
-                </p>
-
-                <h2>
-                    Small changes.
-                    <span>Big difference.</span>
-                </h2>
-
-                <p>
-                    Try a challenge and make saving
-                    a little more interesting.
-                </p>
-
-            </div>
-
-
-            <div class="challenge-grid">
-
-
-                <!-- CHALLENGE 1 -->
-
-                <div
-                    class="challenge"
-                    onclick="openChallenge('nospend')"
+                <input
+                    type="text"
+                    id="goal"
+                    placeholder="e.g. Car"
                 >
 
-                    <span>01</span>
-
-                    <h3>
-                        No-spend Friday
-                    </h3>
-
-                    <p>
-                        Try going one day without
-                        unnecessary spending.
-                    </p>
-
-                    <button
-                        class="challenge-button"
-                        onclick="event.stopPropagation(); openChallenge('nospend')"
-                    >
-                        View challenge →
-                    </button>
-
-                </div>
+            </div>
 
 
-                <!-- CHALLENGE 2 -->
 
-                <div
-                    class="challenge"
-                    onclick="openChallenge('roundup')"
+            <!-- TARGET -->
+
+            <div class="input-group">
+
+                <label for="target">
+                    How much do you want to save?
+                </label>
+
+                <input
+                    type="number"
+                    id="target"
+                    placeholder="e.g. 10000"
+                    min="0"
                 >
-
-                    <span>02</span>
-
-                    <h3>
-                        Round it up
-                    </h3>
-
-                    <p>
-                        Put your spare change towards
-                        your savings goal.
-                    </p>
-
-                    <button
-                        class="challenge-button"
-                        onclick="event.stopPropagation(); openChallenge('roundup')"
-                    >
-                        View challenge →
-                    </button>
-
-                </div>
-
-
-                <!-- CHALLENGE 3 -->
-
-                <div
-                    class="challenge"
-                    onclick="openChallenge('five')"
-                >
-
-                    <span>03</span>
-
-                    <h3>
-                        Save an extra €5
-                    </h3>
-
-                    <p>
-                        Add an extra €5 to your
-                        usual weekly saving.
-                    </p>
-
-                    <button
-                        class="challenge-button"
-                        onclick="event.stopPropagation(); openChallenge('five')"
-                    >
-                        View challenge →
-                    </button>
-
-                </div>
 
             </div>
 
 
-            <!-- CHALLENGE POPUP -->
+
+            <!-- SAVED -->
+
+            <div class="input-group">
+
+                <label for="saved">
+                    How much have you already saved?
+                </label>
+
+                <input
+                    type="number"
+                    id="saved"
+                    placeholder="e.g. 2300"
+                    min="0"
+                >
+
+            </div>
+
+
+
+            <!-- DATE -->
+
+            <div class="input-group">
+
+                <label for="date">
+                    When do you want to reach your goal?
+                </label>
+
+                <input
+                    type="date"
+                    id="date"
+                    placeholder="DD/MM/YYYY"
+                >
+
+            </div>
+
+
+
+            <!-- CALCULATE BUTTON -->
+
+            <button
+                id="calculate"
+                class="calculate-button"
+            >
+                Calculate my plan
+            </button>
+
+
+
+            <!-- RESULTS -->
 
             <div
-                id="challenge-modal"
-                class="modal"
+                class="results"
+                id="results"
             >
 
-                <div class="modal-content">
+                <div class="result">
 
-                    <button
-                        class="close-button"
-                        onclick="closeChallenge()"
-                    >
-                        ×
-                    </button>
-
-
-                    <span id="modal-number">
-                        01
+                    <span>
+                        Weekly saving
                     </span>
 
+                    <strong id="weekly-result">
+                        €0.00
+                    </strong>
 
-                    <h2 id="modal-title">
-                        No-spend Friday
-                    </h2>
-
-
-                    <p id="modal-description">
-                        Try going one full day without
-                        unnecessary spending.
-                    </p>
+                </div>
 
 
-                    <button
-                        id="complete-challenge"
-                        class="calculate-button"
-                    >
-                        Complete challenge
-                    </button>
+                <div class="result">
+
+                    <span>
+                        Monthly saving
+                    </span>
+
+                    <strong id="monthly-result">
+                        €0.00
+                    </strong>
+
+                </div>
+
+
+                <div class="result">
+
+                    <span>
+                        Progress
+                    </span>
+
+                    <strong id="progress-result">
+                        0%
+                    </strong>
 
                 </div>
 
             </div>
 
-        </section>
+        </div>
 
-    </main>
+    </section>
 
 
-    <!-- FOOTER -->
+
+    <!-- =========================
+         HOW IT WORKS
+    ========================== -->
+
+    <section
+        class="how-section"
+        id="how"
+    >
+
+        <div class="section-intro">
+
+            <p class="eyebrow">
+                HOW IT WORKS
+            </p>
+
+            <h2>
+                Saving doesn't have to
+                <span>be complicated.</span>
+            </h2>
+
+        </div>
+
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    Set a goal
+                </h3>
+
+                <p>
+                    Decide exactly what you're saving
+                    for and how much you need.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Make a plan
+                </h3>
+
+                <p>
+                    We'll calculate how much you need
+                    to put aside each week and month.
+                </p>
+
+            </div>
+
+
+
+            <div class="step">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Stay motivated
+                </h3>
+
+                <p>
+                    Complete challenges and track your
+                    progress as you work towards your goal.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CHALLENGES
+    ========================== -->
+
+    <section
+        class="challenges-section"
+        id="challenges"
+    >
+
+        <div class="section-intro">
+
+            <p class="eyebrow">
+                SAVING CHALLENGES
+            </p>
+
+            <h2>
+                Make saving
+                <span>more rewarding.</span>
+            </h2>
+
+        </div>
+
+
+
+        <div class="challenge-grid">
+
+
+            <!-- CHALLENGE 1 -->
+
+            <div class="challenge">
+
+                <span>
+                    01
+                </span>
+
+                <h3>
+                    No-spend Friday
+                </h3>
+
+                <p>
+                    Try going one full day without
+                    spending money on anything you
+                    don't need.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('nospend')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
+
+
+
+            <!-- CHALLENGE 2 -->
+
+            <div class="challenge">
+
+                <span>
+                    02
+                </span>
+
+                <h3>
+                    Round it up
+                </h3>
+
+                <p>
+                    Round your purchases up to the
+                    nearest euro and save the difference.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('roundup')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
+
+
+
+            <!-- CHALLENGE 3 -->
+
+            <div class="challenge">
+
+                <span>
+                    03
+                </span>
+
+                <h3>
+                    Save an extra €5
+                </h3>
+
+                <p>
+                    Add an extra €5 to your usual
+                    weekly savings.
+                </p>
+
+                <button
+                    class="challenge-button"
+                    onclick="openChallenge('five')"
+                >
+                    View challenge →
+                </button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CHALLENGE MODAL
+    ========================== -->
+
+    <div
+        class="modal"
+        id="challenge-modal"
+    >
+
+        <div class="modal-content">
+
+            <button
+                class="close-button"
+                onclick="closeChallenge()"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+
+            <span id="modal-number">
+                01
+            </span>
+
+
+            <h2 id="modal-title">
+                Challenge
+            </h2>
+
+
+            <p id="modal-description">
+                Challenge description
+            </p>
+
+
+            <button
+                id="complete-challenge"
+                class="button"
+            >
+                Complete challenge
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
 
     <footer>
 
-    <p>
-        SaveTarget © 2026
-    </p>
+        <p>
+            SaveTarget © 2026
+        </p>
 
-    <p class="creator">
-        Designed & developed by <strong>Nico FL</strong>
-    </p>
+        <p class="creator">
+            Designed & developed by
+            <strong>Nico FL</strong>
+        </p>
 
     </footer>
 
@@ -454,4 +534,5 @@
     <script src="script.js"></script>
 
 </body>
+
 </html>
