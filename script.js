@@ -1001,6 +1001,13 @@ if (addSavingsButton) {
 // ==========================================
 // UPDATE ADDITIONAL SAVINGS TRACKER
 // ==========================================
+//
+// ONLY THIS SECTION HAS BEEN CHANGED.
+// Instead of repeating the saved/remaining/
+// progress information, it now shows how much
+// the weekly saving requirement has been reduced.
+//
+// ==========================================
 
 function updateSavingsTracker() {
 
@@ -1034,106 +1041,148 @@ function updateSavingsTracker() {
         );
 
 
+    // ==========================================
+    // RESET OLD TRACKER ELEMENTS
+    // ==========================================
+
+    if (trackedSaved) {
+        trackedSaved.textContent = "€0.00";
+    }
+
+    if (trackedRemaining) {
+        trackedRemaining.textContent = "€0.00";
+    }
+
+    if (trackedProgress) {
+        trackedProgress.textContent = "0%";
+    }
+
+    if (trackedProgressText) {
+        trackedProgressText.textContent = "0%";
+    }
+
+    if (trackedProgressFill) {
+        trackedProgressFill.style.width = "0%";
+    }
+
+
+    // ==========================================
+    // CREATE / FIND REDUCTION BOX
+    // ==========================================
+
+    let reductionBox =
+        document.getElementById(
+            "additional-savings-reduction"
+        );
+
+
+    if (!reductionBox) {
+
+        reductionBox =
+            document.createElement("div");
+
+        reductionBox.id =
+            "additional-savings-reduction";
+
+        reductionBox.className =
+            "extra-result";
+
+
+        const savingsSection =
+            document.getElementById("savings");
+
+
+        if (savingsSection) {
+
+            const calculatorCard =
+                savingsSection.querySelector(
+                    ".calculator-card"
+                );
+
+
+            if (calculatorCard) {
+
+                calculatorCard.appendChild(
+                    reductionBox
+                );
+
+            }
+
+        }
+
+    }
+
+
+    // ==========================================
+    // NO CALCULATOR YET
+    // ==========================================
+
     if (!currentGoalData) {
 
-        if (trackedSaved) {
-            trackedSaved.textContent = "€0.00";
-        }
+        reductionBox.innerHTML = `
 
-        if (trackedRemaining) {
-            trackedRemaining.textContent = "€0.00";
-        }
+            <span>
+                Your weekly savings has been reduced by:
+            </span>
 
-        if (trackedProgress) {
-            trackedProgress.textContent = "0%";
-        }
+            <strong>
+                €0.00
+            </strong>
 
-        if (trackedProgressText) {
-            trackedProgressText.textContent = "0%";
-        }
-
-        if (trackedProgressFill) {
-            trackedProgressFill.style.width = "0%";
-        }
+        `;
 
         return;
     }
 
 
-    const target =
-        Number(currentGoalData.target);
+    // ==========================================
+    // CALCULATE WEEKLY REDUCTION
+    // ==========================================
 
-
-    const originalSaved =
-        Number(currentGoalData.saved);
-
-
-    const totalSaved =
-        Math.min(
-            originalSaved + additionalSavings,
-            target
+    const daysRemaining =
+        Number(
+            currentGoalData.daysRemaining
         );
 
 
-    const remaining =
-        Math.max(
-            target - totalSaved,
-            0
-        );
+    const weeksRemaining =
+        daysRemaining / 7;
 
 
-    const progress =
-        target > 0
-            ? (totalSaved / target) * 100
+    /*
+     * Every €1 added to savings reduces the
+     * amount that needs to be saved each week
+     * by €1 divided by the number of weeks left.
+     *
+     * Example:
+     *
+     * €100 added
+     * 20 weeks remaining
+     *
+     * €100 / 20 = €5 weekly reduction
+     */
+
+    const weeklyReduction =
+        weeksRemaining > 0
+            ? additionalSavings / weeksRemaining
             : 0;
 
 
-    const percentage =
-        Math.min(progress, 100);
+    // ==========================================
+    // DISPLAY
+    // ==========================================
 
+    reductionBox.innerHTML = `
 
-    if (trackedSaved) {
+        <span>
+            Your weekly savings has been reduced by:
+        </span>
 
-        trackedSaved.textContent =
-            "€" +
-            totalSaved.toFixed(2);
+        <strong>
+            €${weeklyReduction.toFixed(2)}
+        </strong>
 
-    }
-
-
-    if (trackedRemaining) {
-
-        trackedRemaining.textContent =
-            "€" +
-            remaining.toFixed(2);
-
-    }
-
-
-    if (trackedProgress) {
-
-        trackedProgress.textContent =
-            percentage.toFixed(1) +
-            "%";
-
-    }
-
-
-    if (trackedProgressText) {
-
-        trackedProgressText.textContent =
-            percentage.toFixed(1) +
-            "%";
-
-    }
-
-
-    if (trackedProgressFill) {
-
-        trackedProgressFill.style.width =
-            percentage + "%";
-
-    }
+    `;
 
 }
 
