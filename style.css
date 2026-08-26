@@ -52,7 +52,7 @@ nav a:hover {
     display: flex;
     align-items: center;
     padding: 80px 7%;
-    background: #e9ddcd;
+    background: #d8c6b2;
 }
 
 .hero-content {
@@ -117,7 +117,7 @@ h2 span {
     align-items: start;
 }
 #savings {
-    background: #d8c6b2;
+    background: #e9ddcd;
 }
 
 
