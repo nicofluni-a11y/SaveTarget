@@ -999,149 +999,34 @@ if (addSavingsButton) {
 
 
 // ==========================================
-// UPDATE ADDITIONAL SAVINGS TRACKER
-// ==========================================
-//
-// ONLY THIS SECTION HAS BEEN CHANGED.
-// Instead of repeating the saved/remaining/
-// progress information, it now shows how much
-// the weekly saving requirement has been reduced.
-//
+// UPDATE ADDITIONAL SAVINGS DISPLAY
 // ==========================================
 
 function updateSavingsTracker() {
 
-    const trackedSaved =
-        document.getElementById(
-            "tracked-saved"
-        );
-
-
-    const trackedRemaining =
-        document.getElementById(
-            "tracked-remaining"
-        );
-
-
-    const trackedProgress =
-        document.getElementById(
-            "tracked-progress"
-        );
-
-
-    const trackedProgressText =
-        document.getElementById(
-            "tracked-progress-text"
-        );
-
-
-    const trackedProgressFill =
-        document.getElementById(
-            "tracked-progress-fill"
-        );
-
-
-    // ==========================================
-    // RESET OLD TRACKER ELEMENTS
-    // ==========================================
-
-    if (trackedSaved) {
-        trackedSaved.textContent = "€0.00";
-    }
-
-    if (trackedRemaining) {
-        trackedRemaining.textContent = "€0.00";
-    }
-
-    if (trackedProgress) {
-        trackedProgress.textContent = "0%";
-    }
-
-    if (trackedProgressText) {
-        trackedProgressText.textContent = "0%";
-    }
-
-    if (trackedProgressFill) {
-        trackedProgressFill.style.width = "0%";
-    }
-
-
-    // ==========================================
-    // CREATE / FIND REDUCTION BOX
-    // ==========================================
-
-    let reductionBox =
-        document.getElementById(
-            "additional-savings-reduction"
-        );
-
-
-    if (!reductionBox) {
-
-        reductionBox =
-            document.createElement("div");
-
-        reductionBox.id =
-            "additional-savings-reduction";
-
-        reductionBox.className =
-            "extra-result";
-
-
-        const savingsSection =
-            document.getElementById("savings");
-
-
-        if (savingsSection) {
-
-            const calculatorCard =
-                savingsSection.querySelector(
-                    ".calculator-card"
-                );
-
-
-            if (calculatorCard) {
-
-                calculatorCard.appendChild(
-                    reductionBox
-                );
-
-            }
-
-        }
-
-    }
-
-
-    // ==========================================
-    // NO CALCULATOR YET
-    // ==========================================
-
     if (!currentGoalData) {
-
-        reductionBox.innerHTML = `
-
-            <span>
-                Your weekly savings has been reduced by:
-            </span>
-
-            <strong>
-                €0.00
-            </strong>
-
-        `;
-
         return;
     }
 
 
-    // ==========================================
-    // CALCULATE WEEKLY REDUCTION
-    // ==========================================
+    const target =
+        Number(currentGoalData.target);
+
+    const originalSaved =
+        Number(currentGoalData.saved);
 
     const daysRemaining =
-        Number(
-            currentGoalData.daysRemaining
+        Number(currentGoalData.daysRemaining);
+
+
+    // ==========================================
+    // CALCULATE ORIGINAL WEEKLY/MONTHLY
+    // ==========================================
+
+    const originalRemaining =
+        Math.max(
+            target - originalSaved,
+            0
         );
 
 
@@ -1149,40 +1034,232 @@ function updateSavingsTracker() {
         daysRemaining / 7;
 
 
-    /*
-     * Every €1 added to savings reduces the
-     * amount that needs to be saved each week
-     * by €1 divided by the number of weeks left.
-     *
-     * Example:
-     *
-     * €100 added
-     * 20 weeks remaining
-     *
-     * €100 / 20 = €5 weekly reduction
-     */
+    const originalWeekly =
+        originalRemaining / weeksRemaining;
+
+
+    const originalMonthly =
+        originalWeekly * 52 / 12;
+
+
+    // ==========================================
+    // CALCULATE NEW WEEKLY/MONTHLY
+    // ==========================================
+
+    const totalSaved =
+        Math.min(
+            originalSaved + additionalSavings,
+            target
+        );
+
+
+    const newRemaining =
+        Math.max(
+            target - totalSaved,
+            0
+        );
+
+
+    const newWeekly =
+        newRemaining / weeksRemaining;
+
+
+    const newMonthly =
+        newWeekly * 52 / 12;
+
+
+    // ==========================================
+    // CALCULATE REDUCTION
+    // ==========================================
 
     const weeklyReduction =
-        weeksRemaining > 0
-            ? additionalSavings / weeksRemaining
-            : 0;
+        Math.max(
+            originalWeekly - newWeekly,
+            0
+        );
+
+
+    const monthlyReduction =
+        Math.max(
+            originalMonthly - newMonthly,
+            0
+        );
 
 
     // ==========================================
-    // DISPLAY
+    // REMOVE OLD ADDITIONAL SAVINGS DISPLAY
     // ==========================================
 
-    reductionBox.innerHTML = `
+    const oldExtraResults =
+        document.getElementById(
+            "savings-tracker-results"
+        );
 
-        <span>
-            Your weekly savings has been reduced by:
-        </span>
+    if (oldExtraResults) {
+        oldExtraResults.remove();
+    }
 
-        <strong>
-            €${weeklyReduction.toFixed(2)}
-        </strong>
 
-    `;
+    // Remove the old saved/remaining/progress
+    // elements if they exist.
+
+    const trackedSaved =
+        document.getElementById(
+            "tracked-saved"
+        );
+
+    const trackedRemaining =
+        document.getElementById(
+            "tracked-remaining"
+        );
+
+    const trackedProgress =
+        document.getElementById(
+            "tracked-progress"
+        );
+
+    const trackedProgressText =
+        document.getElementById(
+            "tracked-progress-text"
+        );
+
+    const trackedProgressFill =
+        document.getElementById(
+            "tracked-progress-fill"
+        );
+
+
+    if (trackedSaved) {
+        trackedSaved.closest(".extra-result")?.remove();
+    }
+
+    if (trackedRemaining) {
+        trackedRemaining.closest(".extra-result")?.remove();
+    }
+
+    if (trackedProgress) {
+        trackedProgress.closest(".extra-result")?.remove();
+    }
+
+    if (trackedProgressText) {
+        trackedProgressText.closest("#progress-container")?.remove();
+    }
+
+    if (trackedProgressFill) {
+        trackedProgressFill.closest("#progress-container")?.remove();
+    }
+
+
+    // ==========================================
+    // CREATE NEW REDUCTION DISPLAY
+    // ==========================================
+
+    let savingsReduction =
+        document.getElementById(
+            "savings-reduction"
+        );
+
+
+    if (!savingsReduction) {
+
+        savingsReduction =
+            document.createElement("div");
+
+        savingsReduction.id =
+            "savings-reduction";
+
+        savingsReduction.innerHTML = `
+
+            <div class="extra-result">
+
+                <span>
+                    Your weekly savings has been reduced by:
+                </span>
+
+                <strong id="weekly-reduction-result">
+                    €0.00
+                </strong>
+
+            </div>
+
+
+            <div class="extra-result">
+
+                <span>
+                    Your monthly savings has been reduced by:
+                </span>
+
+                <strong id="monthly-reduction-result">
+                    €0.00
+                </strong>
+
+            </div>
+
+        `;
+
+
+        savingsReduction.style.display =
+            "grid";
+
+        savingsReduction.style.gridTemplateColumns =
+            "repeat(2, 1fr)";
+
+        savingsReduction.style.gap =
+            "15px";
+
+        savingsReduction.style.marginTop =
+            "15px";
+
+
+        const results =
+            document.getElementById(
+                "results"
+            );
+
+
+        if (results) {
+
+            results.after(
+                savingsReduction
+            );
+
+        }
+
+    }
+
+
+    // ==========================================
+    // UPDATE REDUCTION VALUES
+    // ==========================================
+
+    const weeklyReductionResult =
+        document.getElementById(
+            "weekly-reduction-result"
+        );
+
+
+    const monthlyReductionResult =
+        document.getElementById(
+            "monthly-reduction-result"
+        );
+
+
+    if (weeklyReductionResult) {
+
+        weeklyReductionResult.textContent =
+            "€" +
+            weeklyReduction.toFixed(2);
+
+    }
+
+
+    if (monthlyReductionResult) {
+
+        monthlyReductionResult.textContent =
+            "€" +
+            monthlyReduction.toFixed(2);
+
+    }
 
 }
 
@@ -1289,6 +1366,9 @@ function resetSavingsPage() {
     const goalMessage =
         document.getElementById("goal-message");
 
+    const savingsReduction =
+        document.getElementById("savings-reduction");
+
 
     if (extraResults) {
         extraResults.remove();
@@ -1308,6 +1388,10 @@ function resetSavingsPage() {
 
     if (goalMessage) {
         goalMessage.remove();
+    }
+
+    if (savingsReduction) {
+        savingsReduction.remove();
     }
 
 
