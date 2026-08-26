@@ -7,7 +7,8 @@ const path = require("path");
 const app = express();
 
 const PORT = 3000;
-const JWT_SECRET = "savetarget-development-secret";
+const JWT_SECRET = process.env.JWT_SECRET;
+
 
 const DATA_DIR = path.join(__dirname, "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
