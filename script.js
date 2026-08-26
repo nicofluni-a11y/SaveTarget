@@ -1007,41 +1007,217 @@ updateSavingsTracker();
 const challenges = {
 
     nospend: {
-
         number: "01",
-
         title: "No-spend Friday",
-
         description:
             "Try going one full day without spending money on anything you don't need. At the end of the day, put the money you would have spent towards your savings goal."
-
     },
-
 
     roundup: {
-
         number: "02",
-
         title: "Round it up",
-
         description:
             "Whenever you buy something, round the price up to the nearest euro and put the difference towards your savings goal."
-
     },
 
-
     five: {
-
         number: "03",
-
         title: "Save an extra €5",
-
         description:
             "Add an extra €5 to your usual weekly savings. Small amounts can make a big difference over time."
+    },
 
+    mealprep: {
+        number: "04",
+        title: "Meal prep",
+        description:
+            "Prepare your meals at home for three days instead of buying food out. Put the money you save towards your goal."
+    },
+
+    coffee: {
+        number: "05",
+        title: "Skip the coffee",
+        description:
+            "Skip one takeaway coffee and save the money you would have spent."
+    },
+
+    coins: {
+        number: "06",
+        title: "Coin jar",
+        description:
+            "Put all your loose change into a savings jar for one week."
+    },
+
+    twenty: {
+        number: "07",
+        title: "Save €20",
+        description:
+            "Find a way to save an extra €20 this week and add it to your goal."
+    },
+
+    subscription: {
+        number: "08",
+        title: "Check your subscriptions",
+        description:
+            "Look through your subscriptions and identify one you don't really use."
+    },
+
+    leftovers: {
+        number: "09",
+        title: "Use your leftovers",
+        description:
+            "Use food you already have at home instead of buying something new."
+    },
+
+    transport: {
+        number: "10",
+        title: "Walk instead",
+        description:
+            "Walk or cycle somewhere you would normally drive or take public transport."
+    },
+
+    online: {
+        number: "11",
+        title: "No online shopping",
+        description:
+            "Avoid buying anything online for one full week."
+    },
+
+    savings: {
+        number: "12",
+        title: "Double your saving",
+        description:
+            "Double your usual saving amount for one week."
+    },
+
+    cash: {
+        number: "13",
+        title: "Cash-only day",
+        description:
+            "Take out a fixed amount of cash and stick to that budget for the day."
+    },
+
+    homemade: {
+        number: "14",
+        title: "Homemade meal",
+        description:
+            "Make a meal at home that you would normally buy."
+    },
+
+    wishlist: {
+        number: "15",
+        title: "Wait 48 hours",
+        description:
+            "If you want to buy something you don't need, wait 48 hours before purchasing it."
+    },
+
+    ten: {
+        number: "16",
+        title: "Save an extra €10",
+        description:
+            "Put an extra €10 towards your savings goal this week."
+    },
+
+    budget: {
+        number: "17",
+        title: "Make a budget",
+        description:
+            "Write down your expected spending for the next seven days."
+    },
+
+    bargain: {
+        number: "18",
+        title: "Find a cheaper option",
+        description:
+            "Find one regular purchase that you can replace with a cheaper alternative."
+    },
+
+    free: {
+        number: "19",
+        title: "Free entertainment",
+        description:
+            "Find something fun to do that costs absolutely nothing."
+    },
+
+    unused: {
+        number: "20",
+        title: "Sell something",
+        description:
+            "Find one item you no longer use and sell it. Put the money towards your goal."
+    },
+
+    water: {
+        number: "21",
+        title: "Bring your own drink",
+        description:
+            "Bring water or a drink from home instead of buying one."
+    },
+
+    lunch: {
+        number: "22",
+        title: "Bring your lunch",
+        description:
+            "Prepare and bring your lunch from home instead of buying it."
+    },
+
+    impulse: {
+        number: "23",
+        title: "Beat an impulse purchase",
+        description:
+            "Avoid one impulse purchase and put the money you saved towards your goal."
+    },
+
+    challenge25: {
+        number: "24",
+        title: "Save €25",
+        description:
+            "Find a way to save an extra €25 and add it to your savings."
+    },
+
+    week: {
+        number: "25",
+        title: "One-week challenge",
+        description:
+            "Go one full week without buying anything unnecessary."
+    },
+
+    app: {
+        number: "26",
+        title: "Check your spending",
+        description:
+            "Look through your recent transactions and identify one area where you could spend less."
+    },
+
+    bargainhunt: {
+        number: "27",
+        title: "Bargain hunt",
+        description:
+            "Before buying something this week, compare prices and find the cheapest option."
+    },
+
+    treat: {
+        number: "28",
+        title: "Skip one treat",
+        description:
+            "Skip one unnecessary treat and put the money towards your savings goal."
+    },
+
+    thirty: {
+        number: "29",
+        title: "Save €30",
+        description:
+            "Find a way to save an extra €30 and add it to your goal."
+    },
+
+    reset: {
+        number: "30",
+        title: "Savings reset",
+        description:
+            "Review your spending, choose one thing to cut back on and put the money you save towards your goal."
     }
 
 };
+
 
 
 const modal =
