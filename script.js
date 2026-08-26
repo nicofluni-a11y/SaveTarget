@@ -1447,22 +1447,32 @@ function getRandomChallenges() {
         );
 
     if (
-        !selected ||
-        selected.length !== 3
-    ) {
+    !selected ||
+    selected.length !== 3
+) {
 
-        selected =
-            challengeNames
-                .sort(
-                    () => Math.random() - 0.5
-                )
-                .slice(0, 3);
+    selected =
+        challengeNames
+            .sort(
+                () => Math.random() - 0.5
+            )
+            .slice(0, 3);
 
-        localStorage.setItem(
-            "saveTargetActiveChallenges",
-            JSON.stringify(selected)
+    // Reset completion status for the new challenges
+    selected.forEach(function (challengeName) {
+
+        localStorage.removeItem(
+            "challenge-" + challengeName
         );
-    }
+
+    });
+
+    localStorage.setItem(
+        "saveTargetActiveChallenges",
+        JSON.stringify(selected)
+    );
+}
+
 
     return selected;
 }
