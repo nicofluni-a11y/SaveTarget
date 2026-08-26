@@ -473,37 +473,36 @@ h2 span {
 ========================================== */
 
 #tips {
-    background: #e2d2c0
-;
+    background: #e2d2c0;
 }
 
 #tips .eyebrow {
-    color: #647565;
+    color: #7f7468;
 }
 
 #tips .section-intro > p:last-child {
-    color: #617064;
+    color: #75685d;
 }
 
 #tips .challenge {
-    background: #f4f7f2;
-    box-shadow: 0 10px 30px rgba(55, 75, 58, 0.08);
+    background: #fffaf4;
+    box-shadow: 0 10px 30px rgba(76, 57, 42, 0.06);
 }
 
 #tips .challenge > span {
-    color: #647565;
+    color: #7f7468;
 }
 
 #tips .challenge p {
-    color: #617064;
+    color: #75685d;
 }
 
 #tips .challenge h3 {
-    color: #35463a;
+    color: #352b24;
 }
 
 #tips h2 span {
-    color: #647565;
+    color: #7f7468;
 }
 
 
