@@ -997,7 +997,13 @@ function updateSavingsTracker() {
 
 // Load saved tracker when page opens
 
-updateSavingsTracker();
+const savedGoalOnLoad =
+    localStorage.getItem("saveTargetGoal");
+
+if (savedGoalOnLoad) {
+    updateSavingsTracker();
+}
+
 
 
 // ==========================================
