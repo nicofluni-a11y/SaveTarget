@@ -258,11 +258,50 @@ h3 {
 
 
 /* =========================
+   DAILY TARGET + DATE
+========================= */
+
+#plan-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.plan-main,
+.plan-date {
+    padding: 30px;
+    border-radius: 18px;
+    background: #171717;
+    color: white;
+}
+
+.plan-main span,
+.plan-date span {
+    display: block;
+    margin-bottom: 10px;
+    color: #aaa9a4;
+    font-size: 13px;
+}
+
+.plan-main strong {
+    display: block;
+    color: #9ba58f;
+    font-size: 38px;
+}
+
+.plan-date strong {
+    display: block;
+    font-size: 24px;
+}
+
+
+/* =========================
    PROGRESS BAR
 ========================= */
 
 #progress-container {
-    margin-top: 25px;
+    margin-top: 15px;
     padding: 25px;
     border-radius: 18px;
     background: #dedfd7;
@@ -520,6 +559,11 @@ footer {
     font-size: 13px;
 }
 
+.creator {
+    margin-top: 5px;
+    color: #9ba58f;
+}
+
 
 /* =========================
    MOBILE
@@ -556,6 +600,7 @@ footer {
 
     .results,
     #extra-results,
+    #plan-details,
     .steps,
     .challenge-grid {
         grid-template-columns: 1fr;
@@ -571,5 +616,9 @@ footer {
 
     .modal-content h2 {
         font-size: 36px;
+    }
+
+    .plan-main strong {
+        font-size: 32px;
     }
 }
