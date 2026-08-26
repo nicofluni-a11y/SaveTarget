@@ -750,14 +750,18 @@ if (addSavingsButton) {
         function () {
 
             const amountInput =
-                document.getElementById("add-savings");
+                document.getElementById(
+                    "add-savings"
+                );
 
             const amount =
                 Number(amountInput.value);
 
 
             const savedGoal =
-                localStorage.getItem("saveTargetGoal");
+                localStorage.getItem(
+                    "saveTargetGoal"
+                );
 
 
             if (!savedGoal) {
@@ -770,7 +774,10 @@ if (addSavingsButton) {
             }
 
 
-            if (!amount || amount <= 0) {
+            if (
+                !amount ||
+                amount <= 0
+            ) {
 
                 alert(
                     "Please enter an amount greater than €0."
@@ -792,10 +799,12 @@ if (addSavingsButton) {
                 );
 
 
-            if (isNaN(currentSaved)) {
+            if (
+                isNaN(currentSaved)
+            ) {
 
                 currentSaved =
-                    Number(goalData.saved) || 0;
+                    Number(goalData.saved);
 
             }
 
@@ -805,8 +814,7 @@ if (addSavingsButton) {
 
 
             if (
-                newSaved >
-                Number(goalData.target)
+                newSaved > Number(goalData.target)
             ) {
 
                 alert(
@@ -817,47 +825,33 @@ if (addSavingsButton) {
             }
 
 
-            // Save the new amount
             localStorage.setItem(
                 "saveTargetTrackedSaved",
                 newSaved.toString()
             );
 
 
-            // Clear input
             amountInput.value = "";
 
 
-            // Confirmation message
             const message =
                 document.getElementById(
                     "savings-message"
                 );
 
 
-            if (message) {
+            message.innerHTML =
+                "✓ €" +
+                amount.toFixed(2) +
+                " added to your savings!";
 
-                message.innerHTML =
-                    "✓ €" +
-                    amount.toFixed(2) +
-                    " added to your savings!";
-
-            }
-
-
-            // ==========================================
-            // UPDATE EVERYTHING
-            // ==========================================
 
             updateSavingsTracker();
 
 
-            // Clear message after 3 seconds
             setTimeout(function () {
 
-                if (message) {
-                    message.innerHTML = "";
-                }
+                message.innerHTML = "";
 
             }, 3000);
 
@@ -867,7 +861,6 @@ if (addSavingsButton) {
 }
 
 
-
 // ==========================================
 // UPDATE SAVINGS TRACKER
 // ==========================================
@@ -875,7 +868,9 @@ if (addSavingsButton) {
 function updateSavingsTracker() {
 
     const savedGoal =
-        localStorage.getItem("saveTargetGoal");
+        localStorage.getItem(
+            "saveTargetGoal"
+        );
 
 
     if (!savedGoal) return;
@@ -893,10 +888,12 @@ function updateSavingsTracker() {
         );
 
 
-    if (isNaN(currentSaved)) {
+    if (
+        isNaN(currentSaved)
+    ) {
 
         currentSaved =
-            Number(goalData.saved) || 0;
+            Number(goalData.saved);
 
     }
 
@@ -922,9 +919,90 @@ function updateSavingsTracker() {
         Math.min(progress, 100);
 
 
-    // ==========================================
-    // UPDATE MY SAVINGS
-    // ==========================================
+    const trackedSaved =
+        document.getElementById(
+            "tracked-saved"
+        );
+
+
+    const trackedRemaining =
+        document.getElementById(
+            "tracked-remaining"
+        );
+
+
+    const trackedProgress =
+        document.getElementById(
+            "tracked-progress"
+        );
+
+
+    const trackedProgressText =
+        document.getElementById(
+            "tracked-progress-text"
+        );
+
+
+    const trackedProgressFill =
+        document.getElementById(
+            "tracked-progress-fill"
+        );
+
+
+    if (trackedSaved) {
+
+        trackedSaved.textContent =
+            "€" +
+            currentSaved.toFixed(2);
+
+    }
+
+
+    if (trackedRemaining) {
+
+        trackedRemaining.textContent =
+            "€" +
+            remaining.toFixed(2);
+
+    }
+
+
+    if (trackedProgress) {
+
+        trackedProgress.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressText) {
+
+        trackedProgressText.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressFill) {
+
+        trackedProgressFill.style.width =
+            percentage + "%";
+
+    }
+
+}
+
+
+// ==========================================
+// LOAD SAVINGS TRACKER WHEN PAGE OPENS
+// ==========================================
+
+const savedGoalOnLoad =
+    localStorage.getItem("saveTargetGoal");
+
+if (!savedGoalOnLoad) {
 
     const trackedSaved =
         document.getElementById("tracked-saved");
@@ -943,355 +1021,25 @@ function updateSavingsTracker() {
 
 
     if (trackedSaved) {
-
-        trackedSaved.textContent =
-            "€" + currentSaved.toFixed(2);
-
+        trackedSaved.textContent = "€0.00";
     }
-
 
     if (trackedRemaining) {
-
-        trackedRemaining.textContent =
-            "€" + remaining.toFixed(2);
-
+        trackedRemaining.textContent = "€0.00";
     }
-
 
     if (trackedProgress) {
-
-        trackedProgress.textContent =
-            percentage.toFixed(1) + "%";
-
+        trackedProgress.textContent = "0%";
     }
-
 
     if (trackedProgressText) {
-
-        trackedProgressText.textContent =
-            percentage.toFixed(1) + "%";
-
+        trackedProgressText.textContent = "0%";
     }
-
 
     if (trackedProgressFill) {
-
-        trackedProgressFill.style.width =
-            percentage + "%";
-
+        trackedProgressFill.style.width = "0%";
     }
 
-
-    // ==========================================
-    // UPDATE CALCULATOR
-    // ==========================================
-
-    const targetDate =
-        getValidDate(goalData.date);
-
-
-    if (targetDate) {
-
-        const today = new Date();
-
-        today.setHours(0, 0, 0, 0);
-        targetDate.setHours(0, 0, 0, 0);
-
-
-        const difference =
-            targetDate.getTime() -
-            today.getTime();
-
-
-        const daysRemaining =
-            Math.ceil(
-                difference /
-                (1000 * 60 * 60 * 24)
-            );
-
-
-        if (daysRemaining > 0) {
-
-            const weeksRemaining =
-                daysRemaining / 7;
-
-
-            const weeklySaving =
-                remaining / weeksRemaining;
-
-
-            const monthlySaving =
-                weeklySaving * 52 / 12;
-
-
-            const dailySaving =
-                remaining / daysRemaining;
-
-
-            // Weekly
-            const weeklyResult =
-                document.getElementById(
-                    "weekly-result"
-                );
-
-
-            if (weeklyResult) {
-
-                weeklyResult.textContent =
-                    "€" +
-                    weeklySaving.toFixed(2);
-
-            }
-
-
-            // Monthly
-            const monthlyResult =
-                document.getElementById(
-                    "monthly-result"
-                );
-
-
-            if (monthlyResult) {
-
-                monthlyResult.textContent =
-                    "€" +
-                    monthlySaving.toFixed(2);
-
-            }
-
-
-            // Daily
-            const dailyResult =
-                document.getElementById(
-                    "daily-result"
-                );
-
-
-            if (dailyResult) {
-
-                dailyResult.textContent =
-                    "€" +
-                    dailySaving.toFixed(2);
-
-            }
-
-
-            // Remaining on calculator
-            const remainingResult =
-                document.getElementById(
-                    "remaining-result"
-                );
-
-
-            if (remainingResult) {
-
-                remainingResult.textContent =
-                    "€" +
-                    remaining.toFixed(2);
-
-            }
-
-
-            // Days remaining
-            const daysResult =
-                document.getElementById(
-                    "days-result"
-                );
-
-
-            if (daysResult) {
-
-                daysResult.textContent =
-                    daysRemaining +
-                    " days";
-
-            }
-
-        }
-
-    }
-
-
-    // ==========================================
-    // UPDATE CALCULATOR PROGRESS
-    // ==========================================
-
-    const progressResult =
-        document.getElementById(
-            "progress-result"
-        );
-
-
-    if (progressResult) {
-
-        progressResult.textContent =
-            percentage.toFixed(1) +
-            "%";
-
-    }
-
-
-    const progressText =
-        document.getElementById(
-            "progress-text"
-        );
-
-
-    if (progressText) {
-
-        progressText.textContent =
-            percentage.toFixed(1) +
-            "%";
-
-    }
-
-
-    const progressFill =
-        document.getElementById(
-            "progress-fill"
-        );
-
-
-    if (progressFill) {
-
-        progressFill.style.width =
-            percentage + "%";
-
-    }
-
-
-    // ==========================================
-    // UPDATE MILESTONES
-    // ==========================================
-
-    updateMilestones(percentage);
-
-
-    // ==========================================
-    // UPDATE GOAL MESSAGE
-    // ==========================================
-
-    const goalMessage =
-        document.getElementById(
-            "goal-message"
-        );
-
-
-    if (goalMessage) {
-
-        if (percentage >= 100) {
-
-            goalMessage.innerHTML = `
-
-                <strong>
-                    🎉 Goal reached!
-                </strong>
-
-                <span>
-                    You've saved enough for your ${goalData.goal}.
-                </span>
-
-            `;
-
-            goalMessage.classList.add("complete");
-
-        } else {
-
-            goalMessage.innerHTML = `
-
-                <strong>
-                    Keep going!
-                </strong>
-
-                <span>
-                    You're ${percentage.toFixed(1)}% of the way to your ${goalData.goal}.
-                </span>
-
-            `;
-
-            goalMessage.classList.remove("complete");
-
-        }
-
-    }
-
-}
-
-
-// ==========================================
-// CLEAR CALCULATOR + SAVINGS WHEN PAGE OPENS
-// ==========================================
-
-localStorage.removeItem("saveTargetGoal");
-localStorage.removeItem("saveTargetTrackedSaved");
-
-
-const goalInput =
-    document.getElementById("goal");
-
-const targetInput =
-    document.getElementById("target");
-
-const savedInput =
-    document.getElementById("saved");
-
-const dateInputOnLoad =
-    document.getElementById("date");
-
-
-if (goalInput) {
-    goalInput.value = "";
-}
-
-if (targetInput) {
-    targetInput.value = "";
-}
-
-if (savedInput) {
-    savedInput.value = "";
-}
-
-if (dateInputOnLoad) {
-    dateInputOnLoad.value = "";
-}
-
-
-// Clear My Savings
-
-const trackedSaved =
-    document.getElementById("tracked-saved");
-
-const trackedRemaining =
-    document.getElementById("tracked-remaining");
-
-const trackedProgress =
-    document.getElementById("tracked-progress");
-
-const trackedProgressText =
-    document.getElementById("tracked-progress-text");
-
-const trackedProgressFill =
-    document.getElementById("tracked-progress-fill");
-
-
-if (trackedSaved) {
-    trackedSaved.textContent = "€0.00";
-}
-
-if (trackedRemaining) {
-    trackedRemaining.textContent = "€0.00";
-}
-
-if (trackedProgress) {
-    trackedProgress.textContent = "0%";
-}
-
-if (trackedProgressText) {
-    trackedProgressText.textContent = "0%";
-}
-
-if (trackedProgressFill) {
-    trackedProgressFill.style.width = "0%";
 }
 
 
