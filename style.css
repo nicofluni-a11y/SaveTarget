@@ -116,6 +116,10 @@ h2 span {
     gap: 70px;
     align-items: start;
 }
+#savings {
+    background: #eee2d2;
+}
+
 
 .section-intro {
     max-width: 650px;
