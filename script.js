@@ -3,7 +3,6 @@
 // ==========================================
 
 
-
 // ==========================================
 // DATE INPUT + CALENDAR
 // ==========================================
@@ -79,7 +78,6 @@ if (calendarButton && hiddenDate) {
 }
 
 
-
 // ==========================================
 // DATE VALIDATION
 // ==========================================
@@ -125,7 +123,6 @@ function getValidDate(dateString) {
 
     return date;
 }
-
 
 
 // ==========================================
@@ -235,8 +232,6 @@ if (calculateButton) {
         }
 
 
-        // Calculations
-
         const remaining =
             target - saved;
 
@@ -270,8 +265,6 @@ if (calculateButton) {
             );
 
 
-        // Main results
-
         document.getElementById(
             "weekly-result"
         ).textContent =
@@ -290,8 +283,9 @@ if (calculateButton) {
             progressPercentage.toFixed(1) + "%";
 
 
-
-        // Extra results
+        // ==========================================
+        // EXTRA RESULTS
+        // ==========================================
 
         let extraResults =
             document.getElementById("extra-results");
@@ -358,8 +352,9 @@ if (calculateButton) {
             daysRemaining + " days";
 
 
-
-        // Plan details
+        // ==========================================
+        // PLAN DETAILS
+        // ==========================================
 
         let planDetails =
             document.getElementById("plan-details");
@@ -420,8 +415,9 @@ if (calculateButton) {
             completionDate;
 
 
-
-        // Progress bar
+        // ==========================================
+        // PROGRESS BAR
+        // ==========================================
 
         let progressContainer =
             document.getElementById(
@@ -481,8 +477,9 @@ if (calculateButton) {
             progressPercentage + "%";
 
 
-
-        // Milestones
+        // ==========================================
+        // MILESTONES
+        // ==========================================
 
         let milestones =
             document.getElementById("milestones");
@@ -610,38 +607,12 @@ if (calculateButton) {
         }
 
 
-        const milestoneElements =
-            document.querySelectorAll(".milestone");
+        updateMilestones(progressPercentage);
 
 
-        milestoneElements.forEach(function (milestone) {
-
-            const milestoneValue =
-                Number(
-                    milestone.getAttribute(
-                        "data-milestone"
-                    )
-                );
-
-
-            if (
-                progressPercentage >=
-                milestoneValue
-            ) {
-
-                milestone.classList.add("achieved");
-
-            } else {
-
-                milestone.classList.remove("achieved");
-
-            }
-
-        });
-
-
-
-        // Goal message
+        // ==========================================
+        // GOAL MESSAGE
+        // ==========================================
 
         let goalMessage =
             document.getElementById("goal-message");
@@ -694,439 +665,384 @@ if (calculateButton) {
             goalMessage.classList.remove("complete");
         }
 
-    });
 
-}
-
-
-
-// ==========================================
-// SAVING CHALLENGES
-// ==========================================
-
-// 30 challenge bank
-
-const challengeBank = [
-
-    {
-        title: "No-spend Friday",
-        description:
-            "Try going one full day without spending money on anything you don't need. Put what you would have spent towards your savings goal."
-    },
-
-    {
-        title: "Round it up",
-        description:
-            "Round your purchases up to the nearest euro and save the difference."
-    },
-
-    {
-        title: "Save an extra €5",
-        description:
-            "Add an extra €5 to your usual weekly savings."
-    },
-
-    {
-        title: "Skip one takeaway",
-        description:
-            "Skip one takeaway this week and put the money you would have spent into your savings."
-    },
-
-    {
-        title: "Coffee at home",
-        description:
-            "Make your coffee at home instead of buying one. Save the money you would normally spend."
-    },
-
-    {
-        title: "Pack your lunch",
-        description:
-            "Bring lunch from home instead of buying it. Put the money saved towards your goal."
-    },
-
-    {
-        title: "24-hour spending freeze",
-        description:
-            "Don't spend any money for 24 hours unless it is essential."
-    },
-
-    {
-        title: "Save your coins",
-        description:
-            "Put every coin you receive this week into your savings."
-    },
-
-    {
-        title: "Cancel one unused subscription",
-        description:
-            "Find a subscription you don't use and cancel it. Save the money you would have spent."
-    },
-
-    {
-        title: "One less snack",
-        description:
-            "Skip one unnecessary snack purchase and save the money instead."
-    },
-
-    {
-        title: "Compare before buying",
-        description:
-            "Before buying something, check another shop or website for a better price and save the difference."
-    },
-
-    {
-        title: "Sell something",
-        description:
-            "Find one thing you no longer need and sell it. Put the money into your savings."
-    },
-
-    {
-        title: "Use what you already have",
-        description:
-            "Make a meal using ingredients you already have instead of buying something new."
-    },
-
-    {
-        title: "Save a £1/€1 coin",
-        description:
-            "Every time you receive a £1 or €1 coin, put it straight into your savings."
-    },
-
-    {
-        title: "No impulse purchases",
-        description:
-            "Don't buy anything on impulse for the next three days."
-    },
-
-    {
-        title: "Walk instead",
-        description:
-            "Walk instead of paying for transport for one journey where it is practical."
-    },
-
-    {
-        title: "Save the difference",
-        description:
-            "Choose a cheaper alternative to something you normally buy and save the difference."
-    },
-
-    {
-        title: "Cook twice",
-        description:
-            "Cook enough food for two meals and avoid buying another meal later."
-    },
-
-    {
-        title: "The €10 challenge",
-        description:
-            "Find €10 of spending you can avoid this week and add it to your savings."
-    },
-
-    {
-        title: "Check your bank",
-        description:
-            "Review your recent spending and identify one unnecessary expense to cut."
-    },
-
-    {
-        title: "Bring your own drink",
-        description:
-            "Take a reusable bottle or drink from home instead of buying one."
-    },
-
-    {
-        title: "Wait before buying",
-        description:
-            "Wait 48 hours before buying anything non-essential. If you don't need it, save the money instead."
-    },
-
-    {
-        title: "Save your cashback",
-        description:
-            "If you receive cashback or a small refund, put it straight into your savings."
-    },
-
-    {
-        title: "Cheap entertainment",
-        description:
-            "Choose a free or low-cost activity instead of an expensive day out."
-    },
-
-    {
-        title: "Grocery challenge",
-        description:
-            "Try to spend less on your next grocery shop than you normally would and save the difference."
-    },
-
-    {
-        title: "Save a percentage",
-        description:
-            "Put an extra 1% of your usual weekly spending amount into your savings."
-    },
-
-    {
-        title: "No online shopping",
-        description:
-            "Avoid unnecessary online shopping for seven days."
-    },
-
-    {
-        title: "Declutter and save",
-        description:
-            "Find three things you no longer use. Sell them and put the money into your goal."
-    },
-
-    {
-        title: "The €20 challenge",
-        description:
-            "Find €20 of savings across the week by cutting unnecessary spending."
-    },
-
-    {
-        title: "Double your saving",
-        description:
-            "For one week, try to save twice your normal weekly amount."
-    }
-
-];
-
-
-
-// ==========================================
-// CHALLENGE STORAGE
-// ==========================================
-
-const COMPLETED_KEY =
-    "savetarget-completed-challenges";
-
-const CURRENT_KEY =
-    "savetarget-current-challenges";
-
-
-
-function getCompletedChallenges() {
-
-    return JSON.parse(
-        localStorage.getItem(COMPLETED_KEY) || "[]"
-    );
-
-}
-
-
-
-function saveCompletedChallenges(completed) {
-
-    localStorage.setItem(
-        COMPLETED_KEY,
-        JSON.stringify(completed)
-    );
-
-}
-
-
-
-// ==========================================
-// RANDOM CHALLENGES
-// ==========================================
-
-function getNewChallenges() {
-
-    const completed =
-        getCompletedChallenges();
-
-    const available =
-        challengeBank
-            .map(function (challenge, index) {
-                return {
-                    ...challenge,
-                    id: index + 1
-                };
-            })
-            .filter(function (challenge) {
-                return !completed.includes(challenge.id);
-            });
-
-
-    // If all 30 have been completed,
-    // start a fresh round.
-
-    if (available.length < 3) {
-
-        localStorage.removeItem(
-            COMPLETED_KEY
-        );
-
-        return getNewChallenges();
-
-    }
-
-
-    const selected = [];
-
-
-    while (selected.length < 3) {
-
-        const randomIndex =
-            Math.floor(
-                Math.random() *
-                available.length
-            );
-
-        const challenge =
-            available[randomIndex];
-
-
-        if (
-            !selected.some(
-                function (item) {
-                    return item.id === challenge.id;
-                }
-            )
-        ) {
-
-            selected.push(challenge);
-
-        }
-
-    }
-
-
-    return selected;
-
-}
-
-
-
-// ==========================================
-// DISPLAY CHALLENGES
-// ==========================================
-
-function loadChallenges() {
-
-    const grid =
-        document.getElementById(
-            "challenge-grid"
-        );
-
-
-    if (!grid) return;
-
-
-    let current =
-        JSON.parse(
-            localStorage.getItem(
-                CURRENT_KEY
-            ) || "null"
-        );
-
-
-    // If there are no current challenges,
-    // create three new ones.
-
-    if (
-        !current ||
-        !Array.isArray(current) ||
-        current.length !== 3
-    ) {
-
-        current =
-            getNewChallenges();
+        // ==========================================
+        // SAVE CURRENT GOAL DATA
+        // ==========================================
 
         localStorage.setItem(
-            CURRENT_KEY,
-            JSON.stringify(current)
-        );
-
-    }
-
-
-    renderChallenges(current);
-
-    updateChallengeProgress();
-
-}
-
-
-
-// ==========================================
-// RENDER CHALLENGES
-// ==========================================
-
-function renderChallenges(challenges) {
-
-    const grid =
-        document.getElementById(
-            "challenge-grid"
+            "saveTargetGoal",
+            JSON.stringify({
+                goal: goal,
+                target: target,
+                saved: saved,
+                date: dateString
+            })
         );
 
 
-    if (!grid) return;
+        // Reset tracked savings to calculator amount
+        localStorage.setItem(
+            "saveTargetTrackedSaved",
+            saved.toString()
+        );
 
 
-    const completed =
-        getCompletedChallenges();
-
-
-    grid.innerHTML = "";
-
-
-    challenges.forEach(function (challenge, index) {
-
-        const card =
-            document.createElement("div");
-
-        card.className =
-            "challenge";
-
-
-        if (
-            completed.includes(challenge.id)
-        ) {
-
-            card.classList.add("completed");
-
-        }
-
-
-        card.innerHTML = `
-
-            <span>
-                ${String(index + 1).padStart(2, "0")}
-            </span>
-
-            <h3>
-                ${challenge.title}
-            </h3>
-
-            <p>
-                ${challenge.description}
-            </p>
-
-            <button
-                class="challenge-button"
-                onclick="openChallenge(${challenge.id})"
-            >
-                ${
-                    completed.includes(challenge.id)
-                    ? "✓ Completed"
-                    : "View challenge →"
-                }
-            </button>
-
-        `;
-
-
-        grid.appendChild(card);
+        updateSavingsTracker();
 
     });
 
 }
 
 
+// ==========================================
+// MILESTONE FUNCTION
+// ==========================================
+
+function updateMilestones(progressPercentage) {
+
+    const milestoneElements =
+        document.querySelectorAll(".milestone");
+
+
+    milestoneElements.forEach(function (milestone) {
+
+        const milestoneValue =
+            Number(
+                milestone.getAttribute(
+                    "data-milestone"
+                )
+            );
+
+
+        if (
+            progressPercentage >=
+            milestoneValue
+        ) {
+
+            milestone.classList.add("achieved");
+
+        } else {
+
+            milestone.classList.remove("achieved");
+
+        }
+
+    });
+
+}
+
 
 // ==========================================
-// OPEN CHALLENGE
+// SAVINGS TRACKER
 // ==========================================
+
+const addSavingsButton =
+    document.getElementById(
+        "add-savings-button"
+    );
+
+
+if (addSavingsButton) {
+
+    addSavingsButton.addEventListener(
+        "click",
+        function () {
+
+            const amountInput =
+                document.getElementById(
+                    "add-savings"
+                );
+
+            const amount =
+                Number(amountInput.value);
+
+
+            const savedGoal =
+                localStorage.getItem(
+                    "saveTargetGoal"
+                );
+
+
+            if (!savedGoal) {
+
+                alert(
+                    "Please calculate your savings plan first."
+                );
+
+                return;
+            }
+
+
+            if (
+                !amount ||
+                amount <= 0
+            ) {
+
+                alert(
+                    "Please enter an amount greater than €0."
+                );
+
+                return;
+            }
+
+
+            const goalData =
+                JSON.parse(savedGoal);
+
+
+            let currentSaved =
+                Number(
+                    localStorage.getItem(
+                        "saveTargetTrackedSaved"
+                    )
+                );
+
+
+            if (
+                isNaN(currentSaved)
+            ) {
+
+                currentSaved =
+                    Number(goalData.saved);
+
+            }
+
+
+            const newSaved =
+                currentSaved + amount;
+
+
+            if (
+                newSaved > Number(goalData.target)
+            ) {
+
+                alert(
+                    "That would take you over your savings goal."
+                );
+
+                return;
+            }
+
+
+            localStorage.setItem(
+                "saveTargetTrackedSaved",
+                newSaved.toString()
+            );
+
+
+            amountInput.value = "";
+
+
+            const message =
+                document.getElementById(
+                    "savings-message"
+                );
+
+
+            message.innerHTML =
+                "✓ €" +
+                amount.toFixed(2) +
+                " added to your savings!";
+
+
+            updateSavingsTracker();
+
+
+            setTimeout(function () {
+
+                message.innerHTML = "";
+
+            }, 3000);
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// UPDATE SAVINGS TRACKER
+// ==========================================
+
+function updateSavingsTracker() {
+
+    const savedGoal =
+        localStorage.getItem(
+            "saveTargetGoal"
+        );
+
+
+    if (!savedGoal) return;
+
+
+    const goalData =
+        JSON.parse(savedGoal);
+
+
+    let currentSaved =
+        Number(
+            localStorage.getItem(
+                "saveTargetTrackedSaved"
+            )
+        );
+
+
+    if (
+        isNaN(currentSaved)
+    ) {
+
+        currentSaved =
+            Number(goalData.saved);
+
+    }
+
+
+    const target =
+        Number(goalData.target);
+
+
+    const remaining =
+        Math.max(
+            target - currentSaved,
+            0
+        );
+
+
+    const progress =
+        target > 0
+            ? (currentSaved / target) * 100
+            : 0;
+
+
+    const percentage =
+        Math.min(progress, 100);
+
+
+    const trackedSaved =
+        document.getElementById(
+            "tracked-saved"
+        );
+
+
+    const trackedRemaining =
+        document.getElementById(
+            "tracked-remaining"
+        );
+
+
+    const trackedProgress =
+        document.getElementById(
+            "tracked-progress"
+        );
+
+
+    const trackedProgressText =
+        document.getElementById(
+            "tracked-progress-text"
+        );
+
+
+    const trackedProgressFill =
+        document.getElementById(
+            "tracked-progress-fill"
+        );
+
+
+    if (trackedSaved) {
+
+        trackedSaved.textContent =
+            "€" +
+            currentSaved.toFixed(2);
+
+    }
+
+
+    if (trackedRemaining) {
+
+        trackedRemaining.textContent =
+            "€" +
+            remaining.toFixed(2);
+
+    }
+
+
+    if (trackedProgress) {
+
+        trackedProgress.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressText) {
+
+        trackedProgressText.textContent =
+            percentage.toFixed(1) +
+            "%";
+
+    }
+
+
+    if (trackedProgressFill) {
+
+        trackedProgressFill.style.width =
+            percentage + "%";
+
+    }
+
+}
+
+
+// Load saved tracker when page opens
+
+updateSavingsTracker();
+
+
+// ==========================================
+// CHALLENGES
+// ==========================================
+
+const challenges = {
+
+    nospend: {
+
+        number: "01",
+
+        title: "No-spend Friday",
+
+        description:
+            "Try going one full day without spending money on anything you don't need. At the end of the day, put the money you would have spent towards your savings goal."
+
+    },
+
+
+    roundup: {
+
+        number: "02",
+
+        title: "Round it up",
+
+        description:
+            "Whenever you buy something, round the price up to the nearest euro and put the difference towards your savings goal."
+
+    },
+
+
+    five: {
+
+        number: "03",
+
+        title: "Save an extra €5",
+
+        description:
+            "Add an extra €5 to your usual weekly savings. Small amounts can make a big difference over time."
+
+    }
+
+};
+
 
 const modal =
     document.getElementById(
@@ -1153,40 +1069,28 @@ const completeButton =
         "complete-challenge"
     );
 
-
 let currentChallenge = null;
 
 
+// ==========================================
+// OPEN CHALLENGE
+// ==========================================
 
-function openChallenge(challengeId) {
-
-    const current =
-        JSON.parse(
-            localStorage.getItem(
-                CURRENT_KEY
-            ) || "[]"
-        );
-
+function openChallenge(challengeName) {
 
     const challenge =
-        current.find(function (item) {
-
-            return item.id === challengeId;
-
-        });
+        challenges[challengeName];
 
 
     if (!challenge) return;
 
 
     currentChallenge =
-        challenge;
+        challengeName;
 
 
     modalNumber.textContent =
-        String(
-            current.indexOf(challenge) + 1
-        ).padStart(2, "0");
+        challenge.number;
 
 
     modalTitle.textContent =
@@ -1198,11 +1102,14 @@ function openChallenge(challengeId) {
 
 
     const completed =
-        getCompletedChallenges();
+        localStorage.getItem(
+            "challenge-" +
+            challengeName
+        );
 
 
     if (
-        completed.includes(challenge.id)
+        completed === "completed"
     ) {
 
         completeButton.textContent =
@@ -1221,24 +1128,17 @@ function openChallenge(challengeId) {
 }
 
 
-
 // ==========================================
 // CLOSE CHALLENGE
 // ==========================================
 
 function closeChallenge() {
 
-    if (!modal) return;
+    modal.classList.remove("active");
 
-    modal.classList.remove(
-        "active"
-    );
-
-    currentChallenge =
-        null;
+    currentChallenge = null;
 
 }
-
 
 
 // ==========================================
@@ -1254,27 +1154,10 @@ if (completeButton) {
             if (!currentChallenge) return;
 
 
-            let completed =
-                getCompletedChallenges();
-
-
-            // Don't add it twice.
-
-            if (
-                !completed.includes(
-                    currentChallenge.id
-                )
-            ) {
-
-                completed.push(
-                    currentChallenge.id
-                );
-
-            }
-
-
-            saveCompletedChallenges(
-                completed
+            localStorage.setItem(
+                "challenge-" +
+                currentChallenge,
+                "completed"
             );
 
 
@@ -1282,105 +1165,39 @@ if (completeButton) {
                 "✓ Challenge completed!";
 
 
-            updateChallengeProgress();
-
-
-            // Check whether all three
-            // current challenges are complete.
-
-            const current =
-                JSON.parse(
-                    localStorage.getItem(
-                        CURRENT_KEY
-                    ) || "[]"
+            const cards =
+                document.querySelectorAll(
+                    ".challenge"
                 );
 
 
-            const allComplete =
-                current.every(function (challenge) {
+            cards.forEach(function (card) {
 
-                    return completed.includes(
-                        challenge.id
+                const button =
+                    card.querySelector(
+                        ".challenge-button"
                     );
 
-                });
 
-
-            if (allComplete) {
-
-                // Close the modal first.
-
-                closeChallenge();
-
-
-                // Wait a moment so the user
-                // can see the completed state.
-
-                setTimeout(function () {
-
-                    const newChallenges =
-                        getNewChallenges();
-
-
-                    localStorage.setItem(
-                        CURRENT_KEY,
-                        JSON.stringify(
-                            newChallenges
+                if (
+                    button &&
+                    button
+                        .getAttribute("onclick")
+                        .includes(
+                            currentChallenge
                         )
+                ) {
+
+                    button.textContent =
+                        "✓ Completed";
+
+                    card.classList.add(
+                        "completed"
                     );
-
-
-                    renderChallenges(
-                        newChallenges
-                    );
-
-                    updateChallengeProgress();
-
-                }, 600);
-
-            } else {
-
-                // Update only the current card.
-
-                renderChallenges(current);
-
-                // Re-open the modal so the user
-                // can see that it is completed.
-
-                const updatedCurrent =
-                    JSON.parse(
-                        localStorage.getItem(
-                            CURRENT_KEY
-                        ) || "[]"
-                    );
-
-
-                const updatedChallenge =
-                    updatedCurrent.find(function (item) {
-
-                        return (
-                            item.id ===
-                            currentChallenge.id
-                        );
-
-                    });
-
-
-                if (updatedChallenge) {
-
-                    currentChallenge =
-                        updatedChallenge;
-
-                    modal.classList.add(
-                        "active"
-                    );
-
-                    completeButton.textContent =
-                        "✓ Challenge completed!";
 
                 }
 
-            }
+            });
 
         }
     );
@@ -1388,37 +1205,81 @@ if (completeButton) {
 }
 
 
-
 // ==========================================
-// CHALLENGE PROGRESS
+// LOAD COMPLETED CHALLENGES
 // ==========================================
 
-function updateChallengeProgress() {
+function loadCompletedChallenges() {
 
-    const progress =
-        document.getElementById(
-            "challenge-progress"
+    const cards =
+        document.querySelectorAll(
+            ".challenge"
         );
 
 
-    if (!progress) return;
+    cards.forEach(function (card) {
+
+        const button =
+            card.querySelector(
+                ".challenge-button"
+            );
 
 
-    const completed =
-        getCompletedChallenges();
+        if (!button) return;
 
 
-    progress.textContent =
-        "Challenges completed: " +
-        completed.length +
-        " / 30";
+        const onclickText =
+            button.getAttribute(
+                "onclick"
+            );
+
+
+        Object.keys(challenges).forEach(
+            function (challengeName) {
+
+                if (
+                    onclickText &&
+                    onclickText.includes(
+                        challengeName
+                    )
+                ) {
+
+                    const completed =
+                        localStorage.getItem(
+                            "challenge-" +
+                            challengeName
+                        );
+
+
+                    if (
+                        completed ===
+                        "completed"
+                    ) {
+
+                        button.textContent =
+                            "✓ Completed";
+
+                        card.classList.add(
+                            "completed"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    });
 
 }
 
 
+loadCompletedChallenges();
+
 
 // ==========================================
-// CLOSE MODAL WHEN CLICKING OUTSIDE
+// CLOSE MODAL OUTSIDE
 // ==========================================
 
 if (modal) {
@@ -1441,7 +1302,6 @@ if (modal) {
 }
 
 
-
 // ==========================================
 // ESCAPE KEY
 // ==========================================
@@ -1450,7 +1310,9 @@ document.addEventListener(
     "keydown",
     function (event) {
 
-        if (event.key === "Escape") {
+        if (
+            event.key === "Escape"
+        ) {
 
             closeChallenge();
 
@@ -1458,11 +1320,3 @@ document.addEventListener(
 
     }
 );
-
-
-
-// ==========================================
-// LOAD CHALLENGES
-// ==========================================
-
-loadChallenges();
