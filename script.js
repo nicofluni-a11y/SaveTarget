@@ -1219,54 +1219,79 @@ function updateSavingsTracker() {
 
 
 // ==========================================
-// LOAD SAVINGS TRACKER WHEN PAGE OPENS
+// CLEAR CALCULATOR + SAVINGS WHEN PAGE OPENS
 // ==========================================
 
-const savedGoalOnLoad =
-    localStorage.getItem("saveTargetGoal");
-
-if (!savedGoalOnLoad) {
-
-    const trackedSaved =
-        document.getElementById("tracked-saved");
-
-    const trackedRemaining =
-        document.getElementById("tracked-remaining");
-
-    const trackedProgress =
-        document.getElementById("tracked-progress");
-
-    const trackedProgressText =
-        document.getElementById("tracked-progress-text");
-
-    const trackedProgressFill =
-        document.getElementById("tracked-progress-fill");
+localStorage.removeItem("saveTargetGoal");
+localStorage.removeItem("saveTargetTrackedSaved");
 
 
-    if (trackedSaved) {
-        trackedSaved.textContent = "€0.00";
-    }
+const goalInput =
+    document.getElementById("goal");
 
-    if (trackedRemaining) {
-        trackedRemaining.textContent = "€0.00";
-    }
+const targetInput =
+    document.getElementById("target");
 
-    if (trackedProgress) {
-        trackedProgress.textContent = "0%";
-    }
+const savedInput =
+    document.getElementById("saved");
 
-    if (trackedProgressText) {
-        trackedProgressText.textContent = "0%";
-    }
+const dateInputOnLoad =
+    document.getElementById("date");
 
-    if (trackedProgressFill) {
-        trackedProgressFill.style.width = "0%";
-    }
 
-} else {
+if (goalInput) {
+    goalInput.value = "";
+}
 
-    updateSavingsTracker();
+if (targetInput) {
+    targetInput.value = "";
+}
 
+if (savedInput) {
+    savedInput.value = "";
+}
+
+if (dateInputOnLoad) {
+    dateInputOnLoad.value = "";
+}
+
+
+// Clear My Savings
+
+const trackedSaved =
+    document.getElementById("tracked-saved");
+
+const trackedRemaining =
+    document.getElementById("tracked-remaining");
+
+const trackedProgress =
+    document.getElementById("tracked-progress");
+
+const trackedProgressText =
+    document.getElementById("tracked-progress-text");
+
+const trackedProgressFill =
+    document.getElementById("tracked-progress-fill");
+
+
+if (trackedSaved) {
+    trackedSaved.textContent = "€0.00";
+}
+
+if (trackedRemaining) {
+    trackedRemaining.textContent = "€0.00";
+}
+
+if (trackedProgress) {
+    trackedProgress.textContent = "0%";
+}
+
+if (trackedProgressText) {
+    trackedProgressText.textContent = "0%";
+}
+
+if (trackedProgressFill) {
+    trackedProgressFill.style.width = "0%";
 }
 
 
