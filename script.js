@@ -750,18 +750,14 @@ if (addSavingsButton) {
         function () {
 
             const amountInput =
-                document.getElementById(
-                    "add-savings"
-                );
+                document.getElementById("add-savings");
 
             const amount =
                 Number(amountInput.value);
 
 
             const savedGoal =
-                localStorage.getItem(
-                    "saveTargetGoal"
-                );
+                localStorage.getItem("saveTargetGoal");
 
 
             if (!savedGoal) {
@@ -774,10 +770,7 @@ if (addSavingsButton) {
             }
 
 
-            if (
-                !amount ||
-                amount <= 0
-            ) {
+            if (!amount || amount <= 0) {
 
                 alert(
                     "Please enter an amount greater than €0."
@@ -799,12 +792,10 @@ if (addSavingsButton) {
                 );
 
 
-            if (
-                isNaN(currentSaved)
-            ) {
+            if (isNaN(currentSaved)) {
 
                 currentSaved =
-                    Number(goalData.saved);
+                    Number(goalData.saved) || 0;
 
             }
 
@@ -814,7 +805,8 @@ if (addSavingsButton) {
 
 
             if (
-                newSaved > Number(goalData.target)
+                newSaved >
+                Number(goalData.target)
             ) {
 
                 alert(
@@ -825,33 +817,51 @@ if (addSavingsButton) {
             }
 
 
+            // Save the new amount
             localStorage.setItem(
                 "saveTargetTrackedSaved",
                 newSaved.toString()
             );
 
 
+            // Clear input
             amountInput.value = "";
 
 
+            // Confirmation message
             const message =
                 document.getElementById(
                     "savings-message"
                 );
 
 
-            message.innerHTML =
-                "✓ €" +
-                amount.toFixed(2) +
-                " added to your savings!";
+            if (message) {
 
+                message.innerHTML =
+                    "✓ €" +
+                    amount.toFixed(2) +
+                    " added to your savings!";
+
+            }
+
+
+            // ==========================================
+            // UPDATE EVERYTHING
+            // ==========================================
 
             updateSavingsTracker();
 
 
+            // Update calculator progress + milestones
+            updateCalculatorProgress();
+
+
+            // Clear message after 3 seconds
             setTimeout(function () {
 
-                message.innerHTML = "";
+                if (message) {
+                    message.innerHTML = "";
+                }
 
             }, 3000);
 
@@ -859,6 +869,7 @@ if (addSavingsButton) {
     );
 
 }
+
 
 
 // ==========================================
