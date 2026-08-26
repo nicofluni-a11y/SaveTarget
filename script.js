@@ -1,6 +1,6 @@
 // ==========================================
 // SAVETARGET
-// Calculator + Challenges
+// Calculator + Challenges + Milestones
 // ==========================================
 
 
@@ -14,7 +14,6 @@ if (calculateButton) {
 
     calculateButton.addEventListener("click", function () {
 
-        // Get user information
         const goal = document.getElementById("goal").value.trim();
         const target = Number(document.getElementById("target").value);
         const saved = Number(document.getElementById("saved").value);
@@ -22,6 +21,7 @@ if (calculateButton) {
 
 
         // Check required information
+
         if (!goal || !target || !date) {
             alert("Please enter your goal, target amount and target date.");
             return;
@@ -29,6 +29,7 @@ if (calculateButton) {
 
 
         // Check numbers
+
         if (target <= 0) {
             alert("Your target must be greater than €0.");
             return;
@@ -46,7 +47,7 @@ if (calculateButton) {
 
 
         // ==========================================
-        // CALCULATE DATES
+        // DATES
         // ==========================================
 
         const today = new Date();
@@ -64,7 +65,6 @@ if (calculateButton) {
             );
 
 
-        // Make sure date is in the future
         if (daysRemaining <= 0) {
             alert("Please choose a future target date.");
             return;
@@ -104,7 +104,7 @@ if (calculateButton) {
 
 
         // ==========================================
-        // FORMAT COMPLETION DATE
+        // COMPLETION DATE
         // ==========================================
 
         const completionDate =
@@ -119,7 +119,7 @@ if (calculateButton) {
 
 
         // ==========================================
-        // DISPLAY MAIN RESULTS
+        // MAIN RESULTS
         // ==========================================
 
         document.getElementById("weekly-result").textContent =
@@ -135,7 +135,7 @@ if (calculateButton) {
 
 
         // ==========================================
-        // CREATE EXTRA RESULTS
+        // EXTRA RESULTS
         // ==========================================
 
         let extraResults =
@@ -189,8 +189,6 @@ if (calculateButton) {
         }
 
 
-        // Update extra results
-
         document.getElementById("goal-result").textContent =
             goal;
 
@@ -204,7 +202,7 @@ if (calculateButton) {
 
 
         // ==========================================
-        // DAILY TARGET + COMPLETION DATE
+        // DAILY TARGET + GOAL DATE
         // ==========================================
 
         let planDetails =
@@ -310,14 +308,181 @@ if (calculateButton) {
         }
 
 
-        // Update progress
-
         document.getElementById("progress-text").textContent =
             progressPercentage.toFixed(1) + "%";
 
 
         document.getElementById("progress-fill").style.width =
             progressPercentage + "%";
+
+
+        // ==========================================
+        // MILESTONES
+        // ==========================================
+
+        let milestones =
+            document.getElementById("milestones");
+
+
+        if (!milestones) {
+
+            milestones =
+                document.createElement("div");
+
+            milestones.id =
+                "milestones";
+
+
+            milestones.innerHTML = `
+
+                <div class="milestones-title">
+
+                    <span>Savings milestones</span>
+
+                </div>
+
+
+                <div class="milestone-list">
+
+                    <div class="milestone" data-milestone="25">
+
+                        <div class="milestone-icon">
+                            25%
+                        </div>
+
+                        <div>
+                            <strong>First quarter</strong>
+                            <span>You've got started!</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="milestone" data-milestone="50">
+
+                        <div class="milestone-icon">
+                            50%
+                        </div>
+
+                        <div>
+                            <strong>Halfway there</strong>
+                            <span>You're making serious progress.</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="milestone" data-milestone="75">
+
+                        <div class="milestone-icon">
+                            75%
+                        </div>
+
+                        <div>
+                            <strong>Almost there</strong>
+                            <span>Keep going!</span>
+                        </div>
+
+                    </div>
+
+
+                    <div class="milestone" data-milestone="100">
+
+                        <div class="milestone-icon">
+                            100%
+                        </div>
+
+                        <div>
+                            <strong>Goal reached!</strong>
+                            <span>You did it! 🎉</span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            document
+                .getElementById("progress-container")
+                .after(milestones);
+
+        }
+
+
+        // Update milestone states
+
+        const milestoneElements =
+            document.querySelectorAll(".milestone");
+
+
+        milestoneElements.forEach(function (milestone) {
+
+            const milestoneValue =
+                Number(
+                    milestone.getAttribute(
+                        "data-milestone"
+                    )
+                );
+
+
+            if (progressPercentage >= milestoneValue) {
+
+                milestone.classList.add("achieved");
+
+            } else {
+
+                milestone.classList.remove("achieved");
+
+            }
+
+        });
+
+
+        // ==========================================
+        // GOAL COMPLETE MESSAGE
+        // ==========================================
+
+        let goalMessage =
+            document.getElementById("goal-message");
+
+
+        if (!goalMessage) {
+
+            goalMessage =
+                document.createElement("div");
+
+            goalMessage.id =
+                "goal-message";
+
+
+            document
+                .getElementById("milestones")
+                .after(goalMessage);
+
+        }
+
+
+        if (progressPercentage >= 100) {
+
+            goalMessage.innerHTML = `
+                <strong>🎉 Goal reached!</strong>
+                <span>You've saved enough for your ${goal}.</span>
+            `;
+
+            goalMessage.classList.add("complete");
+
+        } else {
+
+            goalMessage.innerHTML = `
+                <strong>Keep going!</strong>
+                <span>You're ${progressPercentage.toFixed(1)}% of the way to your ${goal}.</span>
+            `;
+
+            goalMessage.classList.remove("complete");
+
+        }
 
     });
 
@@ -331,44 +496,28 @@ if (calculateButton) {
 const challenges = {
 
     nospend: {
-
         number: "01",
-
         title: "No-spend Friday",
-
         description:
             "Try going one full day without spending money on anything you don't need. At the end of the day, put the money you would have spent towards your savings goal."
-
     },
-
 
     roundup: {
-
         number: "02",
-
         title: "Round it up",
-
         description:
             "Whenever you buy something, round the price up to the nearest euro and put the difference towards your savings goal."
-
     },
 
-
     five: {
-
         number: "03",
-
         title: "Save an extra €5",
-
         description:
             "Add an extra €5 to your usual weekly savings. Small amounts can make a big difference over time."
-
     }
 
 };
 
-
-// Get popup elements
 
 const modal =
     document.getElementById("challenge-modal");
@@ -574,7 +723,7 @@ loadCompletedChallenges();
 
 
 // ==========================================
-// CLOSE POPUP BY CLICKING OUTSIDE
+// CLOSE MODAL OUTSIDE
 // ==========================================
 
 if (modal) {
@@ -594,7 +743,7 @@ if (modal) {
 
 
 // ==========================================
-// ESCAPE KEY CLOSES POPUP
+// ESCAPE KEY
 // ==========================================
 
 document.addEventListener(
