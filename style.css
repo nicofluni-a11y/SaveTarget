@@ -47,6 +47,22 @@ nav a:hover {
     color: #352b24;
 }
 
+#signup-button,
+#login-button {
+    border: none;
+    background: none;
+    color: #78695c;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 0;
+    cursor: pointer;
+}
+
+#signup-button:hover,
+#login-button:hover {
+    color: #352b24;
+}
+
 .hero {
     min-height: 620px;
     display: flex;
