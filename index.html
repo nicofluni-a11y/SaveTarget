@@ -4,13 +4,251 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SaveTarget</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <h1>SaveTarget</h1>
+    <header class="navbar">
+        <a href="#" class="logo">SaveTarget</a>
 
-    <p>Save smarter. Reach your goals.</p>
+        <nav>
+            <a href="#calculator">Calculator</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#challenges">Challenges</a>
+        </nav>
+    </header>
+
+
+    <main>
+
+        <!-- HERO -->
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <p class="eyebrow">SMARTER SAVING</p>
+
+                <h1>
+                    Make your money
+                    <span>work towards a goal.</span>
+                </h1>
+
+                <p class="hero-text">
+                    Set a savings target, create a plan,
+                    and make your goals feel achievable.
+                </p>
+
+                <a href="#calculator" class="button">
+                    Start saving →
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- CALCULATOR -->
+
+        <section id="calculator" class="calculator-section">
+
+            <div class="section-intro">
+
+                <p class="eyebrow">SAVINGS CALCULATOR</p>
+
+                <h2>
+                    Turn your goal into
+                    <span>a plan.</span>
+                </h2>
+
+                <p>
+                    Tell us what you're saving for and we'll
+                    work out what you need to save.
+                </p>
+
+            </div>
+
+
+            <div class="calculator-card">
+
+                <div class="input-group">
+
+                    <label for="target">
+                        What are you saving for?
+                    </label>
+
+                    <input
+                        type="number"
+                        id="target"
+                        placeholder="e.g. 5000"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="saved">
+                        How much have you saved already?
+                    </label>
+
+                    <input
+                        type="number"
+                        id="saved"
+                        placeholder="e.g. 500"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="date">
+                        When do you want to reach your goal?
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                    >
+
+                </div>
+
+
+                <button id="calculate" class="calculate-button">
+                    Calculate my plan
+                </button>
+
+
+                <div id="results" class="results">
+
+                    <div class="result">
+                        <span>Weekly</span>
+                        <strong id="weekly-result">€0</strong>
+                    </div>
+
+                    <div class="result">
+                        <span>Monthly</span>
+                        <strong id="monthly-result">€0</strong>
+                    </div>
+
+                    <div class="result">
+                        <span>Progress</span>
+                        <strong id="progress-result">0%</strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- HOW IT WORKS -->
+
+        <section id="how-it-works" class="how-section">
+
+            <div class="section-intro">
+
+                <p class="eyebrow">HOW IT WORKS</p>
+
+                <h2>
+                    Saving becomes
+                    <span>simple.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="steps">
+
+                <div class="step">
+                    <span>01</span>
+                    <h3>Choose a goal</h3>
+                    <p>
+                        Decide exactly what you want to save for.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span>02</span>
+                    <h3>Set a deadline</h3>
+                    <p>
+                        Choose when you want to reach your target.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <span>03</span>
+                    <h3>Follow your plan</h3>
+                    <p>
+                        Save consistently and watch your progress grow.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHALLENGES -->
+
+        <section id="challenges" class="challenges-section">
+
+            <div class="section-intro">
+
+                <p class="eyebrow">SAVING CHALLENGES</p>
+
+                <h2>
+                    Small changes.
+                    <span>Big difference.</span>
+                </h2>
+
+            </div>
+
+
+            <div class="challenge-grid">
+
+                <div class="challenge">
+                    <span>01</span>
+                    <h3>No-spend Friday</h3>
+                    <p>
+                        Try going one day without unnecessary spending.
+                    </p>
+                </div>
+
+                <div class="challenge">
+                    <span>02</span>
+                    <h3>Round it up</h3>
+                    <p>
+                        Put your spare change towards your goal.
+                    </p>
+                </div>
+
+                <div class="challenge">
+                    <span>03</span>
+                    <h3>Save an extra €5</h3>
+                    <p>
+                        Add a little extra to your weekly target.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>SaveTarget © 2026</p>
+    </footer>
+
+
+    <script src="script.js"></script>
 
 </body>
 </html>
+
