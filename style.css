@@ -15,7 +15,9 @@ body {
     line-height: 1.5;
 }
 
-/* NAVIGATION */
+/* =========================
+   NAVIGATION
+========================= */
 
 .navbar {
     width: 100%;
@@ -47,7 +49,10 @@ nav a:hover {
     opacity: 0.6;
 }
 
-/* GENERAL */
+
+/* =========================
+   GENERAL
+========================= */
 
 .hero,
 .calculator-section,
@@ -88,7 +93,10 @@ h3 {
     margin-bottom: 10px;
 }
 
-/* HERO */
+
+/* =========================
+   HERO
+========================= */
 
 .hero {
     min-height: 85vh;
@@ -123,7 +131,10 @@ h3 {
     background: #718067;
 }
 
-/* CALCULATOR */
+
+/* =========================
+   CALCULATOR
+========================= */
 
 .calculator-section {
     background: #dedfd7;
@@ -211,7 +222,10 @@ h3 {
     font-size: 30px;
 }
 
-/* HOW IT WORKS */
+
+/* =========================
+   HOW IT WORKS
+========================= */
 
 .steps {
     display: grid;
@@ -236,7 +250,10 @@ h3 {
     color: #62625e;
 }
 
-/* CHALLENGES */
+
+/* =========================
+   CHALLENGES
+========================= */
 
 .challenges-section {
     background: #171717;
@@ -258,6 +275,17 @@ h3 {
     min-height: 220px;
     border: 1px solid #41413e;
     border-radius: 20px;
+    cursor: pointer;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        background 0.2s ease;
+}
+
+.challenge:hover {
+    transform: translateY(-5px);
+    border-color: #718067;
+    background: #20201e;
 }
 
 .challenge h3 {
@@ -268,7 +296,146 @@ h3 {
     color: #aaa9a4;
 }
 
-/* FOOTER */
+
+/* =========================
+   CHALLENGE BUTTON
+========================= */
+
+.challenge-button {
+    margin-top: 25px;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    color: #9ba58f;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.challenge-button:hover {
+    color: white;
+}
+
+
+/* =========================
+   COMPLETED CHALLENGE
+========================= */
+
+.challenge.completed {
+    border-color: #718067;
+    background: #20201e;
+}
+
+.challenge.completed .challenge-button {
+    color: #9ba58f;
+}
+
+
+/* =========================
+   CHALLENGE MODAL
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(0, 0, 0, 0.65);
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    position: relative;
+
+    width: 100%;
+    max-width: 550px;
+
+    padding: 45px;
+
+    border-radius: 25px;
+
+    background: #f5f3ed;
+    color: #171717;
+
+    transform: translateY(20px);
+
+    transition: transform 0.25s ease;
+}
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+.modal-content > span {
+    color: #718067;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.modal-content h2 {
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    font-size: 45px;
+    letter-spacing: -2px;
+}
+
+.modal-content p {
+    margin-bottom: 30px;
+
+    color: #62625e;
+    font-size: 17px;
+}
+
+
+/* =========================
+   CLOSE BUTTON
+========================= */
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #dedfd7;
+    color: #171717;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.close-button:hover {
+    background: #718067;
+    color: white;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
 
 footer {
     padding: 30px 8%;
@@ -277,7 +444,10 @@ footer {
     font-size: 13px;
 }
 
-/* MOBILE */
+
+/* =========================
+   MOBILE
+========================= */
 
 @media (max-width: 700px) {
 
@@ -317,5 +487,12 @@ footer {
     .hero {
         min-height: 75vh;
     }
-}
 
+    .modal-content {
+        padding: 35px 25px;
+    }
+
+    .modal-content h2 {
+        font-size: 36px;
+    }
+}
