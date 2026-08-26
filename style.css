@@ -10,7 +10,7 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: #f7f1e8;
+    background: #d8c6b2;
     color: #352b24;
     line-height: 1.6;
 }
@@ -117,7 +117,7 @@ h2 span {
     align-items: start;
 }
 #savings {
-    background: #d8c6b2;
+    background: #f7f1e8;
 }
 
 
